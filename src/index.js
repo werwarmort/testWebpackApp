@@ -1,3 +1,3 @@
-import {someFn} from "./test.js";
+import { someFn } from "./test.js";
 
 someFn()
