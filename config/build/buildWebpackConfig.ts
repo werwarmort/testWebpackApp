@@ -20,5 +20,6 @@ export function buildWebpackConfig(options: BuildOptions): webpack.Configuration
     },
     resolve: buildResolvers(),
     plugins: buildPlugins(options),
+    devtool: 'inline-source-map',
   }
 }
