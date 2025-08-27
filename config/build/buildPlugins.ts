@@ -8,7 +8,6 @@ export function buildPlugins ({ paths }: BuildOptions): webpack.WebpackPluginIns
     new HTMLWebpackPlugin({
       template: paths.html,
     }),
-    new HTMLWebpackPlugin(),
     new webpack.ProgressPlugin(),
   ]
 }
