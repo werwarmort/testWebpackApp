@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --open"
+    "start": "webpack serve -env port=3000",
+    "build:prod": "webpack build --env mode=production",
+    "build:dev": "webpack build --env mode=development"
   },
   "keywords": [],
   "author": "",
