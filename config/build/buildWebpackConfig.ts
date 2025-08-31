@@ -6,9 +6,7 @@ import {buildPlugins} from "./buildPlugins";
 import {buildDevServer} from "./buildDevServer";
 
 export function buildWebpackConfig(options: BuildOptions): webpack.Configuration {
-  const { mode, paths } = options;
-
-  const isDev = mode === "development";
+  const { mode, paths, isDev } = options;
 
   return {
     mode: mode,
