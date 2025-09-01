@@ -1,12 +1,12 @@
 import React from 'react';
-import './Counter.scss'
+import styles from './Counter.module.scss';
 
 const Counter = () => {
 
   const [count, setCount] = React.useState(0);
 
   return (
-    <button onClick={() => setCount(count + 1)}>
+    <button className={styles.btn} onClick={() => setCount(count + 1)}>
       {`conunter: ${count}`}
     </button>
   );
