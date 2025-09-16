@@ -4,6 +4,7 @@ import {useTheme} from "1_App/providers/ThemeProvider";
 import {Navbar} from "3_Widgets";
 import {AppRouter} from "1_App/providers/router";
 import {ThemeSwitcher} from "3_Widgets/ui/ThemeSwitcher";
+import {Sidebar} from "3_Widgets/ui/Sidebar";
 
 
 const App = () => {
@@ -12,7 +13,10 @@ const App = () => {
   return (
     <div className={classNames('app', {}, [theme])}>
       <Navbar />
-      <AppRouter />
+      <div className="content-page">
+        <Sidebar />
+        <AppRouter />
+      </div>
     </div>
   );
 };
