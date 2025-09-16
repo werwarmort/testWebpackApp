@@ -5,24 +5,24 @@ import {BuildOptions} from "./types/config";
 export function buildLoaders({isDev}: BuildOptions): webpack.RuleSetRule[] {
 
   const cssLoadrs = {
-      test: /\.s[ac]ss$/i,
-      use: [
-        // Creates `style` nodes from JS strings
-        isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
-        // Translates CSS into CommonJS
-        {
-          loader: "css-loader",
-          options: {
-            modules: {
-              auto: (resPath: string) => Boolean(resPath.includes('.module.')),
-              localIdentName: isDev ? '\'[path]_[name]_[local]--[hash:base64:5]' : '[hash:base64:8]'
-            },
-          }
-        },
-        // Compiles Sass to CSS
-        "sass-loader",
-      ],
-    }
+    test: /\.s[ac]ss$/i,
+    use: [
+      // Creates `style` nodes from JS strings
+      isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+      // Translates CSS into CommonJS
+      {
+        loader: "css-loader",
+        options: {
+          modules: {
+            auto: (resPath: string) => Boolean(resPath.includes('.module.')),
+            localIdentName: isDev ? '\'[path]_[name]_[local]--[hash:base64:5]' : '[hash:base64:8]'
+          },
+        }
+      },
+      // Compiles Sass to CSS
+      "sass-loader",
+    ],
+  }
 
   const typeScriptLoader = {
     test: /\.tsx?$/,
@@ -30,8 +30,24 @@ export function buildLoaders({isDev}: BuildOptions): webpack.RuleSetRule[] {
     exclude: /node_modules/,
   }
 
+  const svgrLoaders = {
+    test: /\.svg$/,
+    use: ['@svgr/webpack'],
+  }
+
+  const fileLoaders = {
+      test: /\.(png|jpe?g|gif)$/i,
+      use: [
+        {
+          loader: 'file-loader',
+        },
+      ],
+    }
+
+
   return [  // конфигурация "лоадеров". Они нужны для обработки файлов, которые выходят за рамки js (png, jpg, gif)
     typeScriptLoader,
     cssLoadrs,
+    svgrLoaders,
   ]
 }
