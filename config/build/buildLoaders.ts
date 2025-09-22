@@ -4,7 +4,7 @@ import {BuildOptions} from "./types/config";
 
 export function buildLoaders({isDev}: BuildOptions): webpack.RuleSetRule[] {
 
-  const cssLoadrs = {
+  const cssLoader = {
     test: /\.s[ac]ss$/i,
     use: [
       // Creates `style` nodes from JS strings
@@ -30,12 +30,12 @@ export function buildLoaders({isDev}: BuildOptions): webpack.RuleSetRule[] {
     exclude: /node_modules/,
   }
 
-  const svgrLoaders = {
+  const svgrLoader = {
     test: /\.svg$/,
     use: ['@svgr/webpack'],
   }
 
-  const fileLoaders = {
+  const fileLoader = {
       test: /\.(png|jpe?g|gif)$/i,
       use: [
         {
@@ -44,10 +44,32 @@ export function buildLoaders({isDev}: BuildOptions): webpack.RuleSetRule[] {
       ],
     }
 
+  const babelLoader = {
+    test: /\.(js|jsx|tsx)$/,
+    exclude: /node_modules/,
+    use: {
+      loader: "babel-loader",
+      options: {
+        presets: ['@babel/preset-env'],
+        "plugins": [
+          [
+            "i18next-extract",
+            {
+              locales: ['ru', 'en'],
+              keyAsDefaultValue: true
+            }
+          ],
+        ]
+      }
+    }
+  }
+
 
   return [  // конфигурация "лоадеров". Они нужны для обработки файлов, которые выходят за рамки js (png, jpg, gif)
+    fileLoader,
+    svgrLoader,
+    babelLoader,
     typeScriptLoader,
-    cssLoadrs,
-    svgrLoaders,
+    cssLoader,
   ]
 }
