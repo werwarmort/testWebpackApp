@@ -35,6 +35,7 @@ module.exports = {
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': 'off',
         'no-underscore-dangle': 'off',
+        'max-len': [1, 130],
     },
     globals: {
         __IS_DEV__: true,
