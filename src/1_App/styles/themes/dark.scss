@@ -1,8 +1,16 @@
 .app.dark {
-    --bg-color: #090949;
-    --inverted-bg-color: #e8e8ea;
-    --primary-color: #049604;
-    --secondary-color: #04ff04;
-    --inveted-primary-color: #0232c2;
-    --inveted-secondary-color: #0449e0;
+    --bg-color: #00162b;
+    --inverted-bg-color: rgb(160 160 160 / 78%);
+    --primary-color: #ffc906;
+    --secondary-color: #cc1e4a;
+}
+
+:root {
+    --border-color: rgb(160 160 160 / 78%);
+    --border-strong: rgb(160 160 160 / 100%);
+    --block-bg: hsl(0deg 0% 100% / 10%);
+    --additional-color: #446;
+    --additional-color-2: #121f45;
+    --gray: #4d4d4c;
+    --default-transition: all 0.3s ease-in-out;
 }

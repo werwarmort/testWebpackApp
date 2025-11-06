@@ -1,9 +1,12 @@
 .Sidebar {
-    height: calc(100vh - var(--navbar-height));
+    height: calc(100vh - var(--navbar-height) - var(--block-margin));
     width: var(--sidebar-width);
     background: var(--inverted-bg-color);
     position: relative;
     transition: width 0.3s;
+    margin: var(--block-margin) var(--block-margin) var(--block-margin) 0;
+
+    @include default-block-settings;
 }
 
 .collapsed {
@@ -15,9 +18,17 @@
     bottom: 20px;
     display: flex;
     justify-content: center;
+    gap: 20px;
+    align-items: center;
+    flex-direction: column;
     width: 100%;
 }
 
-.lang {
-    margin-left: 20px;
+.toggleSidebarBtn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    color: var(--primary-color);
+    padding: 20px;
 }

@@ -1,0 +1,17 @@
+@mixin default-block-settings {
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--block-bg);
+    backdrop-filter: blur(15px);
+}
+
+@mixin default-page-styles {
+    width: 100%;
+    margin: var(--block-margin) 0;
+    padding: 20px;
+}
+
+@mixin center-child {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
