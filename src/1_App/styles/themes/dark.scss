@@ -3,10 +3,12 @@
     --inverted-bg-color: rgb(160 160 160 / 78%);
     --primary-color: #ffc906;
     --secondary-color: #cc1e4a;
+
+    transition: var(--default-transition);
 }
 
 :root {
-    --border-color: rgb(160 160 160 / 78%);
+    --border-color: rgb(160 160 160 / 40%);
     --border-strong: rgb(160 160 160 / 100%);
     --block-bg: hsl(0deg 0% 100% / 10%);
     --additional-color: #446;

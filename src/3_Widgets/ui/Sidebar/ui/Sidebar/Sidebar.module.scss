@@ -1,5 +1,5 @@
 .Sidebar {
-    height: calc(100vh - var(--navbar-height) - var(--block-margin));
+    height: calc(100vh - var(--navbar-height) - var(--block-margin) * 2);
     width: var(--sidebar-width);
     background: var(--inverted-bg-color);
     position: relative;

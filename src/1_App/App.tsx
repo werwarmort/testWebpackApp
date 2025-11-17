@@ -4,7 +4,6 @@ import { useTheme } from '1_App/providers/ThemeProvider';
 import { Navbar } from '3_Widgets';
 import { AppRouter } from '1_App/providers/router';
 import { Sidebar } from '3_Widgets/ui/Sidebar';
-import { Suspense } from 'react';
 
 const App = () => {
     const { theme } = useTheme();
