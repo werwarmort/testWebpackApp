@@ -1,0 +1,63 @@
+.btn {
+    background-color: #fff;
+    width: 5em;
+    height: 2.67em;
+    border-radius: 3.33em;
+    padding: 0 0.17em;
+    box-shadow:
+        inset 0 2.67px 20px rgb(0 0 0 / 10%),
+        inset 0 2.67px 2.67px rgb(0 0 0 / 10%),
+        inset 0 -1.33px 1.33px rgb(0 0 0 / 10%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.btn__indicator {
+    background-color: var(--mode-color) !important;
+    width: 2.33em;
+    height: 2.33em;
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 0 2.67px 13.33px rgb(0 0 0 / 20%);
+    transition: transform 0.3s ease;
+}
+
+.btn__icon_container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn__icon_container.animated {
+    animation: spin 0.5s;
+}
+
+.btn__icon {
+    stroke: var(--primary-color);
+    fill: var(--primary-color);
+    font-size: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* -------------- DARKMODE -------------- */
+.btn_dark {
+    box-shadow:
+        inset 0 2.67px 20px rgb(0 0 0 / 30%),
+        inset 2.67px 0 2.67px rgb(0 0 0 / 30%),
+        inset 0 -1.33px 1.33px rgb(0 0 0 / 30%);
+}
+
+.btn__indicator_dark {
+    transform: translateX(2.33em);
+    background-color: var(--dark-color);
+    box-shadow: 0 2.67px 13.33px rgb(0 0 0 / 30%);
+}
