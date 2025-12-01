@@ -33,7 +33,7 @@ export const ThemeSwitcher = React.memo(({ collapsed, className }: ThemeSwitcher
     return (
       <Button
         theme={ThemeButton.CLEAR}
-        className={classNames(styles.btn, { [styles.btn_dark]: isDark }, [className])}
+        className={classNames(styles.btn, { [styles.btn_dark]: isDark, [styles.collapsed]: collapsed }, [className])}
         onClick={handleClick}
       >
         <div className={classNames(styles.btn__indicator, { [styles.btn__indicator_dark]: isDark }, [])}>

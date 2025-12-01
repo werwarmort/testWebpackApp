@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    transition: var(--default-transition);
 }
 
 .btn__indicator {
@@ -60,4 +61,13 @@
     transform: translateX(2.33em);
     background-color: var(--dark-color);
     box-shadow: 0 2.67px 13.33px rgb(0 0 0 / 30%);
+}
+
+.collapsed {
+    width: 2.65em;
+    height: 2.6em;
+}
+
+.collapsed .btn__indicator_dark {
+    transform: translateX(0);
 }

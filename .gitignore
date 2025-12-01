@@ -1,5 +1,7 @@
 build
 node_modules
 .idea
+.idea/workspace.xml
+.idea/vcs.xml
 .DS_Store
 pnpm-lock.yaml
