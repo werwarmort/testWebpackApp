@@ -1,0 +1,7 @@
+.NotFoundPage {
+    @include default-page-styles;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
