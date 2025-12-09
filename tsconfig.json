@@ -32,6 +32,10 @@
     // import React from 'react';
     "allowSyntheticDefaultImports": true
   },
+  "include": [
+    "src",
+    "config"
+  ],
   // ts-node — это отдельный инструмент (не tsc), который позволяет запускать TypeScript-файлы напрямую
   // без предварительной компиляции в JS.
 
