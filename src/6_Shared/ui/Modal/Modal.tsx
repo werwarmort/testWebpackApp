@@ -1,6 +1,7 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Portal } from '6_Shared/ui/Portal/Portal';
+import { useTheme } from '1_App/providers/ThemeProvider';
 import cls from './Modal.module.scss';
 
 interface ModalProps {
@@ -21,7 +22,15 @@ export const Modal = (props: ModalProps) => {
     } = props;
 
     const [isClosing, setIsClosing] = useState(false);
+    const [isOpening, setIsOpening] = useState(false);
     const timerRef = useRef<ReturnType<typeof setTimeout>>();
+    const { theme } = useTheme();
+
+    useEffect(() => {
+        if (isOpen) {
+            setIsOpening(true);
+        }
+    }, [isOpen]);
 
     const closeHandler = useCallback(() => {
         if (onClose) {
@@ -29,9 +38,12 @@ export const Modal = (props: ModalProps) => {
             timerRef.current = setTimeout(() => {
                 onClose();
                 setIsClosing(false);
+                setIsOpening(false);
             }, ANIMATION_DELAY);
         }
     }, [onClose]);
+
+    // ... (onKeyDown remains the same)
 
     const onKeyDown = useCallback((e: KeyboardEvent) => {
         if (e.key === 'Escape') {
@@ -55,7 +67,7 @@ export const Modal = (props: ModalProps) => {
     };
 
     const mods: Record<string, boolean> = {
-        [cls.opened]: isOpen,
+        [cls.opened]: isOpening,
         [cls.isClosing]: isClosing,
     };
 
@@ -63,23 +75,11 @@ export const Modal = (props: ModalProps) => {
         return null;
     }
 
-    // Если закрывается, мы все еще рендерим, чтобы показать анимацию, но isOpen уже false (снаружи).
-    // Логика выше if (!isOpen) верна только без анимации закрытия.
-    // С анимацией: если (!isOpen && !isClosing) return null.
-    // Но isClosing ставится true внутри closeHandler.
-    // Внешний isOpen становится false, когда родитель реагирует на onClose.
-    // Тут нужна синхронизация или просто рендерить всегда, но управлять классами (mount/unmount logic сложнее).
-    // Для простоты: если isOpen стал false, мы должны дать время анимации.
-    // В текущей реализации: внешний компонент делает isOpen=false.
-    // Если мы хотим анимацию закрытия, Modal должен сам управлять своим 'visible' состоянием или родитель должен ждать.
-    // Упрощу: без сложной анимации закрытия для прототипа, или использую простой вариант.
-
-    // Вариант с простой анимацией появления:
     if (!isOpen) return null;
 
     return (
         <Portal>
-            <div className={classNames(cls.Modal, mods, [className])}>
+            <div className={classNames(cls.Modal, mods, [className, theme])}>
                 <div className={cls.overlay} onClick={closeHandler}>
                     <div className={cls.content} onClick={onContentClick}>
                         {children}

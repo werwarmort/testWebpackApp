@@ -44,22 +44,26 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess }) 
                 placeholder={t('Описание действия')}
                 autoFocus
             />
-            <CustomInput
-                // className={cls.input}
-                value={points}
-                onChange={setPoints}
-                placeholder={t('Баллы')}
-                type="number"
-            />
-            <Checkbox
-                label={t('Штраф')}
-                checked={isPenalty}
-                onChange={setIsPenalty}
-                className={cls.checkbox}
-            />
-            <Button onClick={onSave} className={cls.saveBtn} theme={ThemeButton.DEFAULT}>
-                {t('Добавить')}
-            </Button>
+            <div className={cls.footerContainer}>
+                <div className={cls.pointsWrapper}>
+                    <CustomInput
+                        className={cls.points}
+                        value={points}
+                        onChange={setPoints}
+                        placeholder={t('Баллы')}
+                        type="number"
+                    />
+                    <Checkbox
+                        label={t('Штрафные')}
+                        checked={isPenalty}
+                        onChange={setIsPenalty}
+                        className={cls.checkbox}
+                    />
+                </div>
+                <Button onClick={onSave} className={cls.saveBtn} theme={ThemeButton.DEFAULT}>
+                    {t('Добавить')}
+                </Button>
+            </div>
         </div>
     );
 };
