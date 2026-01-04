@@ -10,7 +10,7 @@ import styles from './MainPage.module.scss';
 const MainPage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const points = useScoreStore(state => state.points);
+    const dayPoints = useScoreStore((state) => state.dayPoints);
 
     const onShowModal = () => {
         setIsModalOpen(true);
@@ -23,7 +23,14 @@ const MainPage = () => {
     return (
         <div className={styles.MainPageRoot}>
             <div className={styles.header}>
-                <Button onClick={onShowModal} theme={ThemeButton.CLEAR} className={styles.addBtn}>
+                 <div className={styles.totalScore}>
+                    {t('Баллы за день')}: {dayPoints}
+                </div>
+                <Button
+                    onClick={onShowModal}
+                    theme={ThemeButton.CLEAR}
+                    className={styles.addBtn}
+                >
                     +
                 </Button>
             </div>
