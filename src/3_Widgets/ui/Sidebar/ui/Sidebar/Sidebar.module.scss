@@ -11,6 +11,10 @@
 
 .collapsed {
     width: var(--sidebar-width-collapsed);
+
+    .linkText {
+        display: none;
+    }
 }
 
 .switchers {
@@ -31,4 +35,18 @@
     font-size: 20px;
     color: var(--primary-color);
     padding: 20px;
+    cursor: pointer;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    padding: 0 20px;
+}
+
+.item {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: var(--primary-color);
 }

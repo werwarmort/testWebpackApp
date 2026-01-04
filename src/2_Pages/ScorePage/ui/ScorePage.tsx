@@ -5,12 +5,12 @@ import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
 import { ActionList } from '3_Widgets/ActionList/ui/ActionList';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
-import styles from './MainPage.module.scss';
+import styles from './ScorePage.module.scss';
 
-const MainPage = () => {
+const ScorePage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const dayPoints = useScoreStore(state => state.dayPoints);
+    const dayPoints = useScoreStore((state) => state.dayPoints);
 
     const onShowModal = () => {
         setIsModalOpen(true);
@@ -21,9 +21,16 @@ const MainPage = () => {
     };
 
     return (
-        <div className={styles.MainPageRoot}>
+        <div className={styles.ScorePageRoot}>
             <div className={styles.header}>
-                <Button onClick={onShowModal} theme={ThemeButton.CLEAR} className={styles.addBtn}>
+                 <div className={styles.totalScore}>
+                    {t('Баллы за день')}: {dayPoints}
+                </div>
+                <Button
+                    onClick={onShowModal}
+                    theme={ThemeButton.CLEAR}
+                    className={styles.addBtn}
+                >
                     +
                 </Button>
             </div>
@@ -37,4 +44,4 @@ const MainPage = () => {
     );
 };
 
-export default MainPage;
+export default ScorePage;

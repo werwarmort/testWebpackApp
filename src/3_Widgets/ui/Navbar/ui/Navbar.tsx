@@ -1,7 +1,6 @@
 import React from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
-import { AppLink, CustomInput } from '6_Shared';
-import { AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
+import { CustomInput } from '6_Shared';
 import { useTranslation } from 'react-i18next';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import cls from './Navbar.module.scss';
@@ -17,17 +16,6 @@ export const Navbar = ({ className }: NavbarProps) => {
 
     return (
         <div className={classNames(cls.navbar, {}, [className])}>
-            <div className={cls.links}>
-                <div>
-                    <AppLink theme={AppLinkTheme.PRIMARY} to="/" className={cls.mainLink}>
-                        {t('Главная')}
-                    </AppLink>
-
-                    <AppLink theme={AppLinkTheme.PRIMARY} to="/about">
-                        {t('О сайте')}
-                    </AppLink>
-                </div>
-            </div>
             <div className={cls.navbar_stats}>
                 <CustomInput
                     type="text"

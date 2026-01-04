@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { ThemeSwitcher } from '3_Widgets/ui/ThemeSwitcher';
 import { LangSwitcher } from '6_Shared/ui/LangSwitcher/LangSwitcher';
+import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
+import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
+import { useTranslation } from 'react-i18next';
 import cls from './Sidebar.module.scss';
-import styles from './Sidebar.module.scss';
 
 interface SidebarProps {
     className?: string;
@@ -11,6 +13,7 @@ interface SidebarProps {
 
 export const Sidebar = ({ className }: SidebarProps) => {
     const [collapsed, setCollapsed] = useState(false);
+    const { t } = useTranslation();
 
     const onToggle = () => {
         setCollapsed(prev => !prev);
@@ -18,9 +21,25 @@ export const Sidebar = ({ className }: SidebarProps) => {
 
     return (
         <div className={classNames(cls.Sidebar, { [cls.collapsed]: collapsed }, [className])}>
-            <button className={styles.toggleSidebarBtn} type="button" onClick={onToggle}>
+            <button className={cls.toggleSidebarBtn} type="button" onClick={onToggle}>
                 {collapsed ? `>>` : `<<`}
             </button>
+            <div className={cls.items}>
+                <AppLink
+                    theme={AppLinkTheme.SECONDARY}
+                    to={RoutePath.main}
+                    className={cls.item}
+                >
+                    <span className={cls.linkText}>{t('Счет')}</span>
+                </AppLink>
+                <AppLink
+                    theme={AppLinkTheme.SECONDARY}
+                    to={RoutePath.about}
+                    className={cls.item}
+                >
+                     <span className={cls.linkText}>{t('О сайте')}</span>
+                </AppLink>
+            </div>
             <div className={cls.switchers}>
                 <ThemeSwitcher collapsed={collapsed} />
                 <LangSwitcher className={cls.lang} />
