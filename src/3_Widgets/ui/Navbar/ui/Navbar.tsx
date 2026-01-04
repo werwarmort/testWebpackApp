@@ -31,21 +31,26 @@ export const Navbar = ({ className }: NavbarProps) => {
             <div className={cls.navbar_stats}>
                 <CustomInput
                     type="text"
-                    value={`${t('День')}: ${dayPoints}`}
+                    value={dayPoints.toString()}
+                    placeholder={t('день')}
                     readOnly
                     className={cls.navbar_stat}
+                    title={t('день')}
                 />
                 <CustomInput
                     type="text"
-                    value={`${t('Неделя')}: ${weekPoints}`}
+                    value={weekPoints.toString()}
+                    placeholder={t('неделя')}
                     readOnly
                     className={cls.navbar_stat}
+                    title={t('неделя')}
                 />
                 <CustomInput
                     type="text"
-                    placeholder="сезон"
+                    placeholder={t('сезон')}
                     readOnly
                     className={cls.navbar_stat}
+                    title={t('сезон')}
                 />
             </div>
         </div>

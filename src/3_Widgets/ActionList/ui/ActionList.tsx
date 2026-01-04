@@ -1,8 +1,9 @@
-import { FC, Fragment } from 'react';
+import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { ActionItem } from '5_Entities/Action/ui/ActionItem/ActionItem';
+import { Action } from '5_Entities/Score/model/types/score';
 import { DateSeparator } from './DateSeparator/DateSeparator';
 import cls from './ActionList.module.scss';
 
@@ -14,30 +15,46 @@ export const ActionList: FC<ActionListProps> = ({ className }) => {
     const { t } = useTranslation();
     const actions = useScoreStore((state) => state.actions);
 
+    const groups = useMemo(() => {
+        const groupsList: { dateKey: string; date: Date; total: number; actions: Action[] }[] = [];
+
+        actions.forEach((action) => {
+            const date = new Date(action.createdAt);
+            const dateKey = date.toLocaleDateString();
+
+            let group = groupsList.find((g) => g.dateKey === dateKey);
+            if (!group) {
+                group = {
+                    dateKey,
+                    date,
+                    total: 0,
+                    actions: [],
+                };
+                groupsList.push(group);
+            }
+
+            group.actions.push(action);
+            const points = action.isPenalty ? -action.points : action.points;
+            group.total += points;
+        });
+
+        return groupsList;
+    }, [actions]);
+
     if (actions.length === 0) {
         return <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>{t('Список действий пуст')}</div>;
     }
 
-    let lastDateString = '';
-
     return (
         <div className={classNames(cls.ActionList, {}, [className])}>
-            {actions.map((action) => {
-                const date = new Date(action.createdAt);
-                const dateString = date.toLocaleDateString();
-                const showSeparator = dateString !== lastDateString;
-
-                if (showSeparator) {
-                    lastDateString = dateString;
-                }
-
-                return (
-                    <Fragment key={action.id}>
-                        {showSeparator && <DateSeparator date={date} />}
-                        <ActionItem action={action} className={cls.item} />
-                    </Fragment>
-                );
-            })}
+            {groups.map((group) => (
+                <div key={group.dateKey} className={cls.group}>
+                    <DateSeparator date={group.date} totalPoints={group.total} />
+                    {group.actions.map((action) => (
+                        <ActionItem key={action.id} action={action} className={cls.item} />
+                    ))}
+                </div>
+            ))}
         </div>
     );
 };

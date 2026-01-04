@@ -2,7 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ScoreState, Action } from '../types/score';
 
-const getCurrentDate = () => new Date().toISOString().split('T')[0];
+const getCurrentDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
 
 export const useScoreStore = create<ScoreState>()(
     persist(
@@ -34,7 +40,7 @@ export const useScoreStore = create<ScoreState>()(
                 });
             },
 
-            resetPoints: () => set({ dayPoints: 0, weekPoints: 0, actions: [] }),
+            resetPoints: () => set({ dayPoints: 0, weekPoints: 0, actions: [] as Action[] }),
 
             checkDate: () => set((state) => {
                 const today = getCurrentDate();
@@ -43,7 +49,7 @@ export const useScoreStore = create<ScoreState>()(
                         lastUpdatedDate: today,
                         weekPoints: state.weekPoints + state.dayPoints,
                         dayPoints: 0,
-                        actions: [], // Очищаем действия за прошлый день
+                        // actions не очищаем, чтобы сохранить историю
                     };
                 }
                 return {};
