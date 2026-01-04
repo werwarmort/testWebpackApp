@@ -1,9 +1,15 @@
-import { FC, useMemo, useState } from 'react';
+import {
+    FC, useMemo, useState, ReactNode,
+} from 'react';
 import { ETheme, LOCAL_STORAGE_THEME_KEY, ThemeContext } from '../lib/ThemeContext';
 
 const defaultTheme = localStorage.getItem(LOCAL_STORAGE_THEME_KEY) as ETheme || ETheme.LIGHT;
 
-export const ThemeProvider: FC = ({ children }) => {
+interface ThemeProviderProps {
+    children: ReactNode;
+}
+
+export const ThemeProvider: FC<ThemeProviderProps> = ({ children }) => {
     const [theme, setTheme] = useState<ETheme>(defaultTheme);
 
     const toggleTheme = () => {
