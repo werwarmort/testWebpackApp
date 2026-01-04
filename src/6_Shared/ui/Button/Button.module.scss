@@ -9,3 +9,11 @@
     background: none;
     outline: none;
 }
+
+.default {
+    font: inherit;
+    padding: 0;
+    border: none;
+    outline: none;
+    color: var(--primary-color);
+}

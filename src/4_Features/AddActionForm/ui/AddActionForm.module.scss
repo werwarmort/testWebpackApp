@@ -1,0 +1,18 @@
+.AddActionForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50vw;
+}
+
+.input {
+    width: 100%;
+}
+
+.checkbox {
+    margin-top: 8px;
+}
+
+.saveBtn {
+    align-self: flex-end;
+}
