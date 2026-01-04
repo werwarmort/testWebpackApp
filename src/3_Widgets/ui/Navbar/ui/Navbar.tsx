@@ -1,24 +1,34 @@
 import React from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
-import { AppLink } from '6_Shared';
+import { AppLink, CustomInput } from '6_Shared';
 import { AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
-import { ThemeSwitcher } from '3_Widgets/ui/ThemeSwitcher';
+import { useTranslation } from 'react-i18next';
 import cls from './Navbar.module.scss';
 
 interface NavbarProps {
     className?: string;
 }
 
-export const Navbar = ({ className }: NavbarProps) => (
-    <div className={classNames(cls.navbar, {}, [className])}>
-        <div className={cls.links}>
-            <AppLink theme={AppLinkTheme.PRIMARY} to="/" className={cls.mainLink}>
-                Главная
-            </AppLink>
+export const Navbar = ({ className }: NavbarProps) => {
+    const { t } = useTranslation();
 
-            <AppLink theme={AppLinkTheme.PRIMARY} to="/about">
-                О сайте
-            </AppLink>
+    return (
+        <div className={classNames(cls.navbar, {}, [className])}>
+            <div className={cls.links}>
+                <div>
+                    <AppLink theme={AppLinkTheme.PRIMARY} to="/" className={cls.mainLink}>
+                        {t('Главная')}
+                    </AppLink>
+
+                    <AppLink theme={AppLinkTheme.PRIMARY} to="/about">
+                        {t('О сайте')}
+                    </AppLink>
+                </div>
+            </div>
+            <div className={cls.navbar_stats}>
+                <CustomInput type="number" placeholder="день" readOnly />
+                <CustomInput type="number" placeholder="неделя" readOnly />
+            </div>
         </div>
-    </div>
-);
+    );
+};

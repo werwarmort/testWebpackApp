@@ -4,13 +4,19 @@
     background: var(--inverted-bg-color);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 20px;
 
     @include default-block-settings;
+
+    &_stats {
+        display: flex;
+        gap: 10px;
+    }
 }
 
 .links {
-    margin-left: auto;
+    margin-right: auto;
 }
 
 .mainLink {
