@@ -26,8 +26,24 @@ export const Navbar = ({ className }: NavbarProps) => {
                 </div>
             </div>
             <div className={cls.navbar_stats}>
-                <CustomInput type="number" placeholder="день" readOnly />
-                <CustomInput type="number" placeholder="неделя" readOnly />
+                <CustomInput
+                    type="number"
+                    placeholder="день"
+                    readOnly
+                    className={cls.navbar_stat}
+                />
+                <CustomInput
+                    type="number"
+                    placeholder="неделя"
+                    readOnly
+                    className={cls.navbar_stat}
+                />
+                <CustomInput
+                    type="number"
+                    placeholder="сезон"
+                    readOnly
+                    className={cls.navbar_stat}
+                />
             </div>
         </div>
     );

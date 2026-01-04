@@ -2,8 +2,7 @@ import { InputHTMLAttributes, memo, useEffect, useRef, useState } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import cls from './CustomInput.module.scss';
 
-// Omit value and onChange to define our own typed versions
-type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
+type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>;
 
 interface CustomInputProps extends HTMLInputProps {
     className?: string;
@@ -63,6 +62,7 @@ export const CustomInput = memo((props: CustomInputProps) => {
                 onBlur={onBlur}
                 readOnly={readonly}
                 placeholder={placeholder}
+                title={placeholder}
                 {...otherProps}
             />
         </div>
