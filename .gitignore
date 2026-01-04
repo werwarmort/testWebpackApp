@@ -5,3 +5,6 @@ node_modules
 .idea/vcs.xml
 .DS_Store
 pnpm-lock.yaml
+
+*storybook.log
+storybook-static
