@@ -8,6 +8,7 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onC
     onChange?: (checked: boolean) => void;
     label?: string;
     theme?: 'primary' | 'secondary';
+    variant?: 'square' | 'round';
 }
 
 export const Checkbox: FC<CheckboxProps> = (props) => {
@@ -17,6 +18,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
         onChange,
         label,
         theme = 'secondary',
+        variant = 'square',
         ...otherProps
     } = props;
 
@@ -25,7 +27,7 @@ export const Checkbox: FC<CheckboxProps> = (props) => {
     };
 
     return (
-        <label className={classNames(cls.CheckboxWrapper, { [cls[theme]]: true }, [className])}>
+        <label className={classNames(cls.CheckboxWrapper, { [cls[theme]]: true, [cls[variant]]: true }, [className])}>
             <input
                 type="checkbox"
                 className={cls.input}

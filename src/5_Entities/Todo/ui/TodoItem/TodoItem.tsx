@@ -8,9 +8,10 @@ interface TodoItemProps {
     className?: string;
     todo: Todo;
     onToggle?: (id: string, isCompleted: boolean, points: number) => void;
+    onSubtaskToggle?: (subtaskId: string) => void;
 }
 
-export const TodoItem: FC<TodoItemProps> = ({ className, todo, onToggle }) => {
+export const TodoItem: FC<TodoItemProps> = ({ className, todo, onToggle, onSubtaskToggle }) => {
     const onToggleHandler = (checked: boolean) => {
         onToggle?.(todo.id, checked, todo.points);
     };
@@ -24,6 +25,24 @@ export const TodoItem: FC<TodoItemProps> = ({ className, todo, onToggle }) => {
                 </div>
                 <div className={cls.points}>+{todo.points}</div>
             </div>
+            {todo.subtasks && todo.subtasks.length > 0 && (
+                <div className={cls.subtasksList}>
+                    {todo.subtasks.map((subtask) => (
+                        <div
+                            key={subtask.id}
+                            className={classNames(cls.subtaskItem, { [cls.subtaskCompleted]: subtask.isCompleted })}
+                        >
+                            <Checkbox
+                                checked={subtask.isCompleted}
+                                onChange={() => onSubtaskToggle?.(subtask.id)}
+                                theme="primary"
+                                variant="round"
+                            />
+                            <span>{subtask.description}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

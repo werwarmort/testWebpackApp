@@ -18,21 +18,42 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
     const [desc, setDesc] = useState('');
     const [points, setPoints] = useState('');
     const [priority, setPriority] = useState<TodoPriority>('medium');
+    const [subtasks, setSubtasks] = useState<string[]>([]);
 
     const onSave = () => {
         const pointsNum = Number(points);
         if (!desc || !pointsNum) return;
 
+        const formattedSubtasks = subtasks
+            .filter((task) => task.trim() !== '')
+            .map((task) => ({
+                id: Date.now().toString() + Math.random(),
+                description: task,
+                isCompleted: false,
+            }));
+
         addTodo({
             description: desc,
             points: pointsNum,
             priority,
+            subtasks: formattedSubtasks,
         });
 
         setDesc('');
         setPoints('');
         setPriority('medium');
+        setSubtasks([]);
         onSuccess?.();
+    };
+
+    const handleAddSubtask = () => {
+        setSubtasks([...subtasks, '']);
+    };
+
+    const handleSubtaskChange = (index: number, value: string) => {
+        const newSubtasks = [...subtasks];
+        newSubtasks[index] = value;
+        setSubtasks(newSubtasks);
     };
 
     return (
@@ -51,6 +72,25 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
                 placeholder={t('Баллы')}
                 type="number"
             />
+            
+            <div className={cls.subtasks}>
+                <div className={cls.subtasksHeader}>
+                    <span>{t('Подзадачи')}</span>
+                    <Button onClick={handleAddSubtask} theme={ThemeButton.CLEAR} className={cls.addSubtaskBtn}>
+                        +
+                    </Button>
+                </div>
+                {subtasks.map((subtask, index) => (
+                    <CustomInput
+                        key={index}
+                        className={cls.subtaskInput}
+                        value={subtask}
+                        onChange={(val) => handleSubtaskChange(index, val)}
+                        placeholder={t('Описание подзадачи')}
+                    />
+                ))}
+            </div>
+
             <select
                 className={cls.select}
                 value={priority}

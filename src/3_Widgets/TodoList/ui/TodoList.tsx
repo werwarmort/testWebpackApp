@@ -14,6 +14,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
     const { t } = useTranslation();
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
+    const toggleSubtask = useTodoStore((state) => state.toggleSubtask);
     const addPoints = useScoreStore((state) => state.addPoints);
 
     const handleToggle = (id: string, isCompleted: boolean, points: number) => {
@@ -33,6 +34,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                     todo={todo}
                     className={cls.item}
                     onToggle={handleToggle}
+                    onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
                 />
             ))}
         </div>

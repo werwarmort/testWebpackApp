@@ -22,6 +22,17 @@ export const useTodoStore = create<TodoState>()(
                     todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
                 ),
             })),
+            toggleSubtask: (todoId, subtaskId) => set((state) => ({
+                todos: state.todos.map((todo) => {
+                    if (todo.id !== todoId) return todo;
+                    return {
+                        ...todo,
+                        subtasks: todo.subtasks?.map((sub) =>
+                            sub.id === subtaskId ? { ...sub, isCompleted: !sub.isCompleted } : sub
+                        ),
+                    };
+                }),
+            })),
             deleteTodo: (id) => set((state) => ({
                 todos: state.todos.filter((todo) => todo.id !== id),
             })),
