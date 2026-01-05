@@ -1,20 +1,20 @@
 import { RouteProps } from 'react-router-dom';
 import { ScorePage } from '2_Pages/ScorePage';
 import { TodoPage } from '2_Pages/TodoPage';
-import { StatsPage } from '2_Pages/StatsPage';
+import { AnalyticsPage } from '2_Pages/AnalyticsPage';
 import { NotFoundPage } from '2_Pages/NotFoundPage';
 
 export enum AppRoutes {
     MAIN = 'main',
     TODO = 'todo',
-    STATS = 'stats',
+    ANALYTICS = 'analytics',
     NOT_FOUND = 'not_found',
 }
 
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.MAIN]: '/',
     [AppRoutes.TODO]: '/todo',
-    [AppRoutes.STATS]: '/stats',
+    [AppRoutes.ANALYTICS]: '/analytics',
     [AppRoutes.NOT_FOUND]: '*',
 };
 
@@ -27,9 +27,9 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
         path: RoutePath.todo,
         element: <TodoPage />,
     },
-    [AppRoutes.STATS]: {
-        path: RoutePath.stats,
-        element: <StatsPage />,
+    [AppRoutes.ANALYTICS]: {
+        path: RoutePath.analytics,
+        element: <AnalyticsPage />,
     },
     [AppRoutes.NOT_FOUND]: {
         path: RoutePath.not_found,

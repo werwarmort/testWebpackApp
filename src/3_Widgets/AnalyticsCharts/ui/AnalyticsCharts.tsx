@@ -2,13 +2,12 @@ import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { LineChart } from './LineChart';
-import cls from './StatsCharts.module.scss';
+import cls from './AnalyticsCharts.module.scss';
 
-export const StatsCharts: FC = () => {
-    const { t } = useTranslation('stats');
+export const AnalyticsCharts: FC = () => {
+    const { t } = useTranslation('analytics');
     const actions = useScoreStore(state => state.actions);
 
-    // Вспомогательная функция для получения очков за конкретный день
     const getPointsForDate = (date: Date) => {
         const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
         const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
@@ -18,7 +17,6 @@ export const StatsCharts: FC = () => {
             .reduce((sum, a) => sum + (a.isPenalty ? -a.points : a.points), 0);
     };
 
-    // 1. Данные за неделю (последние 7 дней)
     const weekData = useMemo(() => {
         const data = [];
         for (let i = 6; i >= 0; i--) {
@@ -32,7 +30,6 @@ export const StatsCharts: FC = () => {
         return data;
     }, [actions]);
 
-    // 2. Данные за сезон (3 недели)
     const seasonData = useMemo(() => {
         const data = [];
         for (let i = 2; i >= 0; i--) {
@@ -53,7 +50,6 @@ export const StatsCharts: FC = () => {
         return data;
     }, [actions, t]);
 
-    // 3. Данные за год (12 месяцев)
     const yearData = useMemo(() => {
         const data = [];
         const now = new Date();
@@ -75,7 +71,7 @@ export const StatsCharts: FC = () => {
     }, [actions]);
 
     return (
-        <div className={cls.StatsCharts}>
+        <div className={cls.AnalyticsCharts}>
             <LineChart 
                 data={weekData} 
                 title={t('Очки за неделю')} 

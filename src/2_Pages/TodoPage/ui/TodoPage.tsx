@@ -21,10 +21,8 @@ const TodoPage = () => {
     return (
         <div className={styles.TodoPageRoot}>
             <div className={styles.header}>
-                <div className={styles.title}>{t('Список дел')}</div>
-                <CircleButton onClick={onShowModal}>
-                    +
-                </CircleButton>
+                <CircleButton onClick={onShowModal}>+</CircleButton>
+                {/*<div className={styles.title}>{t('Задачи')}</div>*/}
             </div>
 
             <TodoList />

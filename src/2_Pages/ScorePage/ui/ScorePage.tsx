@@ -10,7 +10,7 @@ import styles from './ScorePage.module.scss';
 const ScorePage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const dayPoints = useScoreStore((state) => state.dayPoints);
+    const dayPoints = useScoreStore(state => state.dayPoints);
 
     const onShowModal = () => {
         setIsModalOpen(true);
@@ -23,12 +23,10 @@ const ScorePage = () => {
     return (
         <div className={styles.ScorePageRoot}>
             <div className={styles.header}>
-                 <div className={styles.totalScore}>
-                    {t('Баллы за день')}: {dayPoints}
-                </div>
-                <CircleButton onClick={onShowModal}>
-                    +
-                </CircleButton>
+                {/* <div className={styles.totalScore}>*/}
+                {/*    {t('Баллы за день')}: {dayPoints}*/}
+                {/*</div>*/}
+                <CircleButton onClick={onShowModal}>+</CircleButton>
             </div>
 
             <ActionList />

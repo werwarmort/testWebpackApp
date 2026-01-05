@@ -1,4 +1,4 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useId } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import cls from './LineChart.module.scss';
 
@@ -22,6 +22,7 @@ export const LineChart: FC<LineChartProps> = ({
     color = '#ffc906',
     title
 }) => {
+    const chartId = useId();
     const width = 800;
     const padding = 40;
 
@@ -52,7 +53,7 @@ export const LineChart: FC<LineChartProps> = ({
             {title && <h3 className={cls.title}>{title}</h3>}
             <svg viewBox={`0 0 ${width} ${height}`} className={cls.svg}>
                 <defs>
-                    <linearGradient id={`gradient-${title}`} x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id={chartId} x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stopColor={color} stopOpacity="0.3" />
                         <stop offset="100%" stopColor={color} stopOpacity="0" />
                     </linearGradient>
@@ -64,7 +65,7 @@ export const LineChart: FC<LineChartProps> = ({
                 {/* Область под графиком */}
                 <polyline
                     points={areaPoints}
-                    fill={`url(#gradient-${title})`}
+                    fill={`url(#${chartId})`}
                     stroke="none"
                 />
 

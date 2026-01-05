@@ -25,31 +25,19 @@ export const Sidebar = ({ className }: SidebarProps) => {
                 {collapsed ? `>>` : `<<`}
             </button>
             <div className={cls.items}>
-                <AppLink
-                    theme={AppLinkTheme.SECONDARY}
-                    to={RoutePath.main}
-                    className={cls.item}
-                >
-                    <span className={cls.linkText}>
-                        {collapsed ? t('Счет')[0] : t('Счет')}
-                    </span>
+                <AppLink theme={AppLinkTheme.SECONDARY} to={RoutePath.main} className={cls.item}>
+                    <span className={cls.linkText}>{collapsed ? t('Счет')[0] : t('Счет')}</span>
+                </AppLink>
+                <AppLink theme={AppLinkTheme.SECONDARY} to={RoutePath.todo} className={cls.item}>
+                    <span className={cls.linkText}>{collapsed ? t('Задачи')[0] : t('Задачи')}</span>
                 </AppLink>
                 <AppLink
                     theme={AppLinkTheme.SECONDARY}
-                    to={RoutePath.todo}
+                    to={RoutePath.analytics}
                     className={cls.item}
                 >
                     <span className={cls.linkText}>
-                        {collapsed ? t('Дела')[0] : t('Дела')}
-                    </span>
-                </AppLink>
-                <AppLink
-                    theme={AppLinkTheme.SECONDARY}
-                    to={RoutePath.stats}
-                    className={cls.item}
-                >
-                    <span className={cls.linkText}>
-                        {collapsed ? (t('Язык') === 'Ru' ? 'Ст' : 'St') : t('Статистика')}
+                        {collapsed ? t('Аналитика')[0] : t('Аналитика')}
                     </span>
                 </AppLink>
             </div>
