@@ -55,7 +55,7 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
                 className={cls.input}
                 value={text}
                 onChange={setText}
-                placeholder={t('Описание действия')}
+                placeholder={t('action_description')}
                 autoFocus={!initialData}
             />
             <div className={cls.footerContainer}>
@@ -64,18 +64,18 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
                         className={cls.points}
                         value={points}
                         onChange={setPoints}
-                        placeholder={t('Баллы')}
+                        placeholder={t('points')}
                         type="number"
                     />
                     <Checkbox
-                        label={t('Штрафные')}
+                        label={t('is_penalty')}
                         checked={isPenalty}
                         onChange={setIsPenalty}
                         className={cls.checkbox}
                     />
                 </div>
                 <Button onClick={onSave} className={cls.saveBtn} theme={ThemeButton.DEFAULT}>
-                    {initialData ? t('Сохранить') : t('Добавить')}
+                    {initialData ? t('save') : t('add')}
                 </Button>
             </div>
         </div>

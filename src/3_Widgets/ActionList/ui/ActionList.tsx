@@ -54,7 +54,7 @@ export const ActionList: FC<ActionListProps> = ({ className }) => {
     };
 
     if (actions.length === 0) {
-        return <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>{t('Список действий пуст')}</div>;
+        return <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>{t('empty_list')}</div>;
     }
 
     return (

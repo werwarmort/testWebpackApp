@@ -32,9 +32,9 @@ export const ActionItem: FC<ActionItemProps> = ({ className, action, onEdit, onD
 
     let tooltipText: string | undefined;
     if (isTodoAction) {
-        tooltipText = t('Редактирование доступно со страницы "Задаи"');
+        tooltipText = t('tooltip_todo_editing');
     } else if (isPastAction) {
-        tooltipText = t('История прошлых дней не редактируется');
+        tooltipText = t('tooltip_past_history');
     }
 
     return (

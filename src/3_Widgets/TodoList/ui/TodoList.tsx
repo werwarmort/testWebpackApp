@@ -30,7 +30,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
             const actionId = Date.now().toString();
             addAction({
                 id: actionId,
-                text: `${t('Выполнена задача')}: ${todo?.description}`,
+                text: `${t('task_completed_log')}: ${todo?.description}`,
                 points,
                 isPenalty: false,
                 todoId: id,
@@ -61,14 +61,14 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
     const normalTasks = activeTodos.filter((t) => !t.type || t.type === 'task');
 
     if (todos.length === 0) {
-        return <div className={classNames(cls.TodoList, {}, [className, cls.empty])}>{t('Список задач пуст')}</div>;
+        return <div className={classNames(cls.TodoList, {}, [className, cls.empty])}>{t('empty_list')}</div>;
     }
 
     return (
         <div className={classNames(cls.TodoList, {}, [className])}>
             {weeklyChallenges.length > 0 && (
                 <>
-                    <div className={cls.sectionTitle}>{t('Челендж недели')}</div>
+                    <div className={cls.sectionTitle}>{t('type_weekly')}</div>
                     {weeklyChallenges.map((todo) => (
                         <TodoItem
                             key={todo.id}
@@ -86,7 +86,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
 
             {dailyChallenges.length > 0 && (
                 <>
-                    <div className={cls.sectionTitle}>{t('Челендж дня')}</div>
+                    <div className={cls.sectionTitle}>{t('type_daily')}</div>
                     {dailyChallenges.map((todo) => (
                         <TodoItem
                             key={todo.id}
@@ -116,7 +116,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
 
             {completedTodos.length > 0 && (
                 <>
-                    <div className={cls.completedTitle}>{t('Выполненные')}</div>
+                    <div className={cls.completedTitle}>{t('completed_section')}</div>
                     <div className={cls.completedList}>
                         {completedTodos.map((todo) => (
                             <TodoItem

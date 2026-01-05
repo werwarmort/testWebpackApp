@@ -82,20 +82,20 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 className={cls.input}
                 value={desc}
                 onChange={setDesc}
-                placeholder={t('Описание задачи')}
+                placeholder={t('task_description')}
                 autoFocus={!initialData}
             />
             <CustomInput
                 className={cls.input}
                 value={points}
                 onChange={setPoints}
-                placeholder={t('Баллы')}
+                placeholder={t('points')}
                 type="number"
             />
             
             <div className={cls.subtasks}>
                 <div className={cls.subtasksHeader}>
-                    <span>{t('Подзадачи')}</span>
+                    <span>{t('subtasks')}</span>
                     <Button onClick={handleAddSubtask} theme={ThemeButton.CLEAR} className={cls.addSubtaskBtn}>
                         +
                     </Button>
@@ -106,7 +106,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                         className={cls.subtaskInput}
                         value={subtask.description}
                         onChange={(val) => handleSubtaskChange(index, val)}
-                        placeholder={t('Описание подзадачи')}
+                        placeholder={t('subtask_description')}
                     />
                 ))}
             </div>
@@ -116,9 +116,9 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 value={type}
                 onChange={(e) => setType(e.target.value as TodoType)}
             >
-                <option value="task">{t('Задача')}</option>
-                <option value="daily_challenge">{t('Челендж дня')}</option>
-                <option value="weekly_challenge">{t('Челендж недели')}</option>
+                <option value="task">{t('type_task')}</option>
+                <option value="daily_challenge">{t('type_daily')}</option>
+                <option value="weekly_challenge">{t('type_weekly')}</option>
             </select>
 
             <select
@@ -126,16 +126,16 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 value={priority}
                 onChange={(e) => setPriority(e.target.value as TodoPriority)}
             >
-                <option value="low">{t('Низкий')}</option>
-                <option value="medium">{t('Средний')}</option>
-                <option value="high">{t('Высокий')}</option>
+                <option value="low">{t('priority_low')}</option>
+                <option value="medium">{t('priority_medium')}</option>
+                <option value="high">{t('priority_high')}</option>
             </select>
             <Button
                 onClick={onSave}
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >
-                {initialData ? t('Сохранить') : t('Добавить')}
+                {initialData ? t('save') : t('add')}
             </Button>
         </div>
     );

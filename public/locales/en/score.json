@@ -1,11 +1,11 @@
 {
-  "Счет": "Score",
-  "Список действий пуст": "Action list is empty",
-  "Описание действия": "Action description",
-  "Штрафные": "Penalty",
-  "Добавить": "Add",
-  "Сохранить": "Save",
-  "Редактирование доступно со страницы \"Дела\"": "Editing is available from 'Tasks' page",
-  "История прошлых дней не редактируется": "Past history cannot be edited",
-  "Баллы": "Points"
+  "page_title": "Score",
+  "empty_list": "Action list is empty",
+  "action_description": "Action description",
+  "is_penalty": "Penalty",
+  "add": "Add",
+  "save": "Save",
+  "tooltip_todo_editing": "Editing is available from 'Tasks' page",
+  "tooltip_past_history": "Past history cannot be edited",
+  "points": "Points"
 }
