@@ -5,33 +5,47 @@ import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { CustomInput } from '6_Shared/ui/Input/CustomInput';
 import { Checkbox } from '6_Shared/ui/Checkbox/Checkbox';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
+import { Action } from '5_Entities/Score/model/types/score';
 import cls from './AddActionForm.module.scss';
 
 interface AddActionFormProps {
     className?: string;
     onSuccess?: () => void;
+    initialData?: Action;
 }
 
-export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess }) => {
+export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, initialData }) => {
     const { t } = useTranslation();
-    const addAction = useScoreStore(state => state.addAction);
-    const [text, setText] = useState('');
-    const [points, setPoints] = useState('');
-    const [isPenalty, setIsPenalty] = useState(false);
+    const addAction = useScoreStore((state) => state.addAction);
+    const updateAction = useScoreStore((state) => state.updateAction);
+
+    const [text, setText] = useState(initialData?.text || '');
+    const [points, setPoints] = useState(initialData?.points.toString() || '');
+    const [isPenalty, setIsPenalty] = useState(initialData?.isPenalty || false);
 
     const onSave = () => {
         const pointsNum = Number(points);
         if (!text || !pointsNum) return;
 
-        addAction({
-            text,
-            points: pointsNum,
-            isPenalty,
-        });
+        if (initialData) {
+            updateAction(initialData.id, {
+                text,
+                points: pointsNum,
+                isPenalty,
+            });
+        } else {
+            addAction({
+                text,
+                points: pointsNum,
+                isPenalty,
+            });
+        }
 
-        setText('');
-        setPoints('');
-        setIsPenalty(false);
+        if (!initialData) {
+            setText('');
+            setPoints('');
+            setIsPenalty(false);
+        }
         onSuccess?.();
     };
 
@@ -42,7 +56,7 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess }) 
                 value={text}
                 onChange={setText}
                 placeholder={t('Описание действия')}
-                autoFocus
+                autoFocus={!initialData}
             />
             <div className={cls.footerContainer}>
                 <div className={cls.pointsWrapper}>
@@ -61,7 +75,7 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess }) 
                     />
                 </div>
                 <Button onClick={onSave} className={cls.saveBtn} theme={ThemeButton.DEFAULT}>
-                    {t('Добавить')}
+                    {initialData ? t('Сохранить') : t('Добавить')}
                 </Button>
             </div>
         </div>

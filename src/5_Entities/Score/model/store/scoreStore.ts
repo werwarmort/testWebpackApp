@@ -40,6 +40,25 @@ export const useScoreStore = create<ScoreState>()(
                 });
             },
 
+            updateAction: (id, updatedFields) => set((state) => {
+                const actionIndex = state.actions.findIndex((a) => a.id === id);
+                if (actionIndex === -1) return {};
+
+                const oldAction = state.actions[actionIndex];
+                const newAction = { ...oldAction, ...updatedFields };
+
+                const oldPointsChange = oldAction.isPenalty ? -oldAction.points : oldAction.points;
+                const newPointsChange = newAction.isPenalty ? -newAction.points : newAction.points;
+
+                const newActions = [...state.actions];
+                newActions[actionIndex] = newAction;
+
+                return {
+                    actions: newActions,
+                    dayPoints: state.dayPoints - oldPointsChange + newPointsChange,
+                };
+            }),
+
             removeAction: (id) => set((state) => {
                 const actionToRemove = state.actions.find((a) => a.id === id);
                 if (!actionToRemove) return {};

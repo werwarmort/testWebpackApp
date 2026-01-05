@@ -1,9 +1,11 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { ActionItem } from '5_Entities/Action/ui/ActionItem/ActionItem';
 import { Action } from '5_Entities/Score/model/types/score';
+import { Modal } from '6_Shared/ui/Modal/Modal';
+import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
 import { DateSeparator } from './DateSeparator/DateSeparator';
 import cls from './ActionList.module.scss';
 
@@ -14,6 +16,8 @@ interface ActionListProps {
 export const ActionList: FC<ActionListProps> = ({ className }) => {
     const { t } = useTranslation();
     const actions = useScoreStore((state) => state.actions);
+    const removeAction = useScoreStore((state) => state.removeAction);
+    const [editingAction, setEditingAction] = useState<Action | null>(null);
 
     const groups = useMemo(() => {
         const groupsList: { dateKey: string; date: Date; total: number; actions: Action[] }[] = [];
@@ -41,6 +45,14 @@ export const ActionList: FC<ActionListProps> = ({ className }) => {
         return groupsList;
     }, [actions]);
 
+    const handleEdit = (action: Action) => {
+        setEditingAction(action);
+    };
+
+    const handleDelete = (id: string) => {
+        removeAction(id);
+    };
+
     if (actions.length === 0) {
         return <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>{t('Список действий пуст')}</div>;
     }
@@ -51,10 +63,25 @@ export const ActionList: FC<ActionListProps> = ({ className }) => {
                 <div key={group.dateKey} className={cls.group}>
                     <DateSeparator date={group.date} totalPoints={group.total} />
                     {group.actions.map((action) => (
-                        <ActionItem key={action.id} action={action} className={cls.item} />
+                        <ActionItem
+                            key={action.id}
+                            action={action}
+                            className={cls.item}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
+                        />
                     ))}
                 </div>
             ))}
+
+            <Modal isOpen={Boolean(editingAction)} onClose={() => setEditingAction(null)}>
+                {editingAction && (
+                    <AddActionForm
+                        initialData={editingAction}
+                        onSuccess={() => setEditingAction(null)}
+                    />
+                )}
+            </Modal>
         </div>
     );
 };

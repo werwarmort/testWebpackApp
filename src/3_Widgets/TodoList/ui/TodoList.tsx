@@ -33,6 +33,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                 text: `${t('Выполнена задача')}: ${todo?.description}`,
                 points,
                 isPenalty: false,
+                todoId: id,
             });
             toggleTodo(id, actionId);
         } else {

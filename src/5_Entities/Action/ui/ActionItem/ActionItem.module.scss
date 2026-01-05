@@ -24,6 +24,59 @@
     flex-grow: 1;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-left: 12px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.ActionItem:hover .actions {
+    opacity: 1;
+}
+
+.actionBtn {
+    opacity: 0.6;
+    transition: 0.2s;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+}
+
+.actionBtn:hover:not(.disabled) {
+    opacity: 1;
+}
+
+.disabled {
+    cursor: not-allowed;
+    filter: grayscale(1);
+    opacity: 0.3;
+}
+
+/* Tooltip style */
+.tooltipContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tooltipContainer[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 100;
 }
 
 .text {
