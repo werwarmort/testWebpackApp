@@ -43,6 +43,15 @@ export const Sidebar = ({ className }: SidebarProps) => {
                         {collapsed ? t('Дела')[0] : t('Дела')}
                     </span>
                 </AppLink>
+                <AppLink
+                    theme={AppLinkTheme.SECONDARY}
+                    to={RoutePath.stats}
+                    className={cls.item}
+                >
+                    <span className={cls.linkText}>
+                        {collapsed ? (t('Язык') === 'Ru' ? 'Ст' : 'St') : t('Статистика')}
+                    </span>
+                </AppLink>
             </div>
             <div className={cls.switchers}>
                 <ThemeSwitcher collapsed={collapsed} />
