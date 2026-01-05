@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useSWR from 'swr';
+import useSWR, { mutate as globalMutate } from 'swr';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
@@ -14,7 +14,6 @@ const TodoPage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
     
-    // Используем SWR для получения данных
     const { data: todos, mutate } = useSWR('/tasks', swrFetcher);
     const setTodos = useTodoStore(state => state.setTodos);
 
@@ -24,10 +23,15 @@ const TodoPage = () => {
         }
     }, [todos, setTodos]);
 
+    const onUpdate = () => {
+        mutate();
+        globalMutate('/actions/score');
+    };
+
     const onShowModal = () => setIsModalOpen(true);
     const onCloseModal = () => {
         setIsModalOpen(false);
-        mutate();
+        onUpdate();
     };
 
     return (
@@ -36,7 +40,7 @@ const TodoPage = () => {
                 <CircleButton onClick={onShowModal}>+</CircleButton>
             </div>
 
-            <TodoList onUpdate={mutate} />
+            <TodoList onUpdate={onUpdate} />
 
             <Modal isOpen={isModalOpen} onClose={onCloseModal}>
                 <AddTodoForm onSuccess={onCloseModal} />

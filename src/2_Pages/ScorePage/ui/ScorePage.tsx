@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import useSWR from 'swr';
+import useSWR, { mutate as globalMutate } from 'swr';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
 import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
@@ -23,13 +23,18 @@ const ScorePage = () => {
         }
     }, [actions, setActions]);
 
+    const onUpdate = () => {
+        mutate(); // Обновляем список действий
+        globalMutate('/actions/score'); // Обновляем счетчики в Navbar
+    };
+
     const onShowModal = () => {
         setIsModalOpen(true);
     };
 
     const onCloseModal = () => {
         setIsModalOpen(false);
-        mutate();
+        onUpdate();
     };
 
     return (
@@ -38,7 +43,7 @@ const ScorePage = () => {
                 <CircleButton onClick={onShowModal}>+</CircleButton>
             </div>
 
-            <ActionList onUpdate={mutate} />
+            <ActionList onUpdate={onUpdate} />
 
             <Modal isOpen={isModalOpen} onClose={onCloseModal}>
                 <AddActionForm onSuccess={onCloseModal} />
