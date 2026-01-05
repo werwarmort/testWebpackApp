@@ -47,7 +47,6 @@ const AuthPage: FC = () => {
                 window.location.reload(); // Чтобы обновить сторы
             } else {
                 setIsLogin(true);
-                alert(t('success_registration'));
             }
         } catch (err: any) {
             setError(err.message);
