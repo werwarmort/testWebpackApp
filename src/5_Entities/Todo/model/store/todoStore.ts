@@ -54,8 +54,8 @@ export const useTodoStore = create<TodoState>((set, get) => ({
         const updatedTodo = {
             ...todo,
             isCompleted: !todo.isCompleted,
-            completedActionId: !todo.isCompleted ? actionId : undefined,
-            completedAt: !todo.isCompleted ? Date.now() : undefined,
+            completedActionId: !todo.isCompleted ? actionId : null,
+            completedAt: !todo.isCompleted ? Date.now() : null,
         };
 
         await get().updateTodo(updatedTodo);
