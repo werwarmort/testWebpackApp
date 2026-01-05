@@ -9,5 +9,6 @@
   "Список целей пуст": "Goals list is empty",
   "Выполненные": "Completed",
   "Отправить в задачи": "Send to tasks",
-  "В задачах": "In tasks"
+  "В задачах": "In tasks",
+  "Выполнена подцель": "Subgoal completed"
 }

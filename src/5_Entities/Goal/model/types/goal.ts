@@ -4,6 +4,7 @@ export interface Subgoal {
     isCompleted: boolean;
     isSentToTasks?: boolean;
     points: number;
+    completedActionId?: string;
 }
 
 export interface Goal {
@@ -21,6 +22,6 @@ export interface GoalState {
     updateGoal: (goal: Goal) => void;
     deleteGoal: (id: string) => void;
     toggleGoal: (id: string) => void;
-    toggleSubgoal: (goalId: string, subgoalId: string) => void;
+    toggleSubgoal: (goalId: string, subgoalId: string, actionId?: string) => void;
     markSubgoalAsSent: (goalId: string, subgoalId: string) => void;
 }

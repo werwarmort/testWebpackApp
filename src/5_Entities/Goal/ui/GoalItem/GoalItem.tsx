@@ -92,6 +92,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                     checked={sub.isCompleted}
                                     onChange={() => onSubgoalToggle(goal.id, sub.id)}
                                     theme="primary"
+                                    disabled={sub.isSentToTasks}
                                 />
                                 <span>{sub.description}</span>
                                 <span className={cls.points}>({sub.points})</span>

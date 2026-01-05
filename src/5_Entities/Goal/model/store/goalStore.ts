@@ -30,13 +30,17 @@ export const useGoalStore = create<GoalState>()(
                     goal.id === id ? { ...goal, isCompleted: !goal.isCompleted } : goal
                 ),
             })),
-            toggleSubgoal: (goalId, subgoalId) => set((state) => ({
+            toggleSubgoal: (goalId, subgoalId, actionId) => set((state) => ({
                 goals: state.goals.map((goal) => {
                     if (goal.id !== goalId) return goal;
                     return {
                         ...goal,
                         subgoals: goal.subgoals.map((sub) =>
-                            sub.id === subgoalId ? { ...sub, isCompleted: !sub.isCompleted } : sub
+                            sub.id === subgoalId ? {
+                                ...sub,
+                                isCompleted: !sub.isCompleted,
+                                completedActionId: !sub.isCompleted ? actionId : undefined
+                            } : sub
                         ),
                     };
                 }),
