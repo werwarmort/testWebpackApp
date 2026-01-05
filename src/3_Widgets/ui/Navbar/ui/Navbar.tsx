@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { CustomInput } from '6_Shared';
 import { useTranslation } from 'react-i18next';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
+import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
+import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
+import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import cls from './Navbar.module.scss';
 
 interface NavbarProps {
@@ -14,8 +17,42 @@ export const Navbar = ({ className }: NavbarProps) => {
     const dayPoints = useScoreStore((state) => state.dayPoints);
     const weekPoints = useScoreStore((state) => state.weekPoints);
 
+    const user = useMemo(() => {
+        const info = localStorage.getItem('user_info');
+        return info ? JSON.parse(info) : null;
+    }, []);
+
+    const onLogout = () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_info');
+        window.location.reload();
+    };
+
     return (
         <div className={classNames(cls.navbar, {}, [className])}>
+            <div className={cls.auth}>
+                {user ? (
+                    <div className={cls.userInfo}>
+                        <span className={cls.username}>{user.username}</span>
+                        <Button 
+                            theme={ThemeButton.CLEAR} 
+                            onClick={onLogout}
+                            className={cls.logoutBtn}
+                        >
+                            {t('Выйти')}
+                        </Button>
+                    </div>
+                ) : (
+                    <AppLink 
+                        to={RoutePath.auth} 
+                        theme={AppLinkTheme.SECONDARY}
+                        className={cls.loginLink}
+                    >
+                        {t('Войти')}
+                    </AppLink>
+                )}
+            </div>
+
             <div className={cls.navbar_stats}>
                 <CustomInput
                     type="text"
