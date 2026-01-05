@@ -17,7 +17,6 @@ const GoalsPage: FC = () => {
     return (
         <div className={classNames(cls.GoalsPage, {}, [])}>
             <div className={cls.header}>
-                <h1>{t('page_title')}</h1>
                 <CircleButton onClick={onShowModal}>+</CircleButton>
             </div>
             <GoalList />

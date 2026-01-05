@@ -1,4 +1,4 @@
-@import "1_App/styles/variables/defaultMixins.scss";
+@import "1_App/styles/variables/defaultMixins";
 
 .GoalsPage {
     @include default-block-settings;
@@ -7,7 +7,7 @@
 
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 30px;
 }

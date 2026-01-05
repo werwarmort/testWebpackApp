@@ -88,6 +88,30 @@
     gap: 8px;
 }
 
+.tooltipContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tooltipContainer[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 0;
+    padding: 6px 10px;
+    background: var(--bg-color, #333);
+    color: var(--tooltip-color, #fff);
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: normal;
+    width: 250px;
+    z-index: 100;
+    pointer-events: none;
+    border: 1px solid var(--tooltip-color, transparent);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
 .subgoalCompleted span {
     text-decoration: line-through;
     opacity: 0.6;

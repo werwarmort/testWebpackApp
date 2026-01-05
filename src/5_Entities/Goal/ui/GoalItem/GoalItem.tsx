@@ -88,12 +88,18 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                             className={classNames(cls.subgoalItem, { [cls.subgoalCompleted]: sub.isCompleted })}
                         >
                             <div className={cls.subgoalInfo}>
-                                <Checkbox
-                                    checked={sub.isCompleted}
-                                    onChange={() => onSubgoalToggle(goal.id, sub.id)}
-                                    theme="primary"
-                                    disabled={sub.isSentToTasks}
-                                />
+                                <div 
+                                    className={cls.tooltipContainer} 
+                                    data-tooltip={sub.isSentToTasks ? t('tooltip_sent_to_tasks') : undefined}
+                                    style={{ '--tooltip-color': 'var(--primary-color)' } as React.CSSProperties}
+                                >
+                                    <Checkbox
+                                        checked={sub.isCompleted}
+                                        onChange={() => onSubgoalToggle(goal.id, sub.id)}
+                                        theme="primary"
+                                        disabled={sub.isSentToTasks}
+                                    />
+                                </div>
                                 <span>{sub.description}</span>
                                 <span className={cls.points}>({sub.points})</span>
                             </div>
