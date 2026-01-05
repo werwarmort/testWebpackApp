@@ -14,7 +14,7 @@ interface TodoListProps {
 }
 
 export const TodoList: FC<TodoListProps> = ({ className }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('todo');
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
     const toggleSubtask = useTodoStore((state) => state.toggleSubtask);

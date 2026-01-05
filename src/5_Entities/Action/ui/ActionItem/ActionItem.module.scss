@@ -68,8 +68,7 @@
     content: attr(data-tooltip);
     position: absolute;
     bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     padding: 6px 10px;
     background: #333;
     color: #fff;
@@ -77,6 +76,7 @@
     border-radius: 4px;
     white-space: nowrap;
     z-index: 100;
+    pointer-events: none;
 }
 
 .text {

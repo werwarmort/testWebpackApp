@@ -14,7 +14,7 @@ interface ActionListProps {
 }
 
 export const ActionList: FC<ActionListProps> = ({ className }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('score');
     const actions = useScoreStore((state) => state.actions);
     const removeAction = useScoreStore((state) => state.removeAction);
     const [editingAction, setEditingAction] = useState<Action | null>(null);

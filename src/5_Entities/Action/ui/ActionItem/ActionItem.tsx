@@ -23,16 +23,16 @@ const isDateToday = (timestamp: number) => {
 };
 
 export const ActionItem: FC<ActionItemProps> = ({ className, action, onEdit, onDelete }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('score');
     const date = new Date(action.createdAt).toLocaleDateString();
-    
+
     const isTodoAction = Boolean(action.todoId);
     const isPastAction = !isDateToday(action.createdAt);
     const isLocked = isTodoAction || isPastAction;
 
     let tooltipText: string | undefined;
     if (isTodoAction) {
-        tooltipText = t('Редактирование доступно со страницы "Дела"');
+        tooltipText = t('Редактирование доступно со страницы "Задаи"');
     } else if (isPastAction) {
         tooltipText = t('История прошлых дней не редактируется');
     }
@@ -40,7 +40,8 @@ export const ActionItem: FC<ActionItemProps> = ({ className, action, onEdit, onD
     return (
         <div className={classNames(cls.ActionItem, {}, [className])}>
             <div className={classNames(cls.points, { [cls.penalty]: action.isPenalty })}>
-                {action.isPenalty ? '-' : '+'}{action.points}
+                {action.isPenalty ? '-' : '+'}
+                {action.points}
             </div>
             <div className={cls.content}>
                 <div className={cls.info}>

@@ -14,7 +14,7 @@ interface AddTodoFormProps {
 }
 
 export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initialData }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('todo');
     const addTodo = useTodoStore((state) => state.addTodo);
     const updateTodo = useTodoStore((state) => state.updateTodo);
 

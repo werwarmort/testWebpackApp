@@ -15,7 +15,7 @@ interface AddActionFormProps {
 }
 
 export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, initialData }) => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('score');
     const addAction = useScoreStore((state) => state.addAction);
     const updateAction = useScoreStore((state) => state.updateAction);
 
