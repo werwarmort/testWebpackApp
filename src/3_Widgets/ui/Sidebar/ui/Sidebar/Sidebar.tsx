@@ -30,14 +30,18 @@ export const Sidebar = ({ className }: SidebarProps) => {
                     to={RoutePath.main}
                     className={cls.item}
                 >
-                    <span className={cls.linkText}>{t('Счет')}</span>
+                    <span className={cls.linkText}>
+                        {collapsed ? t('Счет')[0] : t('Счет')}
+                    </span>
                 </AppLink>
                 <AppLink
                     theme={AppLinkTheme.SECONDARY}
                     to={RoutePath.todo}
                     className={cls.item}
                 >
-                     <span className={cls.linkText}>{t('Дела')}</span>
+                    <span className={cls.linkText}>
+                        {collapsed ? t('Дела')[0] : t('Дела')}
+                    </span>
                 </AppLink>
             </div>
             <div className={cls.switchers}>

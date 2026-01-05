@@ -11,10 +11,6 @@
 
 .collapsed {
     width: var(--sidebar-width-collapsed);
-
-    .linkText {
-        display: none;
-    }
 }
 
 .switchers {
@@ -41,7 +37,7 @@
 .items {
     display: flex;
     flex-direction: column;
-    margin-top: 40px;
+    margin-top: 10px;
     padding: 0 20px;
 }
 
@@ -49,4 +45,5 @@
     margin-bottom: 20px;
     font-size: 18px;
     color: var(--primary-color);
+    text-align: center;
 }
