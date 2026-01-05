@@ -18,6 +18,39 @@
     align-items: center;
 }
 
+.leftSide {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rightSide {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.TodoItem:hover .actions {
+    opacity: 1;
+}
+
+.actionBtn {
+    padding: 4px;
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.actionBtn:hover {
+    opacity: 1;
+}
+
 .info {
     display: flex;
     align-items: center;

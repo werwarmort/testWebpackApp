@@ -17,12 +17,18 @@ export const useTodoStore = create<TodoState>()(
                     ...state.todos,
                 ],
             })),
+            updateTodo: (updatedTodo) => set((state) => ({
+                todos: state.todos.map((todo) =>
+                    todo.id === updatedTodo.id ? updatedTodo : todo
+                ),
+            })),
             toggleTodo: (id, actionId) => set((state) => ({
                 todos: state.todos.map((todo) =>
                     todo.id === id ? {
                         ...todo,
                         isCompleted: !todo.isCompleted,
                         completedActionId: !todo.isCompleted ? actionId : undefined,
+                        completedAt: !todo.isCompleted ? Date.now() : undefined,
                     } : todo
                 ),
             })),

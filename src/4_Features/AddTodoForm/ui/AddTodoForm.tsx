@@ -1,61 +1,78 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { CustomInput } from '6_Shared/ui/Input/CustomInput';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
-import { TodoPriority, TodoType } from '5_Entities/Todo/model/types/todo';
+import { TodoPriority, TodoType, Todo, Subtask } from '5_Entities/Todo/model/types/todo';
 import cls from './AddTodoForm.module.scss';
 
 interface AddTodoFormProps {
     className?: string;
     onSuccess?: () => void;
+    initialData?: Todo;
 }
 
-export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
+export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initialData }) => {
     const { t } = useTranslation();
     const addTodo = useTodoStore((state) => state.addTodo);
-    const [desc, setDesc] = useState('');
-    const [points, setPoints] = useState('');
-    const [priority, setPriority] = useState<TodoPriority>('medium');
-    const [type, setType] = useState<TodoType>('task');
-    const [subtasks, setSubtasks] = useState<string[]>([]);
+    const updateTodo = useTodoStore((state) => state.updateTodo);
+
+    const [desc, setDesc] = useState(initialData?.description || '');
+    const [points, setPoints] = useState(initialData?.points.toString() || '');
+    const [priority, setPriority] = useState<TodoPriority>(initialData?.priority || 'medium');
+    const [type, setType] = useState<TodoType>(initialData?.type || 'task');
+    
+    // Используем Subtask[] вместо string[]
+    const [subtasks, setSubtasks] = useState<Subtask[]>(initialData?.subtasks || []);
 
     const onSave = () => {
         const pointsNum = Number(points);
         if (!desc || !pointsNum) return;
 
-        const formattedSubtasks = subtasks
-            .filter((task) => task.trim() !== '')
-            .map((task) => ({
-                id: Date.now().toString() + Math.random(),
-                description: task,
-                isCompleted: false,
-            }));
+        const formattedSubtasks = subtasks.filter((task) => task.description.trim() !== '');
 
-        addTodo({
-            description: desc,
-            points: pointsNum,
-            priority,
-            subtasks: formattedSubtasks,
-            type,
-        });
+        if (initialData) {
+            updateTodo({
+                ...initialData,
+                description: desc,
+                points: pointsNum,
+                priority,
+                type,
+                subtasks: formattedSubtasks,
+            });
+        } else {
+            addTodo({
+                description: desc,
+                points: pointsNum,
+                priority,
+                type,
+                subtasks: formattedSubtasks,
+            });
+        }
 
-        setDesc('');
-        setPoints('');
-        setPriority('medium');
-        setType('task');
-        setSubtasks([]);
+        if (!initialData) {
+            setDesc('');
+            setPoints('');
+            setPriority('medium');
+            setType('task');
+            setSubtasks([]);
+        }
+        
         onSuccess?.();
     };
 
     const handleAddSubtask = () => {
-        setSubtasks([...subtasks, '']);
+        setSubtasks([...subtasks, {
+            id: Date.now().toString() + Math.random(),
+            description: '',
+            isCompleted: false
+        }]);
     };
 
     const handleSubtaskChange = (index: number, value: string) => {
         const newSubtasks = [...subtasks];
-        newSubtasks[index] = value;
+        newSubtasks[index] = { ...newSubtasks[index], description: value };
         setSubtasks(newSubtasks);
     };
 
@@ -66,7 +83,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
                 value={desc}
                 onChange={setDesc}
                 placeholder={t('Описание задачи')}
-                autoFocus
+                autoFocus={!initialData}
             />
             <CustomInput
                 className={cls.input}
@@ -85,9 +102,9 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
                 </div>
                 {subtasks.map((subtask, index) => (
                     <CustomInput
-                        key={index}
+                        key={subtask.id}
                         className={cls.subtaskInput}
-                        value={subtask}
+                        value={subtask.description}
                         onChange={(val) => handleSubtaskChange(index, val)}
                         placeholder={t('Описание подзадачи')}
                     />
@@ -118,7 +135,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >
-                {t('Добавить')}
+                {initialData ? t('Сохранить') : t('Добавить')}
             </Button>
         </div>
     );

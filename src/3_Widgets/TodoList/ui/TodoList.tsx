@@ -1,9 +1,12 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { TodoItem } from '5_Entities/Todo/ui/TodoItem/TodoItem';
+import { Modal } from '6_Shared/ui/Modal/Modal';
+import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
+import { Todo } from '5_Entities/Todo/model/types/todo';
 import cls from './TodoList.module.scss';
 
 interface TodoListProps {
@@ -15,8 +18,11 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
     const toggleSubtask = useTodoStore((state) => state.toggleSubtask);
+    const deleteTodo = useTodoStore((state) => state.deleteTodo);
     const addAction = useScoreStore((state) => state.addAction);
     const removeAction = useScoreStore((state) => state.removeAction);
+
+    const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
     const handleToggle = (id: string, isCompleted: boolean, points: number) => {
         if (isCompleted) {
@@ -36,6 +42,14 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
             }
             toggleTodo(id);
         }
+    };
+
+    const handleEdit = (todo: Todo) => {
+        setEditingTodo(todo);
+    };
+
+    const handleDelete = (id: string) => {
+        deleteTodo(id);
     };
 
     const activeTodos = todos.filter((todo) => !todo.isCompleted);
@@ -61,6 +75,8 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                             className={cls.item}
                             onToggle={handleToggle}
                             onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
                         />
                     ))}
                     {(dailyChallenges.length > 0 || normalTasks.length > 0) && <div className={cls.separator} />}
@@ -77,6 +93,8 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                             className={cls.item}
                             onToggle={handleToggle}
                             onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                            onEdit={handleEdit}
+                            onDelete={handleDelete}
                         />
                     ))}
                     {normalTasks.length > 0 && <div className={cls.separator} />}
@@ -90,6 +108,8 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                     className={cls.item}
                     onToggle={handleToggle}
                     onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                    onEdit={handleEdit}
+                    onDelete={handleDelete}
                 />
             ))}
 
@@ -104,11 +124,22 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                                 className={cls.item}
                                 onToggle={handleToggle}
                                 onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
                             />
                         ))}
                     </div>
                 </>
             )}
+
+            <Modal isOpen={Boolean(editingTodo)} onClose={() => setEditingTodo(null)}>
+                {editingTodo && (
+                    <AddTodoForm
+                        initialData={editingTodo}
+                        onSuccess={() => setEditingTodo(null)}
+                    />
+                )}
+            </Modal>
         </div>
     );
 };
