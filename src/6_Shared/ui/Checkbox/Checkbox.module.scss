@@ -36,9 +36,14 @@
     opacity: 0.8;
 }
 
-.input:checked ~ .checkmark {
+.secondary .input:checked ~ .checkmark {
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
+}
+
+.primary .input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .checkmark::after {

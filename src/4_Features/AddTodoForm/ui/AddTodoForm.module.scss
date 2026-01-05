@@ -1,0 +1,28 @@
+.AddTodoForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50vw;
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--bg-color);
+}
+
+.input {
+    width: 100%;
+}
+
+.select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--primary-color);
+    outline: none;
+    font-size: 16px;
+}
+
+.saveBtn {
+    align-self: flex-end;
+}

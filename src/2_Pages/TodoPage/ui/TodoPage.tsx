@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
-import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
-import { ActionList } from '3_Widgets/ActionList/ui/ActionList';
-import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
-import styles from './ScorePage.module.scss';
+import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
+import { TodoList } from '3_Widgets/TodoList/ui/TodoList';
+import styles from './TodoPage.module.scss';
 
-const ScorePage = () => {
+const TodoPage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const dayPoints = useScoreStore((state) => state.dayPoints);
 
     const onShowModal = () => {
         setIsModalOpen(true);
@@ -21,23 +19,21 @@ const ScorePage = () => {
     };
 
     return (
-        <div className={styles.ScorePageRoot}>
+        <div className={styles.TodoPageRoot}>
             <div className={styles.header}>
-                 <div className={styles.totalScore}>
-                    {t('Баллы за день')}: {dayPoints}
-                </div>
+                <div className={styles.title}>{t('Список дел')}</div>
                 <CircleButton onClick={onShowModal}>
                     +
                 </CircleButton>
             </div>
 
-            <ActionList />
+            <TodoList />
 
             <Modal isOpen={isModalOpen} onClose={onCloseModal}>
-                <AddActionForm onSuccess={onCloseModal} />
+                <AddTodoForm onSuccess={onCloseModal} />
             </Modal>
         </div>
     );
 };
 
-export default ScorePage;
+export default TodoPage;

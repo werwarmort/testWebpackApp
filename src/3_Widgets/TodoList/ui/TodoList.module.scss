@@ -1,0 +1,16 @@
+.TodoList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.empty {
+    text-align: center;
+    opacity: 0.6;
+    margin-top: 40px;
+}
+
+.item {
+    width: 100%;
+}

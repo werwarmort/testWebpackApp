@@ -34,10 +34,10 @@ export const Sidebar = ({ className }: SidebarProps) => {
                 </AppLink>
                 <AppLink
                     theme={AppLinkTheme.SECONDARY}
-                    to={RoutePath.about}
+                    to={RoutePath.todo}
                     className={cls.item}
                 >
-                     <span className={cls.linkText}>{t('О сайте')}</span>
+                     <span className={cls.linkText}>{t('Дела')}</span>
                 </AppLink>
             </div>
             <div className={cls.switchers}>

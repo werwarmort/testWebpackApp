@@ -1,4 +1,4 @@
-.ScorePageRoot {
+.TodoPageRoot {
     @include default-block-settings;
     @include default-page-styles;
 
@@ -14,10 +14,10 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    position: relative;
+    margin-bottom: 20px;
 }
 
-.totalScore {
+.title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 16px;

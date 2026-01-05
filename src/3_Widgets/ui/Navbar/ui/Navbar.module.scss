@@ -10,6 +10,7 @@
     @include default-block-settings;
 
     &_stats {
+        margin-left: auto;
         display: flex;
         gap: 10px;
     }

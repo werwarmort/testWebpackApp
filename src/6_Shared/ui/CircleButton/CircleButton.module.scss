@@ -1,0 +1,19 @@
+.CircleButton {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 20%);
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: none;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
