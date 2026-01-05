@@ -33,6 +33,19 @@
 }
 
 .subgoalInput {
+    flex-grow: 1;
+    font-size: 14px;
+    padding: 8px;
+}
+
+.subgoalRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.subgoalPoints {
+    width: 80px;
     font-size: 14px;
     padding: 8px;
 }

@@ -37,7 +37,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
     const handleSendToTasks = (sub: Subgoal) => {
         addTodo({
             description: sub.description,
-            points: 10, // Дефолтные баллы для целей
+            points: sub.points || 0,
             priority: 'medium',
             type: 'task',
             subtasks: []
@@ -94,6 +94,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                     theme="primary"
                                 />
                                 <span>{sub.description}</span>
+                                <span className={cls.points}>({sub.points})</span>
                             </div>
                             
                             {!sub.isSentToTasks && !sub.isCompleted && (

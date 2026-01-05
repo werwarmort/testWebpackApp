@@ -50,13 +50,18 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
         setSubgoals([...subgoals, {
             id: Date.now().toString() + Math.random(),
             description: '',
-            isCompleted: false
+            isCompleted: false,
+            points: 0
         }]);
     };
 
-    const handleSubgoalChange = (index: number, value: string) => {
+    const handleSubgoalChange = (index: number, field: 'description' | 'points', value: string | number) => {
         const newSubgoals = [...subgoals];
-        newSubgoals[index] = { ...newSubgoals[index], description: value };
+        if (field === 'points') {
+            newSubgoals[index] = { ...newSubgoals[index], points: Number(value) };
+        } else {
+            newSubgoals[index] = { ...newSubgoals[index], description: String(value) };
+        }
         setSubgoals(newSubgoals);
     };
 
@@ -71,20 +76,28 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
             />
             
             <div className={cls.subgoals}>
-                <div className={cls.subtasksHeader}>
+                <div className={cls.subgoalsHeader}>
                     <span>{t('Подцели')}</span>
                     <Button onClick={handleAddSubgoal} theme={ThemeButton.CLEAR} className={cls.addSubgoalBtn}>
                         +
                     </Button>
                 </div>
                 {subgoals.map((sub, index) => (
-                    <CustomInput
-                        key={sub.id}
-                        className={cls.subgoalInput}
-                        value={sub.description}
-                        onChange={(val) => handleSubgoalChange(index, val)}
-                        placeholder={t('Описание подцели')}
-                    />
+                    <div key={sub.id} className={cls.subgoalRow}>
+                        <CustomInput
+                            className={cls.subgoalInput}
+                            value={sub.description}
+                            onChange={(val) => handleSubgoalChange(index, 'description', val)}
+                            placeholder={t('Описание подцели')}
+                        />
+                        <CustomInput
+                            className={cls.subgoalPoints}
+                            value={sub.points.toString()}
+                            onChange={(val) => handleSubgoalChange(index, 'points', val)}
+                            placeholder={t('Баллы')}
+                            type="number"
+                        />
+                    </div>
                 ))}
             </div>
 

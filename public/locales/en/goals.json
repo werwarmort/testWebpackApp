@@ -1,11 +1,13 @@
 {
   "page_title": "Global Goals",
   "Название цели": "Goal title",
+  "Баллы": "Points",
   "Подцели": "Subgoals",
   "Описание подцели": "Subgoal description",
   "Добавить": "Add",
   "Сохранить": "Save",
   "Список целей пуст": "Goals list is empty",
+  "Выполненные": "Completed",
   "Отправить в задачи": "Send to tasks",
   "В задачах": "In tasks"
 }

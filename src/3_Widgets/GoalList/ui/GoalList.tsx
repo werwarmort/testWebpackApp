@@ -21,14 +21,18 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
     const deleteGoal = useGoalStore((state) => state.deleteGoal);
 
     const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
+    const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
 
     if (goals.length === 0) {
         return <div className={classNames(cls.GoalList, {}, [className, cls.empty])}>{t('Список целей пуст')}</div>;
     }
 
+    const activeGoals = goals.filter((goal) => !goal.isCompleted);
+    const completedGoals = goals.filter((goal) => goal.isCompleted);
+
     return (
         <div className={classNames(cls.GoalList, {}, [className])}>
-            {goals.map((goal) => (
+            {activeGoals.map((goal) => (
                 <GoalItem
                     key={goal.id}
                     goal={goal}
@@ -39,6 +43,37 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
                     onDelete={deleteGoal}
                 />
             ))}
+
+            {completedGoals.length > 0 && (
+                <>
+                    <div className={cls.separator} />
+                    <div 
+                        className={cls.completedHeader} 
+                        onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                    >
+                        <div className={classNames(cls.collapseBtn, { [cls.collapsedIcon]: isCompletedCollapsed })}>
+                            ▼
+                        </div>
+                        <div className={cls.completedTitle}>{t('Выполненные')}</div>
+                    </div>
+                    
+                    {!isCompletedCollapsed && (
+                        <div className={cls.completedList}>
+                            {completedGoals.map((goal) => (
+                                <GoalItem
+                                    key={goal.id}
+                                    goal={goal}
+                                    onToggle={toggleGoal}
+                                    onSubgoalToggle={toggleSubgoal}
+                                    onMarkAsSent={markSubgoalAsSent}
+                                    onEdit={setEditingGoal}
+                                    onDelete={deleteGoal}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </>
+            )}
 
             <Modal isOpen={Boolean(editingGoal)} onClose={() => setEditingGoal(null)}>
                 {editingGoal && (

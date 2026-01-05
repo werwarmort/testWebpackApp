@@ -3,6 +3,7 @@ export interface Subgoal {
     description: string;
     isCompleted: boolean;
     isSentToTasks?: boolean;
+    points: number;
 }
 
 export interface Goal {
