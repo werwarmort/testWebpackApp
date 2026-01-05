@@ -27,7 +27,7 @@ export const useScoreStore = create<ScoreState>()(
                 set((state) => {
                     const newAction = {
                         ...actionParams,
-                        id: Date.now().toString(),
+                        id: actionParams.id || Date.now().toString(),
                         createdAt: Date.now(),
                     };
 
@@ -39,6 +39,18 @@ export const useScoreStore = create<ScoreState>()(
                     };
                 });
             },
+
+            removeAction: (id) => set((state) => {
+                const actionToRemove = state.actions.find((a) => a.id === id);
+                if (!actionToRemove) return {};
+
+                const pointsChange = actionToRemove.isPenalty ? -actionToRemove.points : actionToRemove.points;
+
+                return {
+                    actions: state.actions.filter((a) => a.id !== id),
+                    dayPoints: state.dayPoints - pointsChange,
+                };
+            }),
 
             resetPoints: () => set({ dayPoints: 0, weekPoints: 0, actions: [] as Action[] }),
 

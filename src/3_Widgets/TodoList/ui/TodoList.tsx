@@ -15,12 +15,31 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
     const toggleSubtask = useTodoStore((state) => state.toggleSubtask);
-    const addPoints = useScoreStore((state) => state.addPoints);
+    const addAction = useScoreStore((state) => state.addAction);
+    const removeAction = useScoreStore((state) => state.removeAction);
 
     const handleToggle = (id: string, isCompleted: boolean, points: number) => {
-        toggleTodo(id);
-        addPoints(isCompleted ? points : -points);
+        if (isCompleted) {
+            const todo = todos.find((t) => t.id === id);
+            const actionId = Date.now().toString();
+            addAction({
+                id: actionId,
+                text: `${t('Выполнена задача')}: ${todo?.description}`,
+                points,
+                isPenalty: false,
+            });
+            toggleTodo(id, actionId);
+        } else {
+            const todo = todos.find((t) => t.id === id);
+            if (todo?.completedActionId) {
+                removeAction(todo.completedActionId);
+            }
+            toggleTodo(id);
+        }
     };
+
+    const activeTodos = todos.filter((todo) => !todo.isCompleted);
+    const completedTodos = todos.filter((todo) => todo.isCompleted);
 
     if (todos.length === 0) {
         return <div className={classNames(cls.TodoList, {}, [className, cls.empty])}>{t('Список задач пуст')}</div>;
@@ -28,7 +47,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
 
     return (
         <div className={classNames(cls.TodoList, {}, [className])}>
-            {todos.map((todo) => (
+            {activeTodos.map((todo) => (
                 <TodoItem
                     key={todo.id}
                     todo={todo}
@@ -37,6 +56,23 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                     onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
                 />
             ))}
+
+            {completedTodos.length > 0 && (
+                <>
+                    <div className={cls.completedTitle}>{t('Выполненные')}</div>
+                    <div className={cls.completedList}>
+                        {completedTodos.map((todo) => (
+                            <TodoItem
+                                key={todo.id}
+                                todo={todo}
+                                className={cls.item}
+                                onToggle={handleToggle}
+                                onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 };

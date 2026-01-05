@@ -12,7 +12,8 @@ export interface ScoreState {
     actions: Action[];
     lastUpdatedDate: string; // YYYY-MM-DD
     addPoints: (amount: number) => void;
-    addAction: (action: Omit<Action, 'id' | 'createdAt'>) => void;
+    addAction: (action: Omit<Action, 'id' | 'createdAt'> & { id?: string }) => void;
+    removeAction: (id: string) => void;
     resetPoints: () => void;
     checkDate: () => void;
 }

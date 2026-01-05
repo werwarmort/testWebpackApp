@@ -14,3 +14,16 @@
 .item {
     width: 100%;
 }
+
+.completedTitle {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.completedList {
+    opacity: 0.8;
+}

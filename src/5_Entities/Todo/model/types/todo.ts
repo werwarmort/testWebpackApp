@@ -14,12 +14,13 @@ export interface Todo {
     isCompleted: boolean;
     createdAt: number;
     subtasks?: Subtask[];
+    completedActionId?: string;
 }
 
 export interface TodoState {
     todos: Todo[];
     addTodo: (todo: Omit<Todo, 'id' | 'isCompleted' | 'createdAt'>) => void;
-    toggleTodo: (id: string) => void;
+    toggleTodo: (id: string, actionId?: string) => void;
     toggleSubtask: (todoId: string, subtaskId: string) => void;
     deleteTodo: (id: string) => void;
 }

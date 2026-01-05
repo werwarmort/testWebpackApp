@@ -17,9 +17,13 @@ export const useTodoStore = create<TodoState>()(
                     ...state.todos,
                 ],
             })),
-            toggleTodo: (id) => set((state) => ({
+            toggleTodo: (id, actionId) => set((state) => ({
                 todos: state.todos.map((todo) =>
-                    todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+                    todo.id === id ? {
+                        ...todo,
+                        isCompleted: !todo.isCompleted,
+                        completedActionId: !todo.isCompleted ? actionId : undefined,
+                    } : todo
                 ),
             })),
             toggleSubtask: (todoId, subtaskId) => set((state) => ({
