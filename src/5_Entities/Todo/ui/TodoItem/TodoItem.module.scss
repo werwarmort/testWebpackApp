@@ -24,6 +24,20 @@
     gap: 12px;
 }
 
+.collapseBtn {
+    padding: 4px;
+    margin-left: -4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.collapsedIcon {
+    transform: rotate(-90deg);
+}
+
 .description {
     font-size: 16px;
     color: var(--primary-color);
