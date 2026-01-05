@@ -1,11 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { CustomInput } from '6_Shared';
 import { useTranslation } from 'react-i18next';
+import useSWR from 'swr';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
 import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
+import { swrFetcher } from '6_Shared/api/swrFetcher';
 import cls from './Navbar.module.scss';
 
 interface NavbarProps {
@@ -14,8 +16,12 @@ interface NavbarProps {
 
 export const Navbar = ({ className }: NavbarProps) => {
     const { t } = useTranslation();
-    const dayPoints = useScoreStore((state) => state.dayPoints);
-    const weekPoints = useScoreStore((state) => state.weekPoints);
+    
+    // Получаем баллы с бэкенда
+    const { data: scoreData } = useSWR('/actions/score', swrFetcher);
+
+    const dayPoints = scoreData?.dayPoints ?? 0;
+    const weekPoints = scoreData?.weekPoints ?? 0;
 
     const user = useMemo(() => {
         const info = localStorage.getItem('user_info');

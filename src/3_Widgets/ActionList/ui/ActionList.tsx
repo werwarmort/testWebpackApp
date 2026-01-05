@@ -11,9 +11,10 @@ import cls from './ActionList.module.scss';
 
 interface ActionListProps {
     className?: string;
+    onUpdate?: () => void;
 }
 
-export const ActionList: FC<ActionListProps> = ({ className }) => {
+export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
     const { t } = useTranslation('score');
     const actions = useScoreStore((state) => state.actions);
     const removeAction = useScoreStore((state) => state.removeAction);
@@ -49,8 +50,9 @@ export const ActionList: FC<ActionListProps> = ({ className }) => {
         setEditingAction(action);
     };
 
-    const handleDelete = (id: string) => {
-        removeAction(id);
+    const handleDelete = async (id: string) => {
+        await removeAction(id);
+        onUpdate?.();
     };
 
     if (actions.length === 0) {

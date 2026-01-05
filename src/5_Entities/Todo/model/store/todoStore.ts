@@ -35,7 +35,7 @@ export const useTodoStore = create<TodoState>((set, get) => ({
 
     updateTodo: async (updatedTodo) => {
         try {
-            const response = await $api(`/tasks/\${updatedTodo.id}`, {
+            const response = await $api(`/tasks/${updatedTodo.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updatedTodo),
             });
@@ -77,7 +77,7 @@ export const useTodoStore = create<TodoState>((set, get) => ({
 
     deleteTodo: async (id) => {
         try {
-            const response = await $api(`/tasks/\${id}`, {
+            const response = await $api(`/tasks/${id}`, {
                 method: 'DELETE',
             });
             if (response.ok) {

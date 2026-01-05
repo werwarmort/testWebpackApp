@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { ScoreState, Action } from '../types/score';
+import { $api } from '6_Shared/api/api';
 
 const getCurrentDate = () => {
     const date = new Date();
@@ -10,87 +10,59 @@ const getCurrentDate = () => {
     return `${year}-${month}-${day}`;
 };
 
-export const useScoreStore = create<ScoreState>()(
-    persist(
-        (set, get) => ({
-            dayPoints: 0,
-            weekPoints: 0,
-            actions: [] as Action[],
-            lastUpdatedDate: getCurrentDate(),
+export const useScoreStore = create<ScoreState>((set, get) => ({
+    dayPoints: 0,
+    weekPoints: 0,
+    actions: [] as Action[],
+    lastUpdatedDate: getCurrentDate(),
 
-            addPoints: (amount) => set((state) => ({ dayPoints: state.dayPoints + amount })),
+    setActions: (actions: Action[]) => set({ actions }),
 
-            addAction: (actionParams) => {
-                // Проверяем актуальность даты перед добавлением действия
-                get().checkDate();
+    addPoints: (amount) => set((state) => ({ dayPoints: state.dayPoints + amount })),
 
-                set((state) => {
-                    const newAction = {
-                        ...actionParams,
-                        id: actionParams.id || Date.now().toString(),
-                        createdAt: Date.now(),
-                    };
+    addAction: async (actionParams) => {
+        try {
+            await $api('/actions', {
+                method: 'POST',
+                body: JSON.stringify(actionParams),
+            });
+        } catch (e) {
+            console.error('Failed to add action', e);
+        }
+    },
 
-                    const pointsChange = newAction.isPenalty ? -newAction.points : newAction.points;
+    updateAction: async (id, updatedFields) => {
+        try {
+            await $api(`/actions/${id}`, {
+                method: 'PUT',
+                body: JSON.stringify(updatedFields),
+            });
+        } catch (e) {
+            console.error('Failed to update action', e);
+        }
+    },
 
-                    return {
-                        actions: [newAction, ...state.actions],
-                        dayPoints: state.dayPoints + pointsChange,
-                    };
-                });
-            },
+    removeAction: async (id) => {
+        try {
+            await $api(`/actions/${id}`, {
+                method: 'DELETE',
+            });
+        } catch (e) {
+            console.error('Failed to remove action', e);
+        }
+    },
 
-            updateAction: (id, updatedFields) => set((state) => {
-                const actionIndex = state.actions.findIndex((a) => a.id === id);
-                if (actionIndex === -1) return {};
+    resetPoints: () => set({ dayPoints: 0, weekPoints: 0, actions: [] as Action[] }),
 
-                const oldAction = state.actions[actionIndex];
-                const newAction = { ...oldAction, ...updatedFields };
-
-                const oldPointsChange = oldAction.isPenalty ? -oldAction.points : oldAction.points;
-                const newPointsChange = newAction.isPenalty ? -newAction.points : newAction.points;
-
-                const newActions = [...state.actions];
-                newActions[actionIndex] = newAction;
-
-                return {
-                    actions: newActions,
-                    dayPoints: state.dayPoints - oldPointsChange + newPointsChange,
-                };
-            }),
-
-            removeAction: (id) => set((state) => {
-                const actionToRemove = state.actions.find((a) => a.id === id);
-                if (!actionToRemove) return {};
-
-                const pointsChange = actionToRemove.isPenalty ? -actionToRemove.points : actionToRemove.points;
-
-                return {
-                    actions: state.actions.filter((a) => a.id !== id),
-                    dayPoints: state.dayPoints - pointsChange,
-                };
-            }),
-
-            resetPoints: () => set({ dayPoints: 0, weekPoints: 0, actions: [] as Action[] }),
-
-            checkDate: () => set((state) => {
-                const today = getCurrentDate();
-                if (state.lastUpdatedDate !== today) {
-                    return {
-                        lastUpdatedDate: today,
-                        weekPoints: state.weekPoints + state.dayPoints,
-                        dayPoints: 0,
-                        // actions не очищаем, чтобы сохранить историю
-                    };
-                }
-                return {};
-            }),
-        }),
-        {
-            name: 'score-storage',
-            onRehydrateStorage: () => (state) => {
-                state?.checkDate();
-            },
-        },
-    ),
-);
+    checkDate: () => set((state) => {
+        const today = getCurrentDate();
+        if (state.lastUpdatedDate !== today) {
+            return {
+                lastUpdatedDate: today,
+                weekPoints: state.weekPoints + state.dayPoints,
+                dayPoints: 0,
+            };
+        }
+        return {};
+    }),
+}));

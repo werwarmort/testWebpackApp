@@ -26,24 +26,34 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
     const handleToggle = async (id: string, isCompleted: boolean, points: number) => {
+        // Находим свежую версию задачи из текущего списка
+        const todo = todos.find((t) => String(t.id) === String(id));
+        if (!todo) return;
+
         if (isCompleted) {
-            const todo = todos.find((t) => String(t.id) === String(id));
+            // Если мы отмечаем как выполненное
             const actionId = Date.now().toString();
-            addAction({
+            
+            // Сначала добавляем запись в счет
+            await addAction({
                 id: actionId,
-                text: `${t('task_completed_log')}: ${todo?.description}`,
+                text: `${t('task_completed_log')}: ${todo.description}`,
                 points,
                 isPenalty: false,
                 todoId: String(id),
             });
+            
+            // Затем обновляем саму задачу с привязкой к этой записи
             await toggleTodo(id, actionId);
         } else {
-            const todo = todos.find((t) => String(t.id) === String(id));
-            if (todo?.completedActionId) {
-                removeAction(todo.completedActionId);
+            // Если мы снимаем отметку о выполнении
+            if (todo.completedActionId) {
+                await removeAction(todo.completedActionId);
             }
             await toggleTodo(id);
         }
+        
+        // Магический вызов SWR для обновления всех данных на странице
         onUpdate?.();
     };
 

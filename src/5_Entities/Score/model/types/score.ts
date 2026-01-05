@@ -12,10 +12,11 @@ export interface ScoreState {
     weekPoints: number;
     actions: Action[];
     lastUpdatedDate: string; // YYYY-MM-DD
+    setActions: (actions: Action[]) => void;
     addPoints: (amount: number) => void;
-    addAction: (action: Omit<Action, 'id' | 'createdAt'> & { id?: string }) => void;
-    updateAction: (id: string, action: Partial<Omit<Action, 'id' | 'createdAt'>>) => void;
-    removeAction: (id: string) => void;
+    addAction: (action: Omit<Action, 'id' | 'createdAt'> & { id?: string }) => Promise<void>;
+    updateAction: (id: string, action: Partial<Omit<Action, 'id' | 'createdAt'>>) => Promise<void>;
+    removeAction: (id: string) => Promise<void>;
     resetPoints: () => void;
     checkDate: () => void;
 }
