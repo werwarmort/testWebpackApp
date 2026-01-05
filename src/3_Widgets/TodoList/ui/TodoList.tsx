@@ -41,13 +41,49 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
     const activeTodos = todos.filter((todo) => !todo.isCompleted);
     const completedTodos = todos.filter((todo) => todo.isCompleted);
 
+    const weeklyChallenges = activeTodos.filter((t) => t.type === 'weekly_challenge');
+    const dailyChallenges = activeTodos.filter((t) => t.type === 'daily_challenge');
+    const normalTasks = activeTodos.filter((t) => !t.type || t.type === 'task');
+
     if (todos.length === 0) {
         return <div className={classNames(cls.TodoList, {}, [className, cls.empty])}>{t('Список задач пуст')}</div>;
     }
 
     return (
         <div className={classNames(cls.TodoList, {}, [className])}>
-            {activeTodos.map((todo) => (
+            {weeklyChallenges.length > 0 && (
+                <>
+                    <div className={cls.sectionTitle}>{t('Челендж недели')}</div>
+                    {weeklyChallenges.map((todo) => (
+                        <TodoItem
+                            key={todo.id}
+                            todo={todo}
+                            className={cls.item}
+                            onToggle={handleToggle}
+                            onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                        />
+                    ))}
+                    {(dailyChallenges.length > 0 || normalTasks.length > 0) && <div className={cls.separator} />}
+                </>
+            )}
+
+            {dailyChallenges.length > 0 && (
+                <>
+                    <div className={cls.sectionTitle}>{t('Челендж дня')}</div>
+                    {dailyChallenges.map((todo) => (
+                        <TodoItem
+                            key={todo.id}
+                            todo={todo}
+                            className={cls.item}
+                            onToggle={handleToggle}
+                            onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                        />
+                    ))}
+                    {normalTasks.length > 0 && <div className={cls.separator} />}
+                </>
+            )}
+
+            {normalTasks.map((todo) => (
                 <TodoItem
                     key={todo.id}
                     todo={todo}

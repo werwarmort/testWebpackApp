@@ -4,7 +4,7 @@ import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { CustomInput } from '6_Shared/ui/Input/CustomInput';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
-import { TodoPriority } from '5_Entities/Todo/model/types/todo';
+import { TodoPriority, TodoType } from '5_Entities/Todo/model/types/todo';
 import cls from './AddTodoForm.module.scss';
 
 interface AddTodoFormProps {
@@ -18,6 +18,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
     const [desc, setDesc] = useState('');
     const [points, setPoints] = useState('');
     const [priority, setPriority] = useState<TodoPriority>('medium');
+    const [type, setType] = useState<TodoType>('task');
     const [subtasks, setSubtasks] = useState<string[]>([]);
 
     const onSave = () => {
@@ -37,11 +38,13 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
             points: pointsNum,
             priority,
             subtasks: formattedSubtasks,
+            type,
         });
 
         setDesc('');
         setPoints('');
         setPriority('medium');
+        setType('task');
         setSubtasks([]);
         onSuccess?.();
     };
@@ -90,6 +93,16 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess }) => {
                     />
                 ))}
             </div>
+
+            <select
+                className={cls.select}
+                value={type}
+                onChange={(e) => setType(e.target.value as TodoType)}
+            >
+                <option value="task">{t('Задача')}</option>
+                <option value="daily_challenge">{t('Челендж дня')}</option>
+                <option value="weekly_challenge">{t('Челендж недели')}</option>
+            </select>
 
             <select
                 className={cls.select}

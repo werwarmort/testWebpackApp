@@ -27,3 +27,18 @@
 .completedList {
     opacity: 0.8;
 }
+
+.separator {
+    height: 1px;
+    background-color: var(--primary-color);
+    opacity: 0.3;
+    margin: 16px 0;
+    width: 100%;
+}
+
+.sectionTitle {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
