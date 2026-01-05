@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
-import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
+import { useScoreStore } from '5_Entities/Score';
 import { TodoItem } from '5_Entities/Todo/ui/TodoItem/TodoItem';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
@@ -11,9 +11,10 @@ import cls from './TodoList.module.scss';
 
 interface TodoListProps {
     className?: string;
+    onUpdate?: () => void;
 }
 
-export const TodoList: FC<TodoListProps> = ({ className }) => {
+export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     const { t } = useTranslation('todo');
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
@@ -24,33 +25,40 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
 
     const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
 
-    const handleToggle = (id: string, isCompleted: boolean, points: number) => {
+    const handleToggle = async (id: string, isCompleted: boolean, points: number) => {
         if (isCompleted) {
-            const todo = todos.find((t) => t.id === id);
+            const todo = todos.find((t) => String(t.id) === String(id));
             const actionId = Date.now().toString();
             addAction({
                 id: actionId,
                 text: `${t('task_completed_log')}: ${todo?.description}`,
                 points,
                 isPenalty: false,
-                todoId: id,
+                todoId: String(id),
             });
-            toggleTodo(id, actionId);
+            await toggleTodo(id, actionId);
         } else {
-            const todo = todos.find((t) => t.id === id);
+            const todo = todos.find((t) => String(t.id) === String(id));
             if (todo?.completedActionId) {
                 removeAction(todo.completedActionId);
             }
-            toggleTodo(id);
+            await toggleTodo(id);
         }
+        onUpdate?.();
     };
 
     const handleEdit = (todo: Todo) => {
         setEditingTodo(todo);
     };
 
-    const handleDelete = (id: string) => {
-        deleteTodo(id);
+    const handleDelete = async (id: string) => {
+        await deleteTodo(id);
+        onUpdate?.();
+    };
+
+    const handleSubtaskToggle = async (subId: string, todoId: string) => {
+        await toggleSubtask(todoId, subId);
+        onUpdate?.();
     };
 
     const activeTodos = todos.filter((todo) => !todo.isCompleted);
@@ -75,7 +83,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                             todo={todo}
                             className={cls.item}
                             onToggle={handleToggle}
-                            onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                            onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
                         />
@@ -93,7 +101,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                             todo={todo}
                             className={cls.item}
                             onToggle={handleToggle}
-                            onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                            onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
                         />
@@ -108,7 +116,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                     todo={todo}
                     className={cls.item}
                     onToggle={handleToggle}
-                    onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                    onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                 />
@@ -124,7 +132,7 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                                 todo={todo}
                                 className={cls.item}
                                 onToggle={handleToggle}
-                                onSubtaskToggle={(subId) => toggleSubtask(todo.id, subId)}
+                                onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                                 onEdit={handleEdit}
                                 onDelete={handleDelete}
                             />
@@ -137,7 +145,10 @@ export const TodoList: FC<TodoListProps> = ({ className }) => {
                 {editingTodo && (
                     <AddTodoForm
                         initialData={editingTodo}
-                        onSuccess={() => setEditingTodo(null)}
+                        onSuccess={() => {
+                            setEditingTodo(null);
+                            onUpdate?.();
+                        }}
                     />
                 )}
             </Modal>

@@ -22,9 +22,11 @@ export interface Todo {
 
 export interface TodoState {
     todos: Todo[];
-    addTodo: (todo: Omit<Todo, 'id' | 'isCompleted' | 'createdAt'>) => void;
-    updateTodo: (todo: Todo) => void;
-    toggleTodo: (id: string, actionId?: string) => void;
-    toggleSubtask: (todoId: string, subtaskId: string) => void;
-    deleteTodo: (id: string) => void;
+    setTodos: (todos: Todo[]) => void;
+    fetchTodos: () => Promise<void>;
+    addTodo: (todo: Omit<Todo, 'id' | 'isCompleted' | 'createdAt'>) => Promise<void>;
+    updateTodo: (todo: Todo) => Promise<void>;
+    toggleTodo: (id: string, actionId?: string) => Promise<void>;
+    toggleSubtask: (todoId: string, subtaskId: string) => Promise<void>;
+    deleteTodo: (id: string) => Promise<void>;
 }

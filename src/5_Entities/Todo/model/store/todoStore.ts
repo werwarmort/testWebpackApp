@@ -1,54 +1,90 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { TodoState, Todo } from '../types/todo';
+import { $api } from '6_Shared/api/api';
 
-export const useTodoStore = create<TodoState>()(
-    persist(
-        (set) => ({
-            todos: [] as Todo[],
-            addTodo: (todoParams) => set((state) => ({
-                todos: [
-                    {
-                        ...todoParams,
-                        id: Date.now().toString(),
-                        isCompleted: false,
-                        createdAt: Date.now(),
-                    },
-                    ...state.todos,
-                ],
-            })),
-            updateTodo: (updatedTodo) => set((state) => ({
-                todos: state.todos.map((todo) =>
-                    todo.id === updatedTodo.id ? updatedTodo : todo
-                ),
-            })),
-            toggleTodo: (id, actionId) => set((state) => ({
-                todos: state.todos.map((todo) =>
-                    todo.id === id ? {
-                        ...todo,
-                        isCompleted: !todo.isCompleted,
-                        completedActionId: !todo.isCompleted ? actionId : undefined,
-                        completedAt: !todo.isCompleted ? Date.now() : undefined,
-                    } : todo
-                ),
-            })),
-            toggleSubtask: (todoId, subtaskId) => set((state) => ({
-                todos: state.todos.map((todo) => {
-                    if (todo.id !== todoId) return todo;
-                    return {
-                        ...todo,
-                        subtasks: todo.subtasks?.map((sub) =>
-                            sub.id === subtaskId ? { ...sub, isCompleted: !sub.isCompleted } : sub
-                        ),
-                    };
-                }),
-            })),
-            deleteTodo: (id) => set((state) => ({
-                todos: state.todos.filter((todo) => todo.id !== id),
-            })),
-        }),
-        {
-            name: 'todo-storage',
-        },
-    ),
-);
+export const useTodoStore = create<TodoState>((set, get) => ({
+    todos: [] as Todo[],
+
+    setTodos: (todos: Todo[]) => set({ todos }),
+
+    fetchTodos: async () => {
+        try {
+            const response = await $api('/tasks');
+            if (response.ok) {
+                const data = await response.json();
+                set({ todos: data });
+            }
+        } catch (e) {
+            console.error('Failed to fetch tasks', e);
+        }
+    },
+
+    addTodo: async (todoParams) => {
+        try {
+            const response = await $api('/tasks', {
+                method: 'POST',
+                body: JSON.stringify(todoParams),
+            });
+            if (response.ok) {
+                await get().fetchTodos();
+            }
+        } catch (e) {
+            console.error('Failed to add task', e);
+        }
+    },
+
+    updateTodo: async (updatedTodo) => {
+        try {
+            const response = await $api(`/tasks/\${updatedTodo.id}`, {
+                method: 'PUT',
+                body: JSON.stringify(updatedTodo),
+            });
+            if (response.ok) {
+                await get().fetchTodos();
+            }
+        } catch (e) {
+            console.error('Failed to update task', e);
+        }
+    },
+
+    toggleTodo: async (id, actionId) => {
+        const todo = get().todos.find((t) => String(t.id) === String(id));
+        if (!todo) return;
+
+        const updatedTodo = {
+            ...todo,
+            isCompleted: !todo.isCompleted,
+            completedActionId: !todo.isCompleted ? actionId : undefined,
+            completedAt: !todo.isCompleted ? Date.now() : undefined,
+        };
+
+        await get().updateTodo(updatedTodo);
+    },
+
+    toggleSubtask: async (todoId, subtaskId) => {
+        const todo = get().todos.find((t) => String(t.id) === String(todoId));
+        if (!todo) return;
+
+        const updatedTodo = {
+            ...todo,
+            subtasks: todo.subtasks?.map((sub) =>
+                String(sub.id) === String(subtaskId) ? { ...sub, isCompleted: !sub.isCompleted } : sub
+            ),
+        };
+
+        await get().updateTodo(updatedTodo);
+    },
+
+    deleteTodo: async (id) => {
+        try {
+            const response = await $api(`/tasks/\${id}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                await get().fetchTodos();
+            }
+        } catch (e) {
+            console.error('Failed to delete task', e);
+        }
+    },
+}));
