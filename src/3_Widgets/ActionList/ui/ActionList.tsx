@@ -85,7 +85,10 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
                 {editingAction && (
                     <AddActionForm
                         initialData={editingAction}
-                        onSuccess={() => setEditingAction(null)}
+                        onSuccess={() => {
+                            setEditingAction(null);
+                            onUpdate?.();
+                        }}
                     />
                 )}
             </Modal>

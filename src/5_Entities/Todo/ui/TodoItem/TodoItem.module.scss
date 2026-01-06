@@ -1,6 +1,6 @@
 .TodoItem {
     padding: 12px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid;
     border-radius: 12px;
     margin-bottom: 8px;
     background: rgb(255 255 255 / 10%);
@@ -8,9 +8,9 @@
     border-left-width: 6px;
 }
 
-.low { border-left-color: #2cd32c; }
-.medium { border-left-color: orange; }
-.high { border-left-color: #cc1e4a; }
+.low { border-color: #24cf24; }
+.medium { border-color: orange; }
+.high { border-color: #cc1e4a; }
 
 .content {
     display: flex;

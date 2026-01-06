@@ -26,14 +26,14 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     // Используем Subtask[] вместо string[]
     const [subtasks, setSubtasks] = useState<Subtask[]>(initialData?.subtasks || []);
 
-    const onSave = () => {
+    const onSave = async () => {
         const pointsNum = Number(points);
         if (!desc || !pointsNum) return;
 
         const formattedSubtasks = subtasks.filter((task) => task.description.trim() !== '');
 
         if (initialData) {
-            updateTodo({
+            await updateTodo({
                 ...initialData,
                 description: desc,
                 points: pointsNum,
@@ -42,7 +42,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 subtasks: formattedSubtasks,
             });
         } else {
-            addTodo({
+            await addTodo({
                 description: desc,
                 points: pointsNum,
                 priority,

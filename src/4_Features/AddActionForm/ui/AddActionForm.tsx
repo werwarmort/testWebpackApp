@@ -23,18 +23,18 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
     const [points, setPoints] = useState(initialData?.points.toString() || '');
     const [isPenalty, setIsPenalty] = useState(initialData?.isPenalty || false);
 
-    const onSave = () => {
+    const onSave = async () => {
         const pointsNum = Number(points);
         if (!text || !pointsNum) return;
 
         if (initialData) {
-            updateAction(initialData.id, {
+            await updateAction(initialData.id, {
                 text,
                 points: pointsNum,
                 isPenalty,
             });
         } else {
-            addAction({
+            await addAction({
                 text,
                 points: pointsNum,
                 isPenalty,

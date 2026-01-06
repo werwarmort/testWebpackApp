@@ -16,9 +16,11 @@ export const $api = async (endpoint: string, options: RequestInit = {}) => {
     });
 
     if (response.status === 401 || response.status === 403) {
-        // Если токен протух — разлогиниваем
-        // localStorage.removeItem('auth_token');
-        // window.location.href = '/auth';
+        // Опционально: редирект на логин
+    }
+
+    if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
     }
 
     return response;
