@@ -35,7 +35,7 @@ export const TodoItem: FC<TodoItemProps> = ({
     onDelete,
 }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const { t } = useTranslation();
+    const { t } = useTranslation('todo');
 
     const onToggleHandler = (checked: boolean) => {
         onToggle?.(todo.id, checked, todo.points);

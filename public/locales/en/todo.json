@@ -14,5 +14,6 @@
   "type_weekly": "Weekly Challenge",
   "empty_list": "Tasks list is empty",
   "completed_section": "Completed",
-  "task_completed_log": "Task completed"
+  "task_completed_log": "Task completed",
+  "tooltip_linked_to_goal": "Tasks created from goals are edited in the 'Global Goals' section"
 }
