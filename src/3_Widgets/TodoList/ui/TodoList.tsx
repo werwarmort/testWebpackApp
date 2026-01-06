@@ -24,6 +24,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     const removeAction = useScoreStore((state) => state.removeAction);
 
     const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+    const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
 
     const handleToggle = async (id: string, isCompleted: boolean, points: number) => {
         // Находим свежую версию задачи из текущего списка
@@ -134,20 +135,31 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
 
             {completedTodos.length > 0 && (
                 <>
-                    <div className={cls.completedTitle}>{t('completed_section')}</div>
-                    <div className={cls.completedList}>
-                        {completedTodos.map((todo) => (
-                            <TodoItem
-                                key={todo.id}
-                                todo={todo}
-                                className={cls.item}
-                                onToggle={handleToggle}
-                                onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                            />
-                        ))}
+                    <div 
+                        className={cls.completedHeader} 
+                        onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                    >
+                        <div className={classNames(cls.collapseBtn, { [cls.collapsedIcon]: isCompletedCollapsed })}>
+                            ▼
+                        </div>
+                        <div className={cls.completedTitle}>{t('completed_section')}</div>
                     </div>
+                    
+                    {!isCompletedCollapsed && (
+                        <div className={cls.completedList}>
+                            {completedTodos.map((todo) => (
+                                <TodoItem
+                                    key={todo.id}
+                                    todo={todo}
+                                    className={cls.item}
+                                    onToggle={handleToggle}
+                                    onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
+                                    onEdit={handleEdit}
+                                    onDelete={handleDelete}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </>
             )}
 
