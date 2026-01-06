@@ -26,9 +26,12 @@ export const AnalyticsCharts: FC = () => {
         const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
         const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
 
-        return actions
-            .filter(a => a.createdAt >= startOfDay && a.createdAt < endOfDay)
-            .reduce((sum, a) => sum + (a.isPenalty ? -a.points : a.points), 0);
+        const dayActions = actions.filter(a => a.createdAt >= startOfDay && a.createdAt < endOfDay);
+        
+        return {
+            total: dayActions.reduce((sum, a) => sum + (a.isPenalty ? 0 : a.points), 0),
+            penalty: dayActions.reduce((sum, a) => sum + (a.isPenalty ? a.points : 0), 0)
+        };
     };
 
     const weekData = useMemo(() => {
@@ -36,9 +39,11 @@ export const AnalyticsCharts: FC = () => {
         for (let i = 6; i >= 0; i--) {
             const date = new Date();
             date.setDate(date.getDate() - i);
+            const pts = getPointsForDate(date);
             data.push({
                 label: date.toLocaleDateString(undefined, { weekday: 'short' }),
-                value: getPointsForDate(date)
+                value: pts.total,
+                penaltyValue: pts.penalty
             });
         }
         return data;
@@ -52,13 +57,12 @@ export const AnalyticsCharts: FC = () => {
             const weekStart = new Date(weekEnd);
             weekStart.setDate(weekStart.getDate() - 6);
             
-            const weekPoints = actions
-                .filter(a => a.createdAt >= weekStart.getTime() && a.createdAt <= weekEnd.getTime())
-                .reduce((sum, a) => sum + (a.isPenalty ? -a.points : a.points), 0);
-
+            const weekActions = actions.filter(a => a.createdAt >= weekStart.getTime() && a.createdAt <= weekEnd.getTime());
+            
             data.push({
                 label: `${t('Неделя')} ${3-i}`,
-                value: weekPoints
+                value: weekActions.reduce((sum, a) => sum + (a.isPenalty ? 0 : a.points), 0),
+                penaltyValue: weekActions.reduce((sum, a) => sum + (a.isPenalty ? a.points : 0), 0)
             });
         }
         return data;
@@ -72,13 +76,12 @@ export const AnalyticsCharts: FC = () => {
             const monthStart = d.getTime();
             const monthEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime();
 
-            const monthPoints = actions
-                .filter(a => a.createdAt >= monthStart && a.createdAt <= monthEnd)
-                .reduce((sum, a) => sum + (a.isPenalty ? -a.points : a.points), 0);
+            const monthActions = actions.filter(a => a.createdAt >= monthStart && a.createdAt <= monthEnd);
 
             data.push({
                 label: d.toLocaleDateString(undefined, { month: 'short' }),
-                value: monthPoints
+                value: monthActions.reduce((sum, a) => sum + (a.isPenalty ? 0 : a.points), 0),
+                penaltyValue: monthActions.reduce((sum, a) => sum + (a.isPenalty ? a.points : 0), 0)
             });
         }
         return data;
