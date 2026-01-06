@@ -16,18 +16,18 @@ interface ActionListProps {
 
 export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
     const { t } = useTranslation('score');
-    const actions = useScoreStore((state) => state.actions);
-    const removeAction = useScoreStore((state) => state.removeAction);
+    const actions = useScoreStore(state => state.actions);
+    const removeAction = useScoreStore(state => state.removeAction);
     const [editingAction, setEditingAction] = useState<Action | null>(null);
 
     const groups = useMemo(() => {
         const groupsList: { dateKey: string; date: Date; total: number; actions: Action[] }[] = [];
 
-        actions.forEach((action) => {
+        actions.forEach(action => {
             const date = new Date(action.createdAt);
             const dateKey = date.toLocaleDateString();
 
-            let group = groupsList.find((g) => g.dateKey === dateKey);
+            let group = groupsList.find(g => g.dateKey === dateKey);
             if (!group) {
                 group = {
                     dateKey,
@@ -43,7 +43,8 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
             group.total += points;
         });
 
-        return groupsList;
+        // сначала самые свежие даты
+        return groupsList.sort((a, b) => b.date.getTime() - a.date.getTime());
     }, [actions]);
 
     const handleEdit = (action: Action) => {
@@ -56,15 +57,19 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
     };
 
     if (actions.length === 0) {
-        return <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>{t('empty_list')}</div>;
+        return (
+            <div className={classNames(cls.ActionList, {}, [className, cls.empty])}>
+                {t('empty_list')}
+            </div>
+        );
     }
 
     return (
         <div className={classNames(cls.ActionList, {}, [className])}>
-            {groups.map((group) => (
+            {groups.map(group => (
                 <div key={group.dateKey} className={cls.group}>
                     <DateSeparator date={group.date} totalPoints={group.total} />
-                    {group.actions.map((action) => (
+                    {group.actions.map(action => (
                         <ActionItem
                             key={action.id}
                             action={action}
