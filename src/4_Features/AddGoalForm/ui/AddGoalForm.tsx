@@ -21,19 +21,19 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
     const [title, setTitle] = useState(initialData?.title || '');
     const [subgoals, setSubgoals] = useState<Subgoal[]>(initialData?.subgoals || []);
 
-    const onSave = () => {
+    const onSave = async () => {
         if (!title.trim()) return;
 
         const formattedSubgoals = subgoals.filter((sub) => sub.description.trim() !== '');
 
         if (initialData) {
-            updateGoal({
+            await updateGoal({
                 ...initialData,
                 title,
                 subgoals: formattedSubgoals,
             });
         } else {
-            addGoal({
+            await addGoal({
                 title,
                 subgoals: formattedSubgoals,
             });

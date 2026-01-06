@@ -11,9 +11,10 @@ import cls from './GoalList.module.scss';
 
 interface GoalListProps {
     className?: string;
+    onUpdate?: () => void;
 }
 
-export const GoalList: FC<GoalListProps> = ({ className }) => {
+export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
     const { t } = useTranslation('goals');
     const goals = useGoalStore((state) => state.goals);
     const toggleGoal = useGoalStore((state) => state.toggleGoal);
@@ -27,29 +28,43 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
     const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
     const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
 
-    const handleSubgoalToggle = (goalId: string, subgoalId: string) => {
-        const goal = goals.find(g => g.id === goalId);
-        const sub = goal?.subgoals.find(s => s.id === subgoalId);
+    const handleGoalToggle = async (id: string) => {
+        await toggleGoal(id);
+        onUpdate?.();
+    };
+
+    const handleSubgoalToggle = async (goalId: string, subgoalId: string) => {
+        const goal = goals.find(g => String(g.id) === String(goalId));
+        const sub = goal?.subgoals.find(s => String(s.id) === String(subgoalId));
         
         if (!sub) return;
 
         if (!sub.isCompleted) {
-            // Выполняем напрямую
             const actionId = Date.now().toString();
-            addAction({
+            await addAction({
                 id: actionId,
                 text: `${t('Выполнена подцель')}: ${sub.description}`,
                 points: sub.points,
                 isPenalty: false,
             });
-            toggleSubgoal(goalId, subgoalId, actionId);
+            await toggleSubgoal(goalId, subgoalId, actionId);
         } else {
-            // Отменяем выполнение
             if (sub.completedActionId) {
-                removeAction(sub.completedActionId);
+                await removeAction(sub.completedActionId);
             }
-            toggleSubgoal(goalId, subgoalId);
+            await toggleSubgoal(goalId, subgoalId);
         }
+        onUpdate?.();
+    };
+
+    const handleMarkAsSent = async (goalId: string, subgoalId: string) => {
+        await markSubgoalAsSent(goalId, subgoalId);
+        onUpdate?.();
+    };
+
+    const handleDelete = async (id: string) => {
+        await deleteGoal(id);
+        onUpdate?.();
     };
 
     if (goals.length === 0) {
@@ -65,15 +80,13 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
                 <GoalItem
                     key={goal.id}
                     goal={goal}
-                    onToggle={toggleGoal}
+                    onToggle={handleGoalToggle}
                     onSubgoalToggle={handleSubgoalToggle}
-                    onMarkAsSent={markSubgoalAsSent}
+                    onMarkAsSent={handleMarkAsSent}
                     onEdit={setEditingGoal}
-                    onDelete={deleteGoal}
+                    onDelete={handleDelete}
                 />
             ))}
-            
-            {/* ... rest of the code remains same, but using handleSubgoalToggle */}
 
             {completedGoals.length > 0 && (
                 <>
@@ -94,11 +107,11 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
                                 <GoalItem
                                     key={goal.id}
                                     goal={goal}
-                                    onToggle={toggleGoal}
+                                    onToggle={handleGoalToggle}
                                     onSubgoalToggle={handleSubgoalToggle}
-                                    onMarkAsSent={markSubgoalAsSent}
+                                    onMarkAsSent={handleMarkAsSent}
                                     onEdit={setEditingGoal}
-                                    onDelete={deleteGoal}
+                                    onDelete={handleDelete}
                                 />
                             ))}
                         </div>
@@ -110,7 +123,10 @@ export const GoalList: FC<GoalListProps> = ({ className }) => {
                 {editingGoal && (
                     <AddGoalForm
                         initialData={editingGoal}
-                        onSuccess={() => setEditingGoal(null)}
+                        onSuccess={() => {
+                            setEditingGoal(null);
+                            onUpdate?.();
+                        }}
                     />
                 )}
             </Modal>

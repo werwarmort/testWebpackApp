@@ -18,10 +18,11 @@ export interface Goal {
 
 export interface GoalState {
     goals: Goal[];
-    addGoal: (goal: Omit<Goal, 'id' | 'isCompleted' | 'createdAt'>) => void;
-    updateGoal: (goal: Goal) => void;
-    deleteGoal: (id: string) => void;
-    toggleGoal: (id: string) => void;
-    toggleSubgoal: (goalId: string, subgoalId: string, actionId?: string) => void;
-    markSubgoalAsSent: (goalId: string, subgoalId: string) => void;
+    setGoals: (goals: Goal[]) => void;
+    addGoal: (goal: Omit<Goal, 'id' | 'isCompleted' | 'createdAt'>) => Promise<void>;
+    updateGoal: (goal: Goal) => Promise<void>;
+    deleteGoal: (id: string) => Promise<void>;
+    toggleGoal: (id: string) => Promise<void>;
+    toggleSubgoal: (goalId: string, subgoalId: string, actionId?: string) => Promise<void>;
+    markSubgoalAsSent: (goalId: string, subgoalId: string) => Promise<void>;
 }
