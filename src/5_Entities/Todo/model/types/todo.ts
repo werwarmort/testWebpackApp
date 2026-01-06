@@ -18,6 +18,7 @@ export interface Todo {
     completedActionId?: string;
     type: TodoType;
     completedAt?: number;
+    subgoalId?: string;
 }
 
 export interface TodoState {

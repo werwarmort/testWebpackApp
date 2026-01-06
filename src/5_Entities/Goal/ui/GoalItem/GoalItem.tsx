@@ -40,7 +40,8 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
             points: sub.points || 0,
             priority: 'medium',
             type: 'task',
-            subtasks: []
+            subtasks: [],
+            subgoalId: String(sub.id)
         });
         onMarkAsSent(goal.id, sub.id);
     };

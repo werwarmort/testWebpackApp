@@ -14,5 +14,6 @@
   "type_weekly": "Челендж недели",
   "empty_list": "Список задач пуст",
   "completed_section": "Выполненные",
-  "task_completed_log": "Выполнена задача"
+  "task_completed_log": "Выполнена задача",
+  "tooltip_linked_to_goal": "Задачи, созданные из целей, редактируются в разделе 'Глобальные цели'"
 }

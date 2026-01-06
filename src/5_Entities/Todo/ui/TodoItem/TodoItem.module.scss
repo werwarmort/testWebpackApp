@@ -51,6 +51,33 @@
     opacity: 1;
 }
 
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+/* Tooltip style */
+.tooltipContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tooltipContainer[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    right: 0;
+    padding: 6px 10px;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 100;
+    pointer-events: none;
+}
+
 .info {
     display: flex;
     align-items: center;
