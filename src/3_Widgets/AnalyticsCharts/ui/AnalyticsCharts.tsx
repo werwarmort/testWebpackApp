@@ -1,12 +1,26 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import useSWR from 'swr';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
+import { swrFetcher } from '6_Shared/api/swrFetcher';
+import { Action } from '5_Entities/Score/model/types/score';
 import { LineChart } from './LineChart';
 import cls from './AnalyticsCharts.module.scss';
 
 export const AnalyticsCharts: FC = () => {
     const { t } = useTranslation('analytics');
+    
+    // Загружаем актуальный список действий с сервера
+    const { data: actionsData } = useSWR<Action[]>('/actions', swrFetcher);
+    const setActions = useScoreStore(state => state.setActions);
     const actions = useScoreStore(state => state.actions);
+
+    // Синхронизируем со стором (если нужно)
+    useEffect(() => {
+        if (actionsData) {
+            setActions(actionsData);
+        }
+    }, [actionsData, setActions]);
 
     const getPointsForDate = (date: Date) => {
         const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
