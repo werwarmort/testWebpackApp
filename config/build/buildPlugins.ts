@@ -19,7 +19,10 @@ export function buildPlugins({ paths, isDev, apiUrl }: BuildOptions): webpack.We
             __IS_DEV__: JSON.stringify(isDev),
             __API__: JSON.stringify(apiUrl),
         }),
-      new BundleAnalyzerPlugin({openAnalyzer: false}),
+        new BundleAnalyzerPlugin({
+            analyzerMode: process.env.analyze ? 'server' : 'disabled',
+            openAnalyzer: false,
+        }),
     ];
 
     if (isDev) {
