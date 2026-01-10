@@ -9,6 +9,8 @@ import { ListIcon } from '6_Shared/assets/icons/ListIcon';
 import { TrophyIcon } from '6_Shared/assets/icons/TrophyIcon';
 import { ChartIcon } from '6_Shared/assets/icons/ChartIcon';
 import { UserIcon } from '6_Shared/assets/icons/UserIcon';
+import { ThemeSwitcher } from '3_Widgets/ui/ThemeSwitcher';
+import { LangSwitcher } from '6_Shared/ui/LangSwitcher/LangSwitcher';
 import cls from './Sidebar.module.scss';
 
 interface SidebarProps {
@@ -87,6 +89,11 @@ export const Sidebar = ({ className }: SidebarProps) => {
                         </span>
                     </AppLink>
                 ))}
+            </div>
+            
+            <div className={cls.switchers}>
+                <ThemeSwitcher collapsed={collapsed} />
+                <LangSwitcher className={cls.lang} />
             </div>
         </div>
     );

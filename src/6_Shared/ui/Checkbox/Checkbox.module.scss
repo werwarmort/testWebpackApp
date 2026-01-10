@@ -1,11 +1,16 @@
 .CheckboxWrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     user-select: none;
     position: relative;
     padding-left: 30px;
     margin-bottom: 18px;
+
+    @media screen and (max-width: 768px) {
+        margin-bottom: 0;
+    }
 }
 
 .input {
@@ -26,6 +31,10 @@
     border: 2px solid var(--primary-color);
     border-radius: 4px;
     transition: all 0.2s ease-in-out;
+
+    @media screen and (max-width: 768px) {
+        top: auto;
+    }
 }
 
 .round .checkmark {

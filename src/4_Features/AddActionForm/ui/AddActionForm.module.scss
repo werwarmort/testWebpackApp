@@ -6,7 +6,11 @@
     padding: 20px;
     border-radius: 10px;
     background: var(--bg-color);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(3px);
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .header {
@@ -27,10 +31,18 @@
 
 .checkbox {
     margin-top: 8px;
+
+    @media screen and (max-width: 768px) {
+        margin-top: 0;
+    }
 }
 
 .saveBtn {
     align-self: flex-end;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .footerContainer {
@@ -40,5 +52,10 @@
     .pointsWrapper {
         display: flex;
         gap: 16px;
+    }
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        gap: 20px;
     }
 }
