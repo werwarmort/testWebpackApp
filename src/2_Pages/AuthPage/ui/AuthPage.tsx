@@ -28,6 +28,7 @@ const AuthPage: FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
+                credentials: 'include', // Важно для приема куки от сервера
             });
 
             if (!response.ok) {
@@ -37,14 +38,16 @@ const AuthPage: FC = () => {
 
             if (isLogin) {
                 const data = await response.json();
-                localStorage.setItem('auth_token', data.token);
+                // Токен в localStorage БОЛЬШЕ НЕ СОХРАНЯЕМ! Он в HttpOnly Cookie.
+                // Сохраняем только флаг для роутера и инфо о юзере.
+                localStorage.setItem('user_logged_in', 'true');
                 localStorage.setItem('user_info', JSON.stringify({
                     id: data.id,
                     username: data.username,
                     email: data.email
                 }));
                 navigate('/');
-                window.location.reload(); // Чтобы обновить сторы
+                window.location.reload(); 
             } else {
                 setIsLogin(true);
             }
