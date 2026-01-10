@@ -9,6 +9,16 @@
 
     @include default-block-settings;
 
+    &.loggedIn {
+        @media screen and (max-width: 768px) {
+            justify-content: center;
+            
+            .auth {
+                display: none;
+            }
+        }
+    }
+
     &_stats {
         display: flex;
         gap: 10px;
@@ -49,22 +59,6 @@
 .userIcon {
     width: 24px;
     height: 24px;
-}
-
-.menuBtn {
-    display: none;
-    margin-left: 10px;
-    
-    @media screen and (max-width: 768px) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-.menuIcon {
-    width: 32px;
-    height: 32px;
 }
 
 .loginLink {
