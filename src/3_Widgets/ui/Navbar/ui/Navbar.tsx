@@ -1,13 +1,12 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { CustomInput } from '6_Shared';
 import { useTranslation } from 'react-i18next';
 import useSWR from 'swr';
-import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
 import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
-import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { swrFetcher } from '6_Shared/api/swrFetcher';
+import { UserIcon } from '6_Shared/assets/icons/UserIcon';
 import cls from './Navbar.module.scss';
 
 interface NavbarProps {
@@ -28,26 +27,17 @@ export const Navbar = ({ className }: NavbarProps) => {
         return info ? JSON.parse(info) : null;
     }, []);
 
-    const onLogout = () => {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('user_info');
-        window.location.reload();
-    };
-
     return (
         <div className={classNames(cls.navbar, {}, [className])}>
             <div className={cls.auth}>
                 {user ? (
-                    <div className={cls.userInfo}>
-                        <span className={cls.username}>{user.username}</span>
-                        <Button 
-                            theme={ThemeButton.CLEAR} 
-                            onClick={onLogout}
-                            className={cls.logoutBtn}
-                        >
-                            {t('Выйти')}
-                        </Button>
-                    </div>
+                    <AppLink 
+                        to={RoutePath.profile} 
+                        theme={AppLinkTheme.SECONDARY}
+                        className={cls.profileLink}
+                    >
+                        <UserIcon className={cls.userIcon} />
+                    </AppLink>
                 ) : (
                     <AppLink 
                         to={RoutePath.auth} 

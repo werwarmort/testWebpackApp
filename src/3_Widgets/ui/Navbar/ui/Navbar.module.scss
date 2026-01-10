@@ -13,10 +13,18 @@
         margin-left: auto;
         display: flex;
         gap: 10px;
+
+        @media screen and (max-width: 768px) {
+            gap: 5px;
+        }
     }
 
     &_stat {
         width: 100px;
+
+        @media screen and (max-width: 768px) {
+            width: 22vw;
+        }
     }
 }
 
@@ -26,22 +34,20 @@
     gap: 16px;
 }
 
-.userInfo {
+.profileLink {
     display: flex;
     align-items: center;
-    gap: 12px;
-}
-
-.username {
     color: var(--primary-color);
-    font-weight: bold;
-    font-size: 14px;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 0.8;
+    }
 }
 
-.logoutBtn {
-    font-size: 14px;
-    opacity: 0.7;
-    &:hover { opacity: 1; }
+.userIcon {
+    width: 24px;
+    height: 24px;
 }
 
 .loginLink {

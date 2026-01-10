@@ -5,6 +5,7 @@ import { AnalyticsPage } from '2_Pages/AnalyticsPage';
 import { GoalsPage } from '2_Pages/GoalsPage';
 import { AuthPage } from '2_Pages/AuthPage';
 import { NotFoundPage } from '2_Pages/NotFoundPage';
+import { ProfilePage } from '2_Pages/ProfilePage';
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
@@ -16,6 +17,7 @@ export enum AppRoutes {
     ANALYTICS = 'analytics',
     GOALS = 'goals',
     AUTH = 'auth',
+    PROFILE = 'profile',
     NOT_FOUND = 'not_found',
 }
 
@@ -25,6 +27,7 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.ANALYTICS]: '/analytics',
     [AppRoutes.GOALS]: '/goals',
     [AppRoutes.AUTH]: '/auth',
+    [AppRoutes.PROFILE]: '/profile',
     [AppRoutes.NOT_FOUND]: '*',
 };
 
@@ -52,6 +55,11 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.AUTH]: {
         path: RoutePath.auth,
         element: <AuthPage />,
+    },
+    [AppRoutes.PROFILE]: {
+        path: RoutePath.profile,
+        element: <ProfilePage />,
+        authOnly: true,
     },
     [AppRoutes.NOT_FOUND]: {
         path: RoutePath.not_found,
