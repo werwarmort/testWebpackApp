@@ -1,0 +1,15 @@
+{
+  "page_title": "Global Goals",
+  "Название цели": "Goal title",
+  "Баллы": "Points",
+  "Подцели": "Subgoals",
+  "Описание подцели": "Subgoal description",
+  "Добавить": "Add",
+  "Сохранить": "Save",
+  "Список целей пуст": "Goals list is empty",
+  "Выполненные": "Completed",
+  "Отправить в задачи": "Send to tasks",
+  "В задачах": "In tasks",
+  "Выполнена подцель": "Subgoal completed",
+  "tooltip_sent_to_tasks": "You cannot mark the goal as completed in this section because it has already been sent to the tasks section"
+}

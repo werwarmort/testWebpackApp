@@ -1,0 +1,130 @@
+.GoalItem {
+    padding: 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.leftSide {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rightSide {
+    display: flex;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.completed .title {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+.GoalItem:hover .actions {
+    opacity: 1;
+}
+
+.actionBtn {
+    padding: 4px;
+    font-size: 14px;
+}
+
+.collapseBtn {
+    padding: 4px;
+    transition: transform 0.2s;
+}
+
+.collapsedIcon {
+    transform: rotate(-90deg);
+}
+
+.subgoalsList {
+    margin-top: 12px;
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.subgoalItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--primary-color);
+}
+
+.subgoalInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tooltipContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.tooltipContainer[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 0;
+    padding: 6px 10px;
+    background: var(--bg-color, #333);
+    color: var(--tooltip-color, #fff);
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: normal;
+    width: 250px;
+    z-index: 100;
+    pointer-events: none;
+    border: 1px solid var(--tooltip-color, transparent);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.subgoalCompleted span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.sendBtn {
+    font-size: 14px;
+    opacity: 0.6;
+    &:hover { opacity: 1; }
+}
+
+.sentBadge {
+    font-size: 10px;
+    opacity: 0.5;
+    font-style: italic;
+}

@@ -1,0 +1,54 @@
+@import "1_App/styles/variables/defaultMixins.scss";
+
+.AuthPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.card {
+    @include default-block-settings;
+    padding: 40px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    h1 {
+        text-align: center;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+    }
+}
+
+.input {
+    width: 100%;
+}
+
+.submitBtn {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.error {
+    color: var(--secondary-color);
+    background: rgba(204, 30, 74, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.toggle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--primary-color);
+    
+    span {
+        cursor: pointer;
+        text-decoration: underline;
+        opacity: 0.8;
+        &:hover { opacity: 1; }
+    }
+}

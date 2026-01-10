@@ -1,0 +1,19 @@
+{
+  "page_title": "Tasks",
+  "task_description": "Task description",
+  "points": "Points",
+  "subtasks": "Subtasks",
+  "subtask_description": "Subtask description",
+  "priority_low": "Low",
+  "priority_medium": "Medium",
+  "priority_high": "High",
+  "add": "Add",
+  "save": "Save",
+  "type_task": "Task",
+  "type_daily": "Daily Challenge",
+  "type_weekly": "Weekly Challenge",
+  "empty_list": "Tasks list is empty",
+  "completed_section": "Completed",
+  "task_completed_log": "Task completed",
+  "tooltip_linked_to_goal": "Tasks created from goals are edited in the 'Global Goals' section"
+}

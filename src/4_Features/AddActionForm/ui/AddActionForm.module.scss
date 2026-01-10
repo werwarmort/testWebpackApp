@@ -1,0 +1,44 @@
+.AddActionForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 50vw;
+    padding: 20px;
+    border-radius: 10px;
+    background: var(--bg-color);
+    backdrop-filter: blur(10px);
+}
+
+.header {
+    display: flex;
+    gap: 16px;
+}
+
+.input {
+    height: 40px;
+    width: 100%;
+    color: var(--text-color);
+}
+
+.points {
+    width: 100%;
+    height: 40px;
+}
+
+.checkbox {
+    margin-top: 8px;
+}
+
+.saveBtn {
+    align-self: flex-end;
+}
+
+.footerContainer {
+    display: flex;
+    justify-content: space-between;
+
+    .pointsWrapper {
+        display: flex;
+        gap: 16px;
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "page_title": "Задачи",
+  "task_description": "Описание задачи",
+  "points": "Баллы",
+  "subtasks": "Подзадачи",
+  "subtask_description": "Описание подзадачи",
+  "priority_low": "Низкий",
+  "priority_medium": "Средний",
+  "priority_high": "Высокий",
+  "add": "Добавить",
+  "save": "Сохранить",
+  "type_task": "Задача",
+  "type_daily": "Челендж дня",
+  "type_weekly": "Челендж недели",
+  "empty_list": "Список задач пуст",
+  "completed_section": "Выполненные",
+  "task_completed_log": "Выполнена задача",
+  "tooltip_linked_to_goal": "Задачи, созданные из целей, редактируются в разделе 'Глобальные цели'"
+}

@@ -1,0 +1,13 @@
+@import "1_App/styles/variables/defaultMixins";
+
+.GoalsPage {
+    @include default-block-settings;
+    @include default-page-styles;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}

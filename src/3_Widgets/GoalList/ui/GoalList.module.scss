@@ -1,0 +1,55 @@
+.GoalList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.empty {
+    text-align: center;
+    opacity: 0.6;
+    margin-top: 40px;
+}
+
+.separator {
+    height: 1px;
+    background-color: var(--primary-color);
+    opacity: 0.3;
+    margin: 24px 0;
+    width: 100%;
+}
+
+.completedHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.completedTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.collapseBtn {
+    padding: 4px;
+    transition: transform 0.2s;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.collapsedIcon {
+    transform: rotate(-90deg);
+}
+
+.completedList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0.8;
+}

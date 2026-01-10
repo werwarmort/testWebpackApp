@@ -1,0 +1,9 @@
+.AnalyticsPage {
+    @include default-block-settings;
+    @include default-page-styles;
+}
+
+.title {
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}

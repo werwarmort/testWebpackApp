@@ -14,12 +14,18 @@ export default (env: BuildEnv) => {
     const mode = env.mode || 'development';
     const isDev = mode === 'development';
     const PORT = env.port || 3000;
+    
+    // Если мы в продакшене - используем относительный путь /api
+    // Если в деве - localhost:8080
+    const defaultApi = isDev ? 'http://localhost:8080/api' : '/api';
+    const apiUrl = env.apiUrl || defaultApi;
 
     const config: webpack.Configuration = buildWebpackConfig({
         mode,
         paths,
         isDev,
         port: PORT,
+        apiUrl,
     });
 
     return config;

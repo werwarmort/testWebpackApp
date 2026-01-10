@@ -1,0 +1,1 @@
+export { ScorePageAsync as ScorePage } from './ui/ScorePage.async';

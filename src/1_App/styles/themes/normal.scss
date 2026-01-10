@@ -1,7 +1,9 @@
 .app.light {
     transition: var(--default-transition);
 
+    --green: #119511;
     --mode-color: #fff;
+    --text-color: #000;
 }
 
 :root {

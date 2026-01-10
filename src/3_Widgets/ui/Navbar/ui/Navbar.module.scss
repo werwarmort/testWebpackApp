@@ -10,6 +10,7 @@
     @include default-block-settings;
 
     &_stats {
+        margin-left: auto;
         display: flex;
         gap: 10px;
     }
@@ -17,6 +18,34 @@
     &_stat {
         width: 100px;
     }
+}
+
+.auth {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.username {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logoutBtn {
+    font-size: 14px;
+    opacity: 0.7;
+    &:hover { opacity: 1; }
+}
+
+.loginLink {
+    font-weight: bold;
 }
 
 .links {

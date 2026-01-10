@@ -1,0 +1,63 @@
+.TodoList {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.empty {
+    text-align: center;
+    opacity: 0.6;
+    margin-top: 40px;
+}
+
+.item {
+    width: 100%;
+}
+
+.completedHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.completedTitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.collapseBtn {
+    padding: 4px;
+    transition: transform 0.2s;
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.collapsedIcon {
+    transform: rotate(-90deg);
+}
+
+.completedList {
+    opacity: 0.8;
+}
+
+.separator {
+    height: 1px;
+    background-color: var(--primary-color);
+    opacity: 0.3;
+    margin: 16px 0;
+    width: 100%;
+}
+
+.sectionTitle {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
