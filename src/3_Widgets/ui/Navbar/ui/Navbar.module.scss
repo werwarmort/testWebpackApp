@@ -10,10 +10,10 @@
     @include default-block-settings;
 
     &_stats {
-        margin-left: auto;
         display: flex;
         gap: 10px;
-
+        /* Убираем margin-left: auto отсюда, чтобы элементы шли подряд */
+        
         @media screen and (max-width: 768px) {
             gap: 5px;
         }
@@ -32,6 +32,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    margin-right: auto; /* Сдвигаем все остальное вправо */
 }
 
 .profileLink {
@@ -48,6 +49,22 @@
 .userIcon {
     width: 24px;
     height: 24px;
+}
+
+.menuBtn {
+    display: none;
+    margin-left: 10px;
+    
+    @media screen and (max-width: 768px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.menuIcon {
+    width: 32px;
+    height: 32px;
 }
 
 .loginLink {

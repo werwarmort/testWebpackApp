@@ -7,6 +7,9 @@ import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
 import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
 import { swrFetcher } from '6_Shared/api/swrFetcher';
 import { UserIcon } from '6_Shared/assets/icons/UserIcon';
+import { MenuIcon } from '6_Shared/assets/icons/MenuIcon';
+import { useUIStore } from '6_Shared/model/store/uiStore';
+import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import cls from './Navbar.module.scss';
 
 interface NavbarProps {
@@ -15,6 +18,7 @@ interface NavbarProps {
 
 export const Navbar = ({ className }: NavbarProps) => {
     const { t } = useTranslation();
+    const toggleSidebar = useUIStore((state) => state.toggleSidebar);
     
     // Получаем баллы с бэкенда
     const { data: scoreData } = useSWR('/actions/score', swrFetcher);
@@ -74,6 +78,14 @@ export const Navbar = ({ className }: NavbarProps) => {
                     title={t('сезон')}
                 />
             </div>
+            
+            <Button
+                theme={ThemeButton.CLEAR}
+                className={cls.menuBtn}
+                onClick={toggleSidebar}
+            >
+                <MenuIcon className={cls.menuIcon} />
+            </Button>
         </div>
     );
 };
