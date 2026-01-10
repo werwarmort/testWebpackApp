@@ -4,15 +4,21 @@ import { useTheme } from '1_App/providers/ThemeProvider';
 import { Navbar } from '3_Widgets';
 import { AppRouter } from '1_App/providers/router';
 import { Sidebar } from '3_Widgets/ui/Sidebar';
+import { useLocation } from 'react-router-dom';
+import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
 
 const App = () => {
     const { theme } = useTheme();
+    const { pathname } = useLocation();
+
+    // Скрываем навигацию на странице авторизации
+    const isAuthPage = pathname === RoutePath.auth;
 
     return (
         <div className={classNames('app', {}, [theme])}>
-              <Navbar />
+              {!isAuthPage && <Navbar />}
               <div className="content-page">
-                  <Sidebar />
+                  {!isAuthPage && <Sidebar />}
                   <AppRouter />
               </div>
         </div>
