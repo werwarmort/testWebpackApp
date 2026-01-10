@@ -6,6 +6,10 @@ import { GoalsPage } from '2_Pages/GoalsPage';
 import { AuthPage } from '2_Pages/AuthPage';
 import { NotFoundPage } from '2_Pages/NotFoundPage';
 
+export type AppRoutesProps = RouteProps & {
+    authOnly?: boolean;
+}
+
 export enum AppRoutes {
     MAIN = 'main',
     TODO = 'todo',
@@ -24,22 +28,26 @@ export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.NOT_FOUND]: '*',
 };
 
-export const routeConfig: Record<AppRoutes, RouteProps> = {
+export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     [AppRoutes.MAIN]: {
         path: RoutePath.main,
         element: <ScorePage />,
+        authOnly: true,
     },
     [AppRoutes.TODO]: {
         path: RoutePath.todo,
         element: <TodoPage />,
+        authOnly: true,
     },
     [AppRoutes.ANALYTICS]: {
         path: RoutePath.analytics,
         element: <AnalyticsPage />,
+        authOnly: true,
     },
     [AppRoutes.GOALS]: {
         path: RoutePath.goals,
         element: <GoalsPage />,
+        authOnly: true,
     },
     [AppRoutes.AUTH]: {
         path: RoutePath.auth,
