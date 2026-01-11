@@ -1,10 +1,11 @@
 .CircleButton {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 30px;
+    background-color: #ffc906ff !important;
+    color: var(--text-color);
+    font-size: 25px;
+    line-height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +13,7 @@
     cursor: pointer;
     transition: transform 0.2s;
     border: none;
+    padding-bottom: 2px;
 
     &:hover {
         transform: scale(1.1);

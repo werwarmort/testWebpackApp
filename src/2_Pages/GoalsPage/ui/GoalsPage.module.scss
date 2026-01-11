@@ -5,9 +5,20 @@
     @include default-page-styles;
 }
 
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
+.mobileFab {
+    display: none;
+
+    @media (max-width: 768px) {
+        display: flex;
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        z-index: 10000;
+
+        //button {
+        //    width: 50px;
+        //    height: 50px;
+        //    font-size: 30px;
+        //}
+    }
 }

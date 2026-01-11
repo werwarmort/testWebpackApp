@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { AddGoalForm } from '4_Features/AddGoalForm';
 import { GoalList } from '3_Widgets/GoalList';
-import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
+import { AddFloatingButton } from '6_Shared/ui/AddFloatingButton';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { useGoalStore } from '5_Entities/Goal';
 import { swrFetcher } from '6_Shared/api/swrFetcher';
@@ -36,9 +36,8 @@ const GoalsPage: FC = () => {
 
     return (
         <div className={classNames(cls.GoalsPage, {}, [])}>
-            <div className={cls.header}>
-                <CircleButton onClick={onShowModal}>+</CircleButton>
-            </div>
+            <AddFloatingButton onClick={onShowModal} />
+            
             <GoalList onUpdate={onUpdate} />
 
             <Modal isOpen={isModalOpen} onClose={onCloseModal}>

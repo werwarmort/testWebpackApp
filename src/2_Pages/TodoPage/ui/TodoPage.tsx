@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import useSWR, { mutate as globalMutate } from 'swr';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Modal } from '6_Shared/ui/Modal/Modal';
-import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
+import { AddFloatingButton } from '6_Shared/ui/AddFloatingButton';
 import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
 import { TodoList } from '3_Widgets/TodoList/ui/TodoList';
 import { swrFetcher } from '6_Shared/api/swrFetcher';
@@ -36,9 +36,7 @@ const TodoPage = () => {
 
     return (
         <div className={classNames(styles.TodoPageRoot, {}, [])}>
-            <div className={styles.header}>
-                <CircleButton onClick={onShowModal}>+</CircleButton>
-            </div>
+            <AddFloatingButton onClick={onShowModal} />
 
             <TodoList onUpdate={onUpdate} />
 

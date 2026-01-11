@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import useSWR, { mutate as globalMutate } from 'swr';
 import { Modal } from '6_Shared/ui/Modal/Modal';
-import { CircleButton } from '6_Shared/ui/CircleButton/CircleButton';
+import { AddFloatingButton } from '6_Shared/ui/AddFloatingButton';
 import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
 import { ActionList } from '3_Widgets/ActionList/ui/ActionList';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
@@ -39,9 +39,7 @@ const ScorePage = () => {
 
     return (
         <div className={styles.ScorePageRoot}>
-            <div className={styles.header}>
-                <CircleButton onClick={onShowModal}>+</CircleButton>
-            </div>
+            <AddFloatingButton onClick={onShowModal} />
 
             <ActionList onUpdate={onUpdate} />
 
