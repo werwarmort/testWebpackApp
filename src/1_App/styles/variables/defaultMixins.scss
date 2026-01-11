@@ -11,6 +11,10 @@
     padding: 20px;
     height: 92.5vh;
     overflow-y: scroll;
+
+    @media (max-width: 768px) {
+        height: auto;
+    }
 }
 
 @mixin center-child {
