@@ -63,6 +63,12 @@
 
     @media screen and (max-width: 768px) {
         width: 100%;
+        
+        /* На мобильных игнорируем состояние collapsed для текста */
+        .linkText {
+            display: block;
+            opacity: 1;
+        }
     }
 }
 
@@ -107,12 +113,21 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 10px;
+        padding: 8px 0;
         flex: 1;
-        gap: 0;
+        gap: 4px;
         
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
         .linkText {
-            display: none; /* Скрываем текст на мобильном */
+            display: block;
+            font-size: 10px;
+            line-height: 1.2;
+            opacity: 1;
+            text-align: center;
         }
     }
 }

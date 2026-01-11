@@ -4,9 +4,9 @@ import { AppLink, AppLinkTheme } from '6_Shared/ui/AppLink/AppLink';
 import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { HomeIcon } from '6_Shared/assets/icons/HomeIcon';
+import { CalendarIcon } from '6_Shared/assets/icons/CalendarIcon';
 import { ListIcon } from '6_Shared/assets/icons/ListIcon';
-import { TrophyIcon } from '6_Shared/assets/icons/TrophyIcon';
+import { StarIcon } from '6_Shared/assets/icons/StarIcon';
 import { ChartIcon } from '6_Shared/assets/icons/ChartIcon';
 import { UserIcon } from '6_Shared/assets/icons/UserIcon';
 import { ThemeSwitcher } from '3_Widgets/ui/ThemeSwitcher';
@@ -28,19 +28,19 @@ export const Sidebar = ({ className }: SidebarProps) => {
 
     const itemsList = useMemo(() => [
         {
-            path: RoutePath.main,
-            text: t('Счет'),
-            Icon: HomeIcon,
-        },
-        {
             path: RoutePath.todo,
             text: t('Задачи'),
             Icon: ListIcon,
         },
         {
             path: RoutePath.goals,
-            text: t('Глобальные цели'),
-            Icon: TrophyIcon,
+            text: t('Цели'),
+            Icon: StarIcon,
+        },
+        {
+            path: RoutePath.main,
+            text: t('Логи'),
+            Icon: CalendarIcon,
         },
         {
             path: RoutePath.analytics,
@@ -49,7 +49,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
         },
         {
             path: RoutePath.profile,
-            text: t('Профиль'),
+            text: t('Аккаунт'),
             Icon: UserIcon,
             mobileOnly: true,
         },

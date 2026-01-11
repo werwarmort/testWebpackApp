@@ -1,5 +1,7 @@
 .btn {
     background-color: #fff;
+    /* border: 1px solid var(--border-color); - убираем бордер, если его не было */
+    font-size: 15px;
     width: 5em;
     height: 2.67em;
     border-radius: 3.33em;
