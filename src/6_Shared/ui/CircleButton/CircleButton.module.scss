@@ -3,7 +3,7 @@
     height: 40px;
     border-radius: 50%;
     background-color: #ffc906ff !important;
-    color: var(--text-color);
+    color: white;
     font-size: 25px;
     line-height: 25px;
     display: flex;
@@ -13,7 +13,10 @@
     cursor: pointer;
     transition: transform 0.2s;
     border: none;
-    padding-bottom: 2px;
+
+    @media (max-width: 768px) {
+        padding-bottom: 1px;
+    }
 
     &:hover {
         transform: scale(1.1);
