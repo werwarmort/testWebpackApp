@@ -14,24 +14,29 @@ const ProfilePage = () => {
         return info ? JSON.parse(info) : null;
     }, []);
 
-    const onLogout = () => {
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('user_info');
-        window.location.reload();
+    const onLogout = async () => {
+        try {
+            await fetch(`${__API__}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+        } catch (e) {
+            console.error('Logout failed', e);
+        } finally {
+            localStorage.removeItem('user_logged_in');
+            localStorage.removeItem('user_info');
+            window.location.reload();
+        }
     };
 
     if (!user) {
-        return (
-            <div className={cls.profilePage}>
-                {t('Пользователь не авторизован')}
-            </div>
-        );
+        return <div className={cls.profilePage}>{t('Пользователь не авторизован')}</div>;
     }
 
     return (
         <div className={classNames(cls.profilePage, {}, [])}>
             <h1>{t('Личный кабинет')}</h1>
-            
+
             <div className={cls.userInfo}>
                 <div>
                     <div className={cls.label}>{t('Имя пользователя')}</div>
@@ -50,11 +55,7 @@ const ProfilePage = () => {
                 </div>
             </div>
 
-            <Button 
-                theme={ThemeButton.DEFAULT} 
-                onClick={onLogout}
-                className={cls.logoutBtn}
-            >
+            <Button theme={ThemeButton.DEFAULT} onClick={onLogout} className={cls.logoutBtn}>
                 {t('Выйти')}
             </Button>
         </div>
