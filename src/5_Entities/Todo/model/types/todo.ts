@@ -5,6 +5,7 @@ export interface Subtask {
     id: string;
     description: string;
     isCompleted: boolean;
+    completedActionId?: string;
 }
 
 export interface Todo {
@@ -28,6 +29,6 @@ export interface TodoState {
     addTodo: (todo: Omit<Todo, 'id' | 'isCompleted' | 'createdAt'>) => Promise<void>;
     updateTodo: (todo: Todo) => Promise<void>;
     toggleTodo: (id: string, actionId?: string) => Promise<void>;
-    toggleSubtask: (todoId: string, subtaskId: string) => Promise<void>;
+    toggleSubtask: (todoId: string, subtaskId: string, actionId?: string) => Promise<void>;
     deleteTodo: (id: string) => Promise<void>;
 }

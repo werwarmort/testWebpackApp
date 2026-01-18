@@ -76,6 +76,10 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
         setSubtasks(newSubtasks);
     };
 
+    const handleDeleteSubtask = (index: number) => {
+        setSubtasks(subtasks.filter((_, i) => i !== index));
+    };
+
     return (
         <div className={classNames(cls.AddTodoForm, {}, [className])}>
             <CustomInput
@@ -101,13 +105,21 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                     </Button>
                 </div>
                 {subtasks.map((subtask, index) => (
-                    <CustomInput
-                        key={subtask.id}
-                        className={cls.subtaskInput}
-                        value={subtask.description}
-                        onChange={(val) => handleSubtaskChange(index, val)}
-                        placeholder={t('subtask_description')}
-                    />
+                    <div key={subtask.id} className={cls.subtaskRow}>
+                        <CustomInput
+                            className={cls.subtaskInput}
+                            value={subtask.description}
+                            onChange={(val) => handleSubtaskChange(index, val)}
+                            placeholder={t('subtask_description')}
+                        />
+                        <Button
+                            theme={ThemeButton.CLEAR}
+                            className={cls.deleteSubtaskBtn}
+                            onClick={() => handleDeleteSubtask(index)}
+                        >
+                            ✖
+                        </Button>
+                    </div>
                 ))}
             </div>
 

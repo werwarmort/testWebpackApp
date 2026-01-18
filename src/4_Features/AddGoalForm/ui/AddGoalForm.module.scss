@@ -55,6 +55,13 @@
     padding: 8px;
 }
 
+.deleteSubgoalBtn {
+    color: var(--red-light);
+    font-size: 18px;
+    padding: 0 5px;
+    min-width: 30px;
+}
+
 .saveBtn {
     align-self: flex-end;
 }

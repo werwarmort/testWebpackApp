@@ -48,8 +48,23 @@
 }
 
 .subtaskInput {
+    width: 100%;
     font-size: 14px;
     padding: 8px;
+}
+
+.subtaskRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: 100%;
+}
+
+.deleteSubtaskBtn {
+    color: var(--red-light);
+    font-size: 18px;
+    padding: 0 5px;
+    min-width: 30px;
 }
 
 .saveBtn {

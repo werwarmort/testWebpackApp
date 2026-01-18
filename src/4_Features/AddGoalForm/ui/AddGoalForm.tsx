@@ -65,6 +65,10 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
         setSubgoals(newSubgoals);
     };
 
+    const handleDeleteSubgoal = (index: number) => {
+        setSubgoals(subgoals.filter((_, i) => i !== index));
+    };
+
     return (
         <div className={classNames(cls.AddGoalForm, {}, [className])}>
             <CustomInput
@@ -97,6 +101,13 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                             placeholder={t('Баллы')}
                             type="number"
                         />
+                        <Button
+                            theme={ThemeButton.CLEAR}
+                            className={cls.deleteSubgoalBtn}
+                            onClick={() => handleDeleteSubgoal(index)}
+                        >
+                            ✖
+                        </Button>
                     </div>
                 ))}
             </div>

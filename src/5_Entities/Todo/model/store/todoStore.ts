@@ -61,15 +61,23 @@ export const useTodoStore = create<TodoState>((set, get) => ({
         await get().updateTodo(updatedTodo);
     },
 
-    toggleSubtask: async (todoId, subtaskId) => {
+    toggleSubtask: async (todoId, subtaskId, actionId) => {
         const todo = get().todos.find((t) => String(t.id) === String(todoId));
         if (!todo) return;
 
         const updatedTodo = {
             ...todo,
-            subtasks: todo.subtasks?.map((sub) =>
-                String(sub.id) === String(subtaskId) ? { ...sub, isCompleted: !sub.isCompleted } : sub
-            ),
+            subtasks: todo.subtasks?.map((sub) => {
+                if (String(sub.id) === String(subtaskId)) {
+                    const isNowCompleted = !sub.isCompleted;
+                    return {
+                         ...sub,
+                         isCompleted: isNowCompleted,
+                         completedActionId: isNowCompleted ? actionId : undefined,
+                    };
+                }
+                return sub;
+            }),
         };
 
         await get().updateTodo(updatedTodo);

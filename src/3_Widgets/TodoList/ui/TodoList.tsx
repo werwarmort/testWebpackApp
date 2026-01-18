@@ -68,7 +68,26 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     };
 
     const handleSubtaskToggle = async (subId: string, todoId: string) => {
-        await toggleSubtask(todoId, subId);
+        const todo = todos.find((t) => String(t.id) === String(todoId));
+        const sub = todo?.subtasks?.find((s) => String(s.id) === String(subId));
+        if (!sub) return;
+
+        if (!sub.isCompleted) {
+            const actionId = Date.now().toString();
+            await addAction({
+                id: actionId,
+                text: `${t('subtask_completed') || 'Subtask done'}: ${sub.description}`,
+                points: 0,
+                isPenalty: false,
+                todoId: String(todoId),
+            });
+            await toggleSubtask(todoId, subId, actionId);
+        } else {
+            if (sub.completedActionId) {
+                await removeAction(sub.completedActionId);
+            }
+            await toggleSubtask(todoId, subId);
+        }
         onUpdate?.();
     };
 
