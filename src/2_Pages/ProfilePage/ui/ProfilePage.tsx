@@ -1,13 +1,17 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { ThemeSwitcher } from '3_Widgets/ui/ThemeSwitcher';
 import { LangSwitcher } from '6_Shared/ui/LangSwitcher/LangSwitcher';
+import { $api } from '6_Shared/api/api';
+import { RoutePath } from '6_Shared/config/routerConfig/routerConfig';
 import cls from './ProfilePage.module.scss';
 
 const ProfilePage = () => {
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     const user = useMemo(() => {
         const info = localStorage.getItem('user_info');
@@ -16,16 +20,17 @@ const ProfilePage = () => {
 
     const onLogout = async () => {
         try {
-            await fetch(`${__API__}/auth/logout`, {
+            await $api('/auth/logout', {
                 method: 'POST',
-                credentials: 'include',
             });
         } catch (e) {
             console.error('Logout failed', e);
         } finally {
             localStorage.removeItem('user_logged_in');
             localStorage.removeItem('user_info');
-            window.location.reload();
+            // Очищаем кэш SWR, чтобы данные не мелькали при следующем входе
+            // mutate(() => true, undefined, { revalidate: false }); 
+            navigate(RoutePath.auth);
         }
     };
 
