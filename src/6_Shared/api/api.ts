@@ -1,28 +1,40 @@
+import { axiosInstance } from './axios-instance';
+
 export const $api = async (endpoint: string, options: RequestInit = {}) => {
-    // Токен теперь передается автоматически через куки (HttpOnly),
-    // поэтому нам не нужно доставать его из localStorage и добавлять в хедер.
+    const { method = 'GET', body, headers } = options;
 
-    const headers = {
-        'Content-Type': 'application/json',
-        ...options.headers,
-    } as Record<string, string>;
-
-    const response = await fetch(`${__API__}${endpoint}`, {
-        ...options,
-        headers,
-        credentials: 'include', // это заставляет браузер отправлять куки
-    });
-
-    if (response.status === 401 || response.status === 403) {
-        // если сервер вернул 401, значит кука протухла или невалидна
-        localStorage.removeItem('user_logged_in');
-        // Опционально: редирект
-        // window.location.href = '/auth';
+    const configHeaders: Record<string, string> = {};
+    if (headers) {
+        Object.assign(configHeaders, headers);
     }
 
-    if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-    }
+    try {
+        const response = await axiosInstance({
+            url: endpoint,
+            method,
+            data: body,
+            headers: configHeaders,
+        });
 
-    return response;
+        return {
+            ok: true,
+            status: response.status,
+            statusText: response.statusText,
+            json: async () => response.data,
+            text: async () => JSON.stringify(response.data),
+            headers: response.headers,
+        };
+    } catch (error: any) {
+        if (error.response) {
+            return {
+                ok: false,
+                status: error.response.status,
+                statusText: error.response.statusText,
+                json: async () => error.response.data,
+                text: async () => JSON.stringify(error.response.data),
+                headers: error.response.headers,
+            };
+        }
+        throw error;
+    }
 };

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
@@ -15,6 +15,14 @@ const AuthPage: FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        const authError = localStorage.getItem('auth_error');
+        if (authError === 'session_expired') {
+            setError(t('session_expired') || 'Сессия истекла. Пожалуйста, войдите снова.');
+            localStorage.removeItem('auth_error');
+        }
+    }, [t]);
 
     const onSubmit = async () => {
         setError('');
