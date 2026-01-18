@@ -19,7 +19,7 @@ axiosInstance.interceptors.response.use(
 
         if (
             error.response &&
-            error.response.status === 401 &&
+            (error.response.status === 401 || error.response.status === 403) &&
             error.config &&
             !error.config._isRetry &&
             originalRequest.url !== '/auth/login'
