@@ -62,8 +62,23 @@ export const Modal = (props: ModalProps) => {
         };
     }, [isOpen, onKeyDown]);
 
+    const isMouseDownOnOverlay = useRef(false);
+
     const onContentClick = (e: React.MouseEvent) => {
         e.stopPropagation();
+    };
+
+    const onMouseDown = (e: React.MouseEvent) => {
+        if (e.target === e.currentTarget) {
+            isMouseDownOnOverlay.current = true;
+        }
+    };
+
+    const onMouseUp = (e: React.MouseEvent) => {
+        if (isMouseDownOnOverlay.current && e.target === e.currentTarget) {
+            closeHandler();
+        }
+        isMouseDownOnOverlay.current = false;
     };
 
     const mods: Record<string, boolean> = {
@@ -80,7 +95,11 @@ export const Modal = (props: ModalProps) => {
     return (
         <Portal>
             <div className={classNames(cls.Modal, mods, [className, theme])}>
-                <div className={cls.overlay} onClick={closeHandler}>
+                <div 
+                    className={cls.overlay} 
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                >
                     <div className={cls.content} onClick={onContentClick}>
                         {children}
                     </div>
