@@ -1,6 +1,7 @@
 export interface Subgoal {
     id: string;
     description: string;
+    details?: string;
     isCompleted: boolean;
     isSentToTasks?: boolean;
     points: number;

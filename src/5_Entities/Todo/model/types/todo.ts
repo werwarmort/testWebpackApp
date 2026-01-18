@@ -4,6 +4,7 @@ export type TodoType = 'task' | 'daily_challenge' | 'weekly_challenge';
 export interface Subtask {
     id: string;
     description: string;
+    details?: string;
     isCompleted: boolean;
     completedActionId?: string;
 }
@@ -11,6 +12,7 @@ export interface Subtask {
 export interface Todo {
     id: string;
     description: string;
+    details?: string;
     points: number;
     priority: TodoPriority;
     isCompleted: boolean;

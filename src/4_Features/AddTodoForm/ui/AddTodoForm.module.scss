@@ -17,6 +17,42 @@
     width: 100%;
 }
 
+.textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--primary-color);
+    outline: none;
+    font-size: 14px;
+    resize: vertical;
+    font-family: inherit;
+
+    &::placeholder {
+        color: var(--primary-color);
+        opacity: 0.7;
+    }
+}
+
+.detailsInput {
+    width: 100%;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    padding: 6px;
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--primary-color);
+    font-size: 12px;
+    outline: none;
+    
+    &::placeholder {
+        opacity: 0.6;
+    }
+}
+
 .select {
     width: 100%;
     padding: 10px;

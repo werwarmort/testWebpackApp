@@ -19,12 +19,14 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     const updateTodo = useTodoStore((state) => state.updateTodo);
 
     const [desc, setDesc] = useState(initialData?.description || '');
+    const [details, setDetails] = useState(initialData?.details || '');
     const [points, setPoints] = useState(initialData?.points.toString() || '');
     const [priority, setPriority] = useState<TodoPriority>(initialData?.priority || 'medium');
     const [type, setType] = useState<TodoType>(initialData?.type || 'task');
     
     // Используем Subtask[] вместо string[]
     const [subtasks, setSubtasks] = useState<Subtask[]>(initialData?.subtasks || []);
+    const [expandedDetails, setExpandedDetails] = useState<Record<number, boolean>>({});
 
     const onSave = async () => {
         const pointsNum = Number(points);
@@ -36,6 +38,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             await updateTodo({
                 ...initialData,
                 description: desc,
+                details,
                 points: pointsNum,
                 priority,
                 type,
@@ -44,6 +47,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
         } else {
             await addTodo({
                 description: desc,
+                details,
                 points: pointsNum,
                 priority,
                 type,
@@ -53,6 +57,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
 
         if (!initialData) {
             setDesc('');
+            setDetails('');
             setPoints('');
             setPriority('medium');
             setType('task');
@@ -66,18 +71,23 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
         setSubtasks([...subtasks, {
             id: Date.now().toString() + Math.random(),
             description: '',
+            details: '',
             isCompleted: false
         }]);
     };
 
-    const handleSubtaskChange = (index: number, value: string) => {
+    const handleSubtaskChange = (index: number, field: 'description' | 'details', value: string) => {
         const newSubtasks = [...subtasks];
-        newSubtasks[index] = { ...newSubtasks[index], description: value };
+        newSubtasks[index] = { ...newSubtasks[index], [field]: value };
         setSubtasks(newSubtasks);
     };
 
     const handleDeleteSubtask = (index: number) => {
         setSubtasks(subtasks.filter((_, i) => i !== index));
+    };
+
+    const toggleDetails = (index: number) => {
+        setExpandedDetails(prev => ({ ...prev, [index]: !prev[index] }));
     };
 
     return (
@@ -89,6 +99,14 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 placeholder={t('task_description')}
                 autoFocus={!initialData}
             />
+            
+            <textarea
+                className={cls.textarea}
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+                placeholder={t('task_details_placeholder') || 'Подробное описание'}
+            />
+
             <CustomInput
                 className={cls.input}
                 value={points}
@@ -105,20 +123,37 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                     </Button>
                 </div>
                 {subtasks.map((subtask, index) => (
-                    <div key={subtask.id} className={cls.subtaskRow}>
-                        <CustomInput
-                            className={cls.subtaskInput}
-                            value={subtask.description}
-                            onChange={(val) => handleSubtaskChange(index, val)}
-                            placeholder={t('subtask_description')}
-                        />
-                        <Button
-                            theme={ThemeButton.CLEAR}
-                            className={cls.deleteSubtaskBtn}
-                            onClick={() => handleDeleteSubtask(index)}
-                        >
-                            ✖
-                        </Button>
+                    <div key={subtask.id} className={cls.subtaskContainer}>
+                        <div className={cls.subtaskRow}>
+                            <CustomInput
+                                className={cls.subtaskInput}
+                                value={subtask.description}
+                                onChange={(val) => handleSubtaskChange(index, 'description', val)}
+                                placeholder={t('subtask_description')}
+                            />
+                            <Button
+                                theme={ThemeButton.CLEAR}
+                                className={cls.detailsBtn}
+                                onClick={() => toggleDetails(index)}
+                            >
+                                📝
+                            </Button>
+                            <Button
+                                theme={ThemeButton.CLEAR}
+                                className={cls.deleteSubtaskBtn}
+                                onClick={() => handleDeleteSubtask(index)}
+                            >
+                                ✖
+                            </Button>
+                        </div>
+                        {(expandedDetails[index] || subtask.details) && (
+                            <input
+                                className={cls.detailsInput}
+                                value={subtask.details || ''}
+                                onChange={(e) => handleSubtaskChange(index, 'details', e.target.value)}
+                                placeholder={t('subtask_details_placeholder') || 'Детали подзадачи'}
+                            />
+                        )}
                     </div>
                 ))}
             </div>

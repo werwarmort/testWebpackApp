@@ -72,7 +72,10 @@ export const TodoItem: FC<TodoItemProps> = ({
                             theme="primary"
                             disabled={isLocked}
                         />
-                        <div className={cls.description}>{todo.description}</div>
+                        <div>
+                            <div className={cls.description}>{todo.description}</div>
+                            {todo.details && <div className={cls.details}>{todo.details}</div>}
+                        </div>
                     </div>
                 </div>
 
@@ -124,7 +127,10 @@ export const TodoItem: FC<TodoItemProps> = ({
                                 variant="round"
                                 disabled={todo.isCompleted} // Блокируем подзадачи если задача выполнена
                             />
-                            <span>{subtask.description}</span>
+                            <div className={cls.subtaskContent}>
+                                <div>{subtask.description}</div>
+                                {subtask.details && <div className={cls.subtaskDetails}>{subtask.details}</div>}
+                            </div>
                         </div>
                     ))}
                 </div>

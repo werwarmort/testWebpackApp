@@ -65,7 +65,10 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                             onChange={() => onToggle(goal.id)}
                             theme="primary"
                         />
-                        <div className={cls.title}>{goal.title}</div>
+                        <div>
+                            <div className={cls.title}>{goal.title}</div>
+                            {goal.description && <div className={cls.description}>{goal.description}</div>}
+                        </div>
                     </div>
                 </div>
 
@@ -101,8 +104,13 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                         disabled={sub.isSentToTasks}
                                     />
                                 </div>
-                                <span>{sub.description}</span>
-                                <span className={cls.points}>({sub.points})</span>
+                                <div className={cls.subgoalContent}>
+                                    <div>
+                                        <span>{sub.description}</span>
+                                        <span className={cls.points}>({sub.points})</span>
+                                    </div>
+                                    {sub.details && <div className={cls.subgoalDetails}>{sub.details}</div>}
+                                </div>
                             </div>
                             
                             {!sub.isSentToTasks && !sub.isCompleted && (
