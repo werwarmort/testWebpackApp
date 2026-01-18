@@ -15,5 +15,8 @@
   "empty_list": "Список задач пуст",
   "completed_section": "Выполненные",
   "task_completed_log": "Выполнена задача",
-  "tooltip_linked_to_goal": "Задачи, созданные из целей, редактируются в разделе 'Глобальные цели'"
+  "tooltip_linked_to_goal": "Задачи, созданные из целей, редактируются в разделе 'Глобальные цели'",
+  "task_details_placeholder": "Подробное описание задачи",
+  "subtask_details_placeholder": "Детали подзадачи",
+  "subtask_completed": "Выполнена подзадача"
 }

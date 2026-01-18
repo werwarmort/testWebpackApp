@@ -11,5 +11,7 @@
   "Отправить в задачи": "Send to tasks",
   "В задачах": "In tasks",
   "Выполнена подцель": "Subgoal completed",
-  "tooltip_sent_to_tasks": "You cannot mark the goal as completed in this section because it has already been sent to the tasks section"
+  "tooltip_sent_to_tasks": "You cannot mark the goal as completed in this section because it has already been sent to the tasks section",
+  "goal_description_placeholder": "Detailed goal description",
+  "subgoal_details_placeholder": "Subgoal details"
 }

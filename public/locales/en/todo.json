@@ -15,5 +15,8 @@
   "empty_list": "Tasks list is empty",
   "completed_section": "Completed",
   "task_completed_log": "Task completed",
-  "tooltip_linked_to_goal": "Tasks created from goals are edited in the 'Global Goals' section"
+  "tooltip_linked_to_goal": "Tasks created from goals are edited in the 'Global Goals' section",
+  "task_details_placeholder": "Detailed task description",
+  "subtask_details_placeholder": "Subtask details",
+  "subtask_completed": "Subtask completed"
 }
