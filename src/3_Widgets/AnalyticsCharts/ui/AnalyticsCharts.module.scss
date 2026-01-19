@@ -1,6 +1,30 @@
-.StatsCharts {
+.AnalyticsCharts {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+}
+
+.switchers {
+    display: flex;
+    gap: 10px;
+    margin-bottom: -10px; /* Приблизим к графику */
+    justify-content: flex-end;
+}
+
+.switchBtn {
+    font-size: 12px;
+    padding: 4px 8px;
+    opacity: 0.5;
+    transition: 0.2s;
+    border-bottom: 1px solid transparent;
+    
+    &.active {
+        opacity: 1;
+        border-bottom: 1px solid var(--primary-color);
+    }
+    
+    &:hover {
+        opacity: 1;
+    }
 }

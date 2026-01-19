@@ -21,6 +21,7 @@ export const Navbar = ({ className }: NavbarProps) => {
 
     const dayPoints = scoreData?.dayPoints ?? 0;
     const weekPoints = scoreData?.weekPoints ?? 0;
+    const monthPoints = scoreData?.monthPoints ?? 0;
 
     const user = useMemo(() => {
         const info = localStorage.getItem('user_info');
@@ -68,10 +69,11 @@ export const Navbar = ({ className }: NavbarProps) => {
                 />
                 <CustomInput
                     type="text"
-                    placeholder={t('сезон')}
+                    value={monthPoints.toString()}
+                    placeholder={t('месяц')}
                     readOnly
                     className={cls.navbar_stat}
-                    title={t('сезон')}
+                    title={t('месяц')}
                 />
             </div>
         </div>

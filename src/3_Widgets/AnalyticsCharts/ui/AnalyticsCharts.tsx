@@ -1,14 +1,17 @@
-import { FC, useMemo, useEffect } from 'react';
+import { FC, useMemo, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useSWR from 'swr';
 import { useScoreStore } from '5_Entities/Score/model/store/scoreStore';
 import { swrFetcher } from '6_Shared/api/swrFetcher';
 import { Action } from '5_Entities/Score/model/types/score';
+import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
+import { classNames } from '6_Shared/lib/classNames/classNames';
 import { LineChart } from './LineChart';
 import cls from './AnalyticsCharts.module.scss';
 
 export const AnalyticsCharts: FC = () => {
     const { t } = useTranslation('analytics');
+    const [monthViewMode, setMonthViewMode] = useState<'days' | 'weeks'>('days');
     
     // Загружаем актуальный список действий с сервера
     const { data: actionsData } = useSWR<Action[]>('/actions', swrFetcher);
@@ -35,10 +38,15 @@ export const AnalyticsCharts: FC = () => {
     };
 
     const weekData = useMemo(() => {
+        const today = new Date();
+        const day = today.getDay();
+        const diff = today.getDate() - day + (day === 0 ? -6 : 1); // Monday
+        const monday = new Date(today.setDate(diff));
+        
         const data = [];
-        for (let i = 6; i >= 0; i--) {
-            const date = new Date();
-            date.setDate(date.getDate() - i);
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(monday);
+            date.setDate(monday.getDate() + i);
             const pts = getPointsForDate(date);
             data.push({
                 label: date.toLocaleDateString(undefined, { weekday: 'short' }),
@@ -49,24 +57,56 @@ export const AnalyticsCharts: FC = () => {
         return data;
     }, [actions]);
 
-    const seasonData = useMemo(() => {
+    const monthDaysData = useMemo(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
         const data = [];
-        for (let i = 2; i >= 0; i--) {
-            const weekEnd = new Date();
-            weekEnd.setDate(weekEnd.getDate() - i * 7);
-            const weekStart = new Date(weekEnd);
-            weekStart.setDate(weekStart.getDate() - 6);
-            
-            const weekActions = actions.filter(a => a.createdAt >= weekStart.getTime() && a.createdAt <= weekEnd.getTime());
-            
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month, i);
+            const pts = getPointsForDate(date);
             data.push({
-                label: `${t('Неделя')} ${3-i}`,
-                value: weekActions.reduce((sum, a) => sum + (a.isPenalty ? 0 : a.points), 0),
-                penaltyValue: weekActions.reduce((sum, a) => sum + (a.isPenalty ? a.points : 0), 0)
+                label: i.toString(),
+                value: pts.total,
+                penaltyValue: pts.penalty
             });
         }
         return data;
-    }, [actions, t]);
+    }, [actions]);
+
+    const monthWeeksData = useMemo(() => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const weeks = [];
+        let currentWeekPoints = 0;
+        let currentWeekPenalty = 0;
+        let currentWeekStart = 1;
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const date = new Date(year, month, i);
+            const pts = getPointsForDate(date);
+            currentWeekPoints += pts.total;
+            currentWeekPenalty += pts.penalty;
+
+            // Если воскресенье или последний день месяца - закрываем неделю
+            if (date.getDay() === 0 || i === daysInMonth) {
+                weeks.push({
+                    label: `${currentWeekStart}-${i}`,
+                    value: currentWeekPoints,
+                    penaltyValue: currentWeekPenalty
+                });
+                currentWeekPoints = 0;
+                currentWeekPenalty = 0;
+                currentWeekStart = i + 1;
+            }
+        }
+        return weeks;
+    }, [actions]);
 
     const yearData = useMemo(() => {
         const data = [];
@@ -94,11 +134,31 @@ export const AnalyticsCharts: FC = () => {
                 title={t('Очки за неделю')} 
                 color="#ffc906" 
             />
-            <LineChart 
-                data={seasonData} 
-                title={t('Очки за сезон (3 недели)')} 
-                color="#2cd32c" 
-            />
+            
+            <div className={cls.monthChartContainer}>
+                <div className={cls.switchers}>
+                    <Button 
+                        theme={ThemeButton.CLEAR} 
+                        className={classNames(cls.switchBtn, { [cls.active]: monthViewMode === 'days' })}
+                        onClick={() => setMonthViewMode('days')}
+                    >
+                        {t('По дням')}
+                    </Button>
+                    <Button 
+                        theme={ThemeButton.CLEAR} 
+                        className={classNames(cls.switchBtn, { [cls.active]: monthViewMode === 'weeks' })}
+                        onClick={() => setMonthViewMode('weeks')}
+                    >
+                        {t('По неделям')}
+                    </Button>
+                </div>
+                <LineChart 
+                    data={monthViewMode === 'days' ? monthDaysData : monthWeeksData} 
+                    title={t('Очки за месяц')} 
+                    color="#2cd32c" 
+                />
+            </div>
+
             <LineChart 
                 data={yearData} 
                 title={t('Очки за год')} 

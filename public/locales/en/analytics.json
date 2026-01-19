@@ -1,7 +1,9 @@
 {
-  "Аналитика": "Analytics",
-  "Очки за неделю": "Weekly Points",
-  "Очки за сезон (3 недели)": "Seasonal Points (3 weeks)",
-  "Очки за год": "Yearly Points",
-  "Неделя": "Week"
+  "Analytics": "Analytics",
+  "Points per week": "Points per week",
+  "Points per month": "Points per month",
+  "Points per year": "Points per year",
+  "Week": "Week",
+  "By days": "By days",
+  "By weeks": "By weeks"
 }
