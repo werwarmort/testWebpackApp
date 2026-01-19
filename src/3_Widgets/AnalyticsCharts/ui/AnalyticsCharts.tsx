@@ -11,8 +11,15 @@ import cls from './AnalyticsCharts.module.scss';
 
 export const AnalyticsCharts: FC = () => {
     const { t } = useTranslation('analytics');
-    const [monthViewMode, setMonthViewMode] = useState<'days' | 'weeks'>('days');
+    const [monthViewMode, setMonthViewMode] = useState<'days' | 'weeks'>(() => {
+        return (localStorage.getItem('analytics_month_view_mode') as 'days' | 'weeks') || 'days';
+    });
     
+    // Сохраняем выбор при изменении
+    useEffect(() => {
+        localStorage.setItem('analytics_month_view_mode', monthViewMode);
+    }, [monthViewMode]);
+
     // Загружаем актуальный список действий с сервера
     const { data: actionsData } = useSWR<Action[]>('/actions', swrFetcher);
     const setActions = useScoreStore(state => state.setActions);
