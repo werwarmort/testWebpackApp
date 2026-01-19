@@ -16,7 +16,7 @@ module.exports = {
     plugins: [
         'react',
         '@typescript-eslint',
-        'plugin:i18next/recommended' // todo: не работает
+        'i18next'
     ],
     rules: {
         'react/jsx-indent': [2, 4],
