@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Checkbox } from '6_Shared/ui/Checkbox/Checkbox';
+import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
 import { Goal, Subgoal } from '../../model/types/goal';
@@ -52,13 +53,10 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                 <div className={cls.leftSide}>
                     <div className={cls.info}>
                         {hasSubgoals && (
-                            <Button
-                                theme={ThemeButton.CLEAR}
-                                className={classNames(cls.collapseBtn, { [cls.collapsedIcon]: isCollapsed })}
+                            <CollapseButton
+                                collapsed={isCollapsed}
                                 onClick={() => setIsCollapsed((prev) => !prev)}
-                            >
-                                ▼
-                            </Button>
+                            />
                         )}
                         <Checkbox
                             checked={goal.isCompleted}

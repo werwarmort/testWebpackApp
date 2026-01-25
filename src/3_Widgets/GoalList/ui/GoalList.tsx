@@ -6,6 +6,7 @@ import { useScoreStore } from '5_Entities/Score';
 import { GoalItem } from '5_Entities/Goal/ui/GoalItem/GoalItem';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddGoalForm } from '4_Features/AddGoalForm';
+import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { Goal } from '5_Entities/Goal/model/types/goal';
 import cls from './GoalList.module.scss';
 
@@ -95,9 +96,10 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
                         className={cls.completedHeader} 
                         onClick={() => setIsCompletedCollapsed(prev => !prev)}
                     >
-                        <div className={classNames(cls.collapseBtn, { [cls.collapsedIcon]: isCompletedCollapsed })}>
-                            ▼
-                        </div>
+                        <CollapseButton 
+                            className={cls.collapseBtn} 
+                            collapsed={isCompletedCollapsed} 
+                        />
                         <div className={cls.completedTitle}>{t('Выполненные')}</div>
                     </div>
                     

@@ -37,14 +37,8 @@
 }
 
 .collapseBtn {
-    padding: 4px;
-    transition: transform 0.2s;
     color: var(--primary-color);
     opacity: 0.8;
-}
-
-.collapsedIcon {
-    transform: rotate(-90deg);
 }
 
 .completedList {

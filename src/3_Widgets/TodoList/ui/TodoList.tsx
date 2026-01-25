@@ -6,6 +6,7 @@ import { useScoreStore } from '5_Entities/Score';
 import { TodoItem } from '5_Entities/Todo/ui/TodoItem/TodoItem';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
+import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { Todo } from '5_Entities/Todo/model/types/todo';
 import cls from './TodoList.module.scss';
 
@@ -158,9 +159,10 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                         className={cls.completedHeader} 
                         onClick={() => setIsCompletedCollapsed(prev => !prev)}
                     >
-                        <div className={classNames(cls.collapseBtn, { [cls.collapsedIcon]: isCompletedCollapsed })}>
-                            ▼
-                        </div>
+                        <CollapseButton 
+                            className={cls.collapseBtn} 
+                            collapsed={isCompletedCollapsed} 
+                        />
                         <div className={cls.completedTitle}>{t('completed_section')}</div>
                     </div>
                     

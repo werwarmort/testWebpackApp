@@ -63,15 +63,6 @@
     font-size: 14px;
 }
 
-.collapseBtn {
-    padding: 4px;
-    transition: transform 0.2s;
-}
-
-.collapsedIcon {
-    transform: rotate(-90deg);
-}
-
 .subgoalsList {
     margin-top: 12px;
     margin-left: 12px;
@@ -103,7 +94,7 @@
 .subgoalDetails {
     font-size: 12px;
     color: var(--description-color);
-    margin-top: 2px;
+    margin-top: 4px;
     white-space: pre-wrap;
     opacity: 0.8;
 }

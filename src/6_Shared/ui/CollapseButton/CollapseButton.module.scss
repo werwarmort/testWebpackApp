@@ -1,0 +1,17 @@
+.CollapseButton {
+    padding: 4px;
+    margin-left: -4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
+        top: 4px;
+    }
+}
+
+.collapsed {
+    transform: rotate(-90deg);
+}

@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Checkbox } from '6_Shared/ui/Checkbox/Checkbox';
+import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { Todo } from '../../model/types/todo';
 import cls from './TodoItem.module.scss';
@@ -56,15 +57,10 @@ export const TodoItem: FC<TodoItemProps> = ({
                 <div className={cls.leftSide}>
                     <div className={cls.info}>
                         {hasSubtasks && (
-                            <Button
-                                theme={ThemeButton.CLEAR}
-                                className={classNames(cls.collapseBtn, {
-                                    [cls.collapsedIcon]: isCollapsed,
-                                })}
+                            <CollapseButton
+                                collapsed={isCollapsed}
                                 onClick={() => setIsCollapsed(prev => !prev)}
-                            >
-                                ▼
-                            </Button>
+                            />
                         )}
                         <Checkbox
                             checked={todo.isCompleted}
