@@ -63,6 +63,8 @@ const ProfilePage = () => {
             <Button theme={ThemeButton.DEFAULT} onClick={onLogout} className={cls.logoutBtn}>
                 {t('Выйти')}
             </Button>
+
+            <div className={cls.version}>v{__PROJECT_VERSION__}</div>
         </div>
     );
 };
