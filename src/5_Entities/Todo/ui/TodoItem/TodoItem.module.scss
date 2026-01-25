@@ -35,6 +35,10 @@
     gap: 4px;
     opacity: 0;
     transition: 0.2s;
+
+    @media (max-width: 768px), (hover: none) {
+        opacity: 1;
+    }
 }
 
 .TodoItem:hover .actions {

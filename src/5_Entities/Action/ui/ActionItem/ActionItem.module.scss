@@ -33,6 +33,10 @@
     margin-left: 12px;
     opacity: 0;
     transition: 0.2s;
+
+    @media (max-width: 768px), (hover: none) {
+        opacity: 1;
+    }
 }
 
 .ActionItem:hover .actions {
