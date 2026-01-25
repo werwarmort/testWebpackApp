@@ -7,6 +7,7 @@ import { GoalItem } from '5_Entities/Goal/ui/GoalItem/GoalItem';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddGoalForm } from '4_Features/AddGoalForm';
 import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
+import { ConfirmationModal } from '6_Shared/ui/ConfirmationModal/ConfirmationModal';
 import { Goal } from '5_Entities/Goal/model/types/goal';
 import cls from './GoalList.module.scss';
 
@@ -28,11 +29,13 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
 
     const [editingGoal, setEditingGoal] = useState<Goal | null>(null);
     const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
+    const [goalToDelete, setGoalToDelete] = useState<string | null>(null);
 
     const handleGoalToggle = async (id: string) => {
         await toggleGoal(id);
         onUpdate?.();
     };
+
 
     const handleSubgoalToggle = async (goalId: string, subgoalId: string) => {
         const goal = goals.find(g => String(g.id) === String(goalId));
@@ -63,9 +66,16 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
         onUpdate?.();
     };
 
-    const handleDelete = async (id: string) => {
-        await deleteGoal(id);
-        onUpdate?.();
+    const handleDelete = (id: string) => {
+        setGoalToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (goalToDelete) {
+            await deleteGoal(goalToDelete);
+            onUpdate?.();
+            setGoalToDelete(null);
+        }
     };
 
     if (goals.length === 0) {
@@ -132,6 +142,14 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
                     />
                 )}
             </Modal>
+
+            <ConfirmationModal
+                isOpen={Boolean(goalToDelete)}
+                onClose={() => setGoalToDelete(null)}
+                onConfirm={confirmDelete}
+                title={t('Удаление цели')}
+                message={t('Вы уверены, что хотите удалить эту цель?')}
+            />
         </div>
     );
 };

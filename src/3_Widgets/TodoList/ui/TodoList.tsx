@@ -7,6 +7,7 @@ import { TodoItem } from '5_Entities/Todo/ui/TodoItem/TodoItem';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddTodoForm } from '4_Features/AddTodoForm/ui/AddTodoForm';
 import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
+import { ConfirmationModal } from '6_Shared/ui/ConfirmationModal/ConfirmationModal';
 import { Todo } from '5_Entities/Todo/model/types/todo';
 import cls from './TodoList.module.scss';
 
@@ -26,6 +27,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
 
     const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
     const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(false);
+    const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
 
     const handleToggle = async (id: string, isCompleted: boolean, points: number) => {
         // Находим свежую версию задачи из текущего списка
@@ -63,9 +65,16 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
         setEditingTodo(todo);
     };
 
-    const handleDelete = async (id: string) => {
-        await deleteTodo(id);
-        onUpdate?.();
+    const handleDelete = (id: string) => {
+        setTodoToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (todoToDelete) {
+            await deleteTodo(todoToDelete);
+            onUpdate?.();
+            setTodoToDelete(null);
+        }
     };
 
     const handleSubtaskToggle = async (subId: string, todoId: string) => {
@@ -195,6 +204,14 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                     />
                 )}
             </Modal>
+
+            <ConfirmationModal
+                isOpen={Boolean(todoToDelete)}
+                onClose={() => setTodoToDelete(null)}
+                onConfirm={confirmDelete}
+                title={t('Удаление задачи')}
+                message={t('Вы уверены, что хотите удалить эту задачу?')}
+            />
         </div>
     );
 };

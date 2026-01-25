@@ -42,14 +42,14 @@
     margin-bottom: 8px;
     padding: 6px;
     border: 1px solid var(--primary-color);
-    border-radius: 6px;
+    border-radius: 10px;
     background: transparent;
     color: var(--primary-color);
     font-size: 12px;
     outline: none;
-    
+
     &::placeholder {
-        opacity: 0.6;
+        color: var(--primary-color);
     }
 }
 

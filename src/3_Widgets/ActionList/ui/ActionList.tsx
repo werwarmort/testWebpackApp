@@ -6,6 +6,7 @@ import { ActionItem } from '5_Entities/Action/ui/ActionItem/ActionItem';
 import { Action } from '5_Entities/Score/model/types/score';
 import { Modal } from '6_Shared/ui/Modal/Modal';
 import { AddActionForm } from '4_Features/AddActionForm/ui/AddActionForm';
+import { ConfirmationModal } from '6_Shared/ui/ConfirmationModal/ConfirmationModal';
 import { DateSeparator } from './DateSeparator/DateSeparator';
 import cls from './ActionList.module.scss';
 
@@ -19,6 +20,7 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
     const actions = useScoreStore(state => state.actions);
     const removeAction = useScoreStore(state => state.removeAction);
     const [editingAction, setEditingAction] = useState<Action | null>(null);
+    const [actionToDelete, setActionToDelete] = useState<string | null>(null);
 
     const groups = useMemo(() => {
         const groupsList: { dateKey: string; date: Date; total: number; actions: Action[] }[] = [];
@@ -51,9 +53,16 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
         setEditingAction(action);
     };
 
-    const handleDelete = async (id: string) => {
-        await removeAction(id);
-        onUpdate?.();
+    const handleDelete = (id: string) => {
+        setActionToDelete(id);
+    };
+
+    const confirmDelete = async () => {
+        if (actionToDelete) {
+            await removeAction(actionToDelete);
+            onUpdate?.();
+            setActionToDelete(null);
+        }
     };
 
     if (actions.length === 0) {
@@ -92,6 +101,14 @@ export const ActionList: FC<ActionListProps> = ({ className, onUpdate }) => {
                     />
                 )}
             </Modal>
+
+            <ConfirmationModal
+                isOpen={Boolean(actionToDelete)}
+                onClose={() => setActionToDelete(null)}
+                onConfirm={confirmDelete}
+                title={t('Удаление действия')}
+                message={t('Вы уверены, что хотите удалить эту запись?')}
+            />
         </div>
     );
 };
