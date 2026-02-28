@@ -23,6 +23,7 @@ axiosInstance.interceptors.response.use(
             error.config &&
             !error.config._isRetry &&
             originalRequest.url !== '/auth/login' &&
+            originalRequest.url !== '/auth/refresh' &&
             window.location.pathname !== RoutePath.auth
         ) {
             originalRequest._isRetry = true;
