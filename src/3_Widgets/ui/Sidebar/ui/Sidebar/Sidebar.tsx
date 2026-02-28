@@ -23,7 +23,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
     const location = useLocation();
 
     const onToggle = () => {
-        setCollapsed(prev => !prev);
+        setCollapsed((prev) => !prev);
     };
 
     const itemsList = useMemo(() => [
@@ -56,17 +56,17 @@ export const Sidebar = ({ className }: SidebarProps) => {
     ], [t]);
 
     return (
-        <div 
+        <div
             className={classNames(
-                cls.Sidebar, 
-                { 
+                cls.Sidebar,
+                {
                     [cls.collapsed]: collapsed,
-                }, 
-                [className]
+                },
+                [className],
             )}
         >
             <button className={cls.toggleSidebarBtn} type="button" onClick={onToggle}>
-                {collapsed ? `>>` : `<<`}
+                {collapsed ? '>>' : '<<'}
             </button>
             <div className={cls.items}>
                 {itemsList.map((item) => (
@@ -76,11 +76,11 @@ export const Sidebar = ({ className }: SidebarProps) => {
                         to={item.path}
                         className={classNames(
                             cls.item,
-                            { 
+                            {
                                 [cls.active]: location.pathname === item.path,
-                                [cls.mobileOnly]: item.mobileOnly 
+                                [cls.mobileOnly]: item.mobileOnly,
                             },
-                            []
+                            [],
                         )}
                     >
                         <item.Icon className={cls.icon} />
@@ -90,7 +90,7 @@ export const Sidebar = ({ className }: SidebarProps) => {
                     </AppLink>
                 ))}
             </div>
-            
+
             <div className={cls.switchers}>
                 <ThemeSwitcher collapsed={collapsed} />
                 <LangSwitcher className={cls.lang} />

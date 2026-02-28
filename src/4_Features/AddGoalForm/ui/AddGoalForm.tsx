@@ -25,8 +25,8 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
     const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(initialData?.isCompletedCollapsed || false);
     const [expandedDetails, setExpandedDetails] = useState<Record<number, boolean>>({});
 
-    const activeSubgoals = subgoals.filter(s => !s.isCompleted);
-    const completedSubgoals = subgoals.filter(s => s.isCompleted);
+    const activeSubgoals = subgoals.filter((s) => !s.isCompleted);
+    const completedSubgoals = subgoals.filter((s) => s.isCompleted);
 
     const onSave = async () => {
         if (!title.trim()) return;
@@ -64,7 +64,7 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
             description: '',
             details: '',
             isCompleted: false,
-            points: 0
+            points: 0,
         }]);
     };
 
@@ -85,11 +85,11 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
     };
 
     const toggleDetails = (index: number) => {
-        setExpandedDetails(prev => ({ ...prev, [index]: !prev[index] }));
+        setExpandedDetails((prev) => ({ ...prev, [index]: !prev[index] }));
     };
 
     return (
-        <form 
+        <form
             className={classNames(cls.AddGoalForm, {}, [className])}
             onSubmit={(e) => {
                 e.preventDefault();
@@ -103,21 +103,21 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                 placeholder={t('Название цели')}
                 autoFocus={!initialData}
             />
-            
+
             <textarea
                 className={cls.textarea}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder={t('goal_description_placeholder') || 'Описание цели'}
             />
-            
+
             <div className={cls.subgoals}>
                 <div className={cls.subgoalsHeader}>
                     <span>{t('Подцели')}</span>
-                    <Button 
-                        type="button" 
-                        onClick={handleAddSubgoal} 
-                        theme={ThemeButton.CLEAR} 
+                    <Button
+                        type="button"
+                        onClick={handleAddSubgoal}
+                        theme={ThemeButton.CLEAR}
                         className={cls.addSubgoalBtn}
                     >
                         +
@@ -125,7 +125,7 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                 </div>
                 {subgoals.map((sub, index) => {
                     if (sub.isCompleted) return null;
-                    
+
                     return (
                         <div key={sub.id} className={cls.subgoalContainer}>
                             <div className={cls.subgoalRow}>
@@ -174,19 +174,19 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                 {completedSubgoals.length > 0 && (
                     <>
                         <div className={cls.subgoalsSeparator} />
-                        <div 
+                        <div
                             className={cls.completedSubgoalsHeader}
-                            onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                            onClick={() => setIsCompletedCollapsed((prev) => !prev)}
                         >
                             <CollapseButton
                                 collapsed={isCompletedCollapsed}
                             />
                             <span className={cls.completedSubgoalsTitle}>{t('completed_section') || 'Completed'}</span>
                         </div>
-                        
+
                         {!isCompletedCollapsed && subgoals.map((sub, index) => {
                             if (!sub.isCompleted) return null;
-                            
+
                             return (
                                 <div key={sub.id} className={classNames(cls.subgoalContainer, { [cls.completed]: true })}>
                                     <div className={cls.subgoalRow}>

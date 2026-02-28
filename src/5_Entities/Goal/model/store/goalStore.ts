@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { mutate } from 'swr';
-import { GoalState, Goal } from '../types/goal';
 import { $api } from '6_Shared/api/api';
+import { GoalState, Goal } from '../types/goal';
 
 export const useGoalStore = create<GoalState>((set, get) => ({
     goals: [] as Goal[],
@@ -14,7 +14,7 @@ export const useGoalStore = create<GoalState>((set, get) => ({
                 method: 'POST',
                 body: JSON.stringify(goalParams),
             });
-            // После добавления вызываем рефетч SWR
+            // после добавления вызываем рефетч SWR
             mutate('/goals');
         } catch (e) {
             console.error('Failed to add goal', e);
@@ -23,9 +23,9 @@ export const useGoalStore = create<GoalState>((set, get) => ({
 
     updateGoal: async (updatedGoal) => {
         try {
-            // Оптимистичное обновление
+            // оптимистичное обновление
             const currentGoals = get().goals;
-            const nextGoals = currentGoals.map(g => g.id === updatedGoal.id ? updatedGoal : g);
+            const nextGoals = currentGoals.map((g) => (g.id === updatedGoal.id ? updatedGoal : g));
             mutate('/goals', nextGoals, false);
             set({ goals: nextGoals });
 
@@ -67,13 +67,11 @@ export const useGoalStore = create<GoalState>((set, get) => ({
 
         const updatedGoal = {
             ...goal,
-            subgoals: goal.subgoals.map((sub) =>
-                String(sub.id) === String(subgoalId) ? {
-                    ...sub,
-                    isCompleted: !sub.isCompleted,
-                    completedActionId: !sub.isCompleted ? actionId : null
-                } : sub
-            ),
+            subgoals: goal.subgoals.map((sub) => (String(sub.id) === String(subgoalId) ? {
+                ...sub,
+                isCompleted: !sub.isCompleted,
+                completedActionId: !sub.isCompleted ? actionId : null,
+            } : sub)),
         };
 
         await get().updateGoal(updatedGoal);
@@ -95,9 +93,7 @@ export const useGoalStore = create<GoalState>((set, get) => ({
 
         const updatedGoal = {
             ...goal,
-            subgoals: goal.subgoals.map((sub) =>
-                String(sub.id) === String(subgoalId) ? { ...sub, isSentToTasks: true } : sub
-            ),
+            subgoals: goal.subgoals.map((sub) => (String(sub.id) === String(subgoalId) ? { ...sub, isSentToTasks: true } : sub)),
         };
 
         await get().updateGoal(updatedGoal);

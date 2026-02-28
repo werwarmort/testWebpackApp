@@ -15,7 +15,7 @@ const GoalsPage: FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data: goals, mutate } = useSWR('/goals', swrFetcher);
-    const setGoals = useGoalStore(state => state.setGoals);
+    const setGoals = useGoalStore((state) => state.setGoals);
 
     useEffect(() => {
         if (goals) {
@@ -25,7 +25,7 @@ const GoalsPage: FC = () => {
 
     const onUpdate = () => {
         mutate();
-        globalMutate('/actions/score'); // Обновляем счет в Navbar
+        globalMutate('/actions/score'); // обновляем счет в Navbar
     };
 
     const onShowModal = () => setIsModalOpen(true);
@@ -37,7 +37,7 @@ const GoalsPage: FC = () => {
     return (
         <div className={classNames(cls.GoalsPage, {}, [])}>
             <AddFloatingButton onClick={onShowModal} />
-            
+
             <GoalList onUpdate={onUpdate} />
 
             <Modal isOpen={isModalOpen} onClose={onCloseModal}>

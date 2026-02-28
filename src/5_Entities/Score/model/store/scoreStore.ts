@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { ScoreState, Action } from '../types/score';
 import { $api } from '6_Shared/api/api';
+import { ScoreState, Action } from '../types/score';
 
 const getCurrentDate = () => {
     const date = new Date();

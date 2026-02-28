@@ -1,4 +1,4 @@
-@import "1_App/styles/variables/defaultMixins.scss";
+@import "1_App/styles/variables/defaultMixins";
 
 .AuthPage {
     display: flex;
@@ -10,6 +10,7 @@
 
 .card {
     @include default-block-settings;
+
     padding: 40px;
     width: 400px;
     display: flex;
@@ -34,7 +35,7 @@
 
 .error {
     color: var(--secondary-color);
-    background: rgba(204, 30, 74, 0.1);
+    background: rgb(204 30 74 / 10%);
     padding: 10px;
     border-radius: 8px;
     font-size: 14px;
@@ -44,7 +45,7 @@
     text-align: center;
     font-size: 14px;
     color: var(--primary-color);
-    
+
     span {
         cursor: pointer;
         text-decoration: underline;

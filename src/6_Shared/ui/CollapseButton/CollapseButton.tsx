@@ -7,13 +7,11 @@ interface CollapseButtonProps extends HTMLAttributes<HTMLDivElement> {
     collapsed: boolean;
 }
 
-export const CollapseButton: FC<CollapseButtonProps> = ({ className, collapsed, ...otherProps }) => {
-    return (
-        <div
-            className={classNames(cls.CollapseButton, { [cls.collapsed]: collapsed }, [className])}
-            {...otherProps}
-        >
-            ▼
-        </div>
-    );
-};
+export const CollapseButton: FC<CollapseButtonProps> = ({ className, collapsed, ...otherProps }) => (
+    <div
+        className={classNames(cls.CollapseButton, { [cls.collapsed]: collapsed }, [className])}
+        {...otherProps}
+    >
+        ▼
+    </div>
+);

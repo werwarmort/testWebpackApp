@@ -18,13 +18,13 @@ axiosInstance.interceptors.response.use(
         const originalRequest = error.config;
 
         if (
-            error.response &&
-            (error.response.status === 401 || error.response.status === 403) &&
-            error.config &&
-            !error.config._isRetry &&
-            originalRequest.url !== '/auth/login' &&
-            originalRequest.url !== '/auth/refresh' &&
-            window.location.pathname !== RoutePath.auth
+            error.response
+            && (error.response.status === 401 || error.response.status === 403)
+            && error.config
+            && !error.config._isRetry
+            && originalRequest.url !== '/auth/login'
+            && originalRequest.url !== '/auth/refresh'
+            && window.location.pathname !== RoutePath.auth
         ) {
             originalRequest._isRetry = true;
             try {
@@ -39,5 +39,5 @@ axiosInstance.interceptors.response.use(
             }
         }
         throw error;
-    }
+    },
 );

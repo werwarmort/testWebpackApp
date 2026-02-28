@@ -33,13 +33,9 @@ export const Navbar = ({ className }: NavbarProps) => {
         return info ? JSON.parse(info) : null;
     }, []);
 
-    const hasActiveDaily = useMemo(() => {
-        return todos?.some((t) => t.type === 'daily_challenge' && !t.isCompleted);
-    }, [todos]);
+    const hasActiveDaily = useMemo(() => todos?.some((t) => t.type === 'daily_challenge' && !t.isCompleted), [todos]);
 
-    const hasActiveWeekly = useMemo(() => {
-        return todos?.some((t) => t.type === 'weekly_challenge' && !t.isCompleted);
-    }, [todos]);
+    const hasActiveWeekly = useMemo(() => todos?.some((t) => t.type === 'weekly_challenge' && !t.isCompleted), [todos]);
 
     const onChallengeClick = () => {
         navigate(RoutePath.todo);

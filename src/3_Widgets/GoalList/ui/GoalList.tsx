@@ -24,7 +24,7 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
     const toggleGoalCollapsed = useGoalStore((state) => state.toggleGoalCollapsed);
     const markSubgoalAsSent = useGoalStore((state) => state.markSubgoalAsSent);
     const deleteGoal = useGoalStore((state) => state.deleteGoal);
-    
+
     const addAction = useScoreStore((state) => state.addAction);
     const removeAction = useScoreStore((state) => state.removeAction);
 
@@ -37,11 +37,10 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
         onUpdate?.();
     };
 
-
     const handleSubgoalToggle = async (goalId: string, subgoalId: string) => {
-        const goal = goals.find(g => String(g.id) === String(goalId));
-        const sub = goal?.subgoals.find(s => String(s.id) === String(subgoalId));
-        
+        const goal = goals.find((g) => String(g.id) === String(goalId));
+        const sub = goal?.subgoals.find((s) => String(s.id) === String(subgoalId));
+
         if (!sub) return;
 
         if (!sub.isCompleted) {
@@ -104,17 +103,17 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
             {completedGoals.length > 0 && (
                 <>
                     <div className={cls.separator} />
-                    <div 
-                        className={cls.completedHeader} 
-                        onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                    <div
+                        className={cls.completedHeader}
+                        onClick={() => setIsCompletedCollapsed((prev) => !prev)}
                     >
-                        <CollapseButton 
-                            className={cls.collapseBtn} 
-                            collapsed={isCompletedCollapsed} 
+                        <CollapseButton
+                            className={cls.collapseBtn}
+                            collapsed={isCompletedCollapsed}
                         />
                         <div className={cls.completedTitle}>{t('Выполненные')}</div>
                     </div>
-                    
+
                     {!isCompletedCollapsed && (
                         <div className={cls.completedList}>
                             {completedGoals.map((goal) => (

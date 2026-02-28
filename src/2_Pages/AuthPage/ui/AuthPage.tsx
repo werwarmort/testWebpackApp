@@ -10,7 +10,7 @@ const AuthPage: FC = () => {
     const { t } = useTranslation('auth');
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
-    
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,8 +27,8 @@ const AuthPage: FC = () => {
     const onSubmit = async () => {
         setError('');
         const url = isLogin ? '/auth/login' : '/auth/register';
-        const body = isLogin 
-            ? { username, password } 
+        const body = isLogin
+            ? { username, password }
             : { username, email, password };
 
         try {
@@ -36,7 +36,7 @@ const AuthPage: FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
-                credentials: 'include', // Важно для приема куки от сервера
+                credentials: 'include', // важно для приема куки от сервера
             });
 
             if (!response.ok) {
@@ -46,16 +46,16 @@ const AuthPage: FC = () => {
 
             if (isLogin) {
                 const data = await response.json();
-                // Токен в localStorage БОЛЬШЕ НЕ СОХРАНЯЕМ! Он в HttpOnly Cookie.
+                // токен в localStorage БОЛЬШЕ НЕ СОХРАНЯЕМ! он в HttpOnly Cookie.
                 // Сохраняем только флаг для роутера и инфо о юзере.
                 localStorage.setItem('user_logged_in', 'true');
                 localStorage.setItem('user_info', JSON.stringify({
                     id: data.id,
                     username: data.username,
-                    email: data.email
+                    email: data.email,
                 }));
                 navigate('/');
-                window.location.reload(); 
+                window.location.reload();
             } else {
                 setIsLogin(true);
             }
@@ -68,7 +68,7 @@ const AuthPage: FC = () => {
         <div className={classNames(cls.AuthPage, {}, [])}>
             <div className={cls.card}>
                 <h1>{isLogin ? t('login_title') : t('register_title')}</h1>
-                
+
                 {error && <div className={cls.error}>{error}</div>}
 
                 <CustomInput
@@ -96,8 +96,8 @@ const AuthPage: FC = () => {
                     className={cls.input}
                 />
 
-                <Button 
-                    theme={ThemeButton.DEFAULT} 
+                <Button
+                    theme={ThemeButton.DEFAULT}
                     onClick={onSubmit}
                     className={cls.submitBtn}
                 >

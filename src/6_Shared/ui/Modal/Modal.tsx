@@ -1,4 +1,6 @@
-import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import {
+    ReactNode, useCallback, useEffect, useRef, useState,
+} from 'react';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Portal } from '6_Shared/ui/Portal/Portal';
 import { useTheme } from '1_App/providers/ThemeProvider';
@@ -95,8 +97,8 @@ export const Modal = (props: ModalProps) => {
     return (
         <Portal>
             <div className={classNames(cls.Modal, mods, [className, theme])}>
-                <div 
-                    className={cls.overlay} 
+                <div
+                    className={cls.overlay}
                     onMouseDown={onMouseDown}
                     onMouseUp={onMouseUp}
                 >

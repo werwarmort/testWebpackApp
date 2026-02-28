@@ -28,8 +28,8 @@ const ProfilePage = () => {
         } finally {
             localStorage.removeItem('user_logged_in');
             localStorage.removeItem('user_info');
-            // Очищаем кэш SWR, чтобы данные не мелькали при следующем входе
-            // mutate(() => true, undefined, { revalidate: false }); 
+            // очищаем кэш SWR, чтобы данные не мелькали при следующем входе
+            // mutate(() => true, undefined, { revalidate: false });
             navigate(RoutePath.auth);
         }
     };
@@ -51,11 +51,17 @@ const ProfilePage = () => {
 
             <div className={cls.settings}>
                 <div className={cls.settingItem}>
-                    <span>{t('Тема')}:</span>
+                    <span>
+                        {t('Тема')}
+                        :
+                    </span>
                     <ThemeSwitcher collapsed={false} />
                 </div>
                 <div className={cls.settingItem}>
-                    <span>{t('Язык')}:</span>
+                    <span>
+                        {t('Язык')}
+                        :
+                    </span>
                     <LangSwitcher className={cls.langSwitcher} />
                 </div>
             </div>
@@ -64,7 +70,10 @@ const ProfilePage = () => {
                 {t('Выйти')}
             </Button>
 
-            <div className={cls.version}>v{__PROJECT_VERSION__}</div>
+            <div className={cls.version}>
+                v
+                {__PROJECT_VERSION__}
+            </div>
         </div>
     );
 };

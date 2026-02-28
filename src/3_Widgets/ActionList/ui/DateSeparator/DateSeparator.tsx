@@ -9,7 +9,7 @@ interface DateSeparatorProps {
 }
 
 export const DateSeparator = memo(({ className, date, totalPoints }: DateSeparatorProps) => {
-    // Форматируем дату локально
+    // форматируем дату локально
     const dateString = date.toLocaleDateString();
     const isPositive = totalPoints >= 0;
 
@@ -19,7 +19,8 @@ export const DateSeparator = memo(({ className, date, totalPoints }: DateSeparat
             <div className={cls.content}>
                 <span className={cls.date}>{dateString}</span>
                 <span className={classNames(cls.points, { [cls.negative]: !isPositive })}>
-                    {isPositive ? '+' : ''}{totalPoints}
+                    {isPositive ? '+' : ''}
+                    {totalPoints}
                 </span>
             </div>
             <div className={cls.line} />

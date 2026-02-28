@@ -16,13 +16,15 @@ const isDateToday = (timestamp: number) => {
     const date = new Date(timestamp);
     const now = new Date();
     return (
-        date.getDate() === now.getDate() &&
-        date.getMonth() === now.getMonth() &&
-        date.getFullYear() === now.getFullYear()
+        date.getDate() === now.getDate()
+        && date.getMonth() === now.getMonth()
+        && date.getFullYear() === now.getFullYear()
     );
 };
 
-export const ActionItem: FC<ActionItemProps> = ({ className, action, onEdit, onDelete }) => {
+export const ActionItem: FC<ActionItemProps> = ({
+    className, action, onEdit, onDelete,
+}) => {
     const { t } = useTranslation('score');
     const date = new Date(action.createdAt).toLocaleDateString();
 

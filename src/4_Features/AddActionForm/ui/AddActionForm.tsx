@@ -50,7 +50,7 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
     };
 
     return (
-        <form 
+        <form
             className={classNames(cls.AddActionForm, {}, [className])}
             onSubmit={(e) => {
                 e.preventDefault();
@@ -80,9 +80,9 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
                         className={cls.checkbox}
                     />
                 </div>
-                <Button 
-                    type="submit" 
-                    className={cls.saveBtn} 
+                <Button
+                    type="submit"
+                    className={cls.saveBtn}
                     theme={ThemeButton.DEFAULT}
                 >
                     {initialData ? t('save') : t('add')}

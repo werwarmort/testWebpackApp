@@ -15,12 +15,10 @@ export const AddFloatingButton = ({ onClick, className }: AddFloatingButtonProps
 
     return (
         <>
-            {/* Desktop Version: В потоке, по центру */}
             <div className={classNames(cls.desktopContainer, {}, [className])}>
                 <CircleButton onClick={onClick}>+</CircleButton>
             </div>
 
-            {/* Mobile Version: В портале, плавающая справа снизу */}
             <Portal>
                 <div className={classNames(cls.mobileFab, {}, [theme])}>
                     <CircleButton onClick={onClick}>+</CircleButton>

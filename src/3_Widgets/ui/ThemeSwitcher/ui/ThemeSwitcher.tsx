@@ -31,16 +31,16 @@ export const ThemeSwitcher = React.memo(({ collapsed, className }: ThemeSwitcher
     const isDark = theme === ETheme.DARK;
 
     return (
-      <Button
-        theme={ThemeButton.CLEAR}
-        className={classNames(styles.btn, { [styles.btn_dark]: isDark, [styles.collapsed]: collapsed }, [className])}
-        onClick={handleClick}
-      >
-        <div className={classNames(styles.btn__indicator, { [styles.btn__indicator_dark]: isDark }, [])}>
-          <div className={classNames(styles.btn__icon_container, { [styles.animated]: isAnimated }, [])}>
-            {isDark ? <Moon className={styles.btn__icon} /> : <Sun className={styles.btn__icon} />}
-          </div>
-        </div>
-      </Button>
+        <Button
+            theme={ThemeButton.CLEAR}
+            className={classNames(styles.btn, { [styles.btn_dark]: isDark, [styles.collapsed]: collapsed }, [className])}
+            onClick={handleClick}
+        >
+            <div className={classNames(styles.btn__indicator, { [styles.btn__indicator_dark]: isDark }, [])}>
+                <div className={classNames(styles.btn__icon_container, { [styles.animated]: isAnimated }, [])}>
+                    {isDark ? <Moon className={styles.btn__icon} /> : <Sun className={styles.btn__icon} />}
+                </div>
+            </div>
+        </Button>
     );
 });

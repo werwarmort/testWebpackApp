@@ -23,7 +23,7 @@ export const LineChart: FC<LineChartProps> = ({
     height = 200,
     color = '#ffc906',
     penaltyColor = '#cc1e4a',
-    title
+    title,
 }) => {
     const chartId = useId();
     const penaltyChartId = useId();
@@ -31,14 +31,14 @@ export const LineChart: FC<LineChartProps> = ({
     const padding = 40;
 
     const maxVal = useMemo(() => {
-        const vals = data.map(d => Math.max(d.value, d.penaltyValue || 0));
+        const vals = data.map((d) => Math.max(d.value, d.penaltyValue || 0));
         return Math.max(...vals, 10);
     }, [data]);
 
     const getPoints = (isPenalty: boolean) => {
         if (data.length === 0) return '';
         const xStep = (width - padding * 2) / (data.length > 1 ? data.length - 1 : 1);
-        
+
         return data.map((d, i) => {
             const x = padding + i * xStep;
             const val = isPenalty ? (d.penaltyValue || 0) : d.value;
@@ -72,18 +72,18 @@ export const LineChart: FC<LineChartProps> = ({
                 </defs>
 
                 <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="rgba(255,255,255,0.1)" />
-                
-                {/* Области под графиками */}
+
+                {/* области под графиками */}
                 <polyline points={getAreaPoints(points)} fill={`url(#${chartId})`} stroke="none" />
                 <polyline points={getAreaPoints(penaltyPoints)} fill={`url(#${penaltyChartId})`} stroke="none" />
 
-                {/* Линия штрафов (снизу) */}
+                {/* линия штрафов (снизу) */}
                 <polyline points={penaltyPoints} fill="none" stroke={penaltyColor} strokeWidth="2" strokeDasharray="5,5" opacity="0.6" />
 
-                {/* Основная линия */}
+                {/* основная линия */}
                 <polyline points={points} fill="none" stroke={color} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
 
-                {/* Точки и подписи */}
+                {/* точки и подписи */}
                 {data.map((d, i) => {
                     const xStep = (width - padding * 2) / (data.length > 1 ? data.length - 1 : 1);
                     const x = padding + i * xStep;
@@ -93,13 +93,14 @@ export const LineChart: FC<LineChartProps> = ({
                         <g key={i} className={cls.pointGroup}>
                             <circle cx={x} cy={y} r="4" fill={color} />
                             {d.penaltyValue! > 0 && <circle cx={x} cy={py} r="3" fill={penaltyColor} />}
-                            
+
                             <text x={x} y={y - 10} textAnchor="middle" fontSize="12" fill={color} fontWeight="bold">
                                 {d.value}
                             </text>
                             {d.penaltyValue! > 0 && (
                                 <text x={x} y={py + 15} textAnchor="middle" fontSize="10" fill={penaltyColor}>
-                                    -{d.penaltyValue}
+                                    -
+                                    {d.penaltyValue}
                                 </text>
                             )}
                             <text x={x} y={height - padding + 20} textAnchor="middle" fontSize="10" fill="var(--primary-color)" opacity="0.5">

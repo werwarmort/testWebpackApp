@@ -11,16 +11,16 @@ const App = () => {
     const { theme } = useTheme();
     const { pathname } = useLocation();
 
-    // Скрываем навигацию на странице авторизации
+    // скрываем навигацию на странице авторизации
     const isAuthPage = pathname === RoutePath.auth;
 
     return (
         <div className={classNames('app', {}, [theme])}>
-              {!isAuthPage && <Navbar />}
-              <div className="content-page">
-                  {!isAuthPage && <Sidebar />}
-                  <AppRouter />
-              </div>
+            {!isAuthPage && <Navbar />}
+            <div className="content-page">
+                {!isAuthPage && <Sidebar />}
+                <AppRouter />
+            </div>
         </div>
     );
 };

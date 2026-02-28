@@ -13,9 +13,9 @@ import styles from './TodoPage.module.scss';
 const TodoPage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+
     const { data: todos, mutate } = useSWR('/tasks', swrFetcher);
-    const setTodos = useTodoStore(state => state.setTodos);
+    const setTodos = useTodoStore((state) => state.setTodos);
 
     useEffect(() => {
         if (todos) {

@@ -3,9 +3,9 @@ import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Checkbox } from '6_Shared/ui/Checkbox/Checkbox';
 import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
+import { useTranslation } from 'react-i18next';
 import { Todo } from '../../model/types/todo';
 import cls from './TodoItem.module.scss';
-import { useTranslation } from 'react-i18next';
 
 interface TodoItemProps {
     className?: string;
@@ -22,9 +22,9 @@ const isToday = (timestamp?: number) => {
     const date = new Date(timestamp);
     const now = new Date();
     return (
-        date.getDate() === now.getDate() &&
-        date.getMonth() === now.getMonth() &&
-        date.getFullYear() === now.getFullYear()
+        date.getDate() === now.getDate()
+        && date.getMonth() === now.getMonth()
+        && date.getFullYear() === now.getFullYear()
     );
 };
 
@@ -44,8 +44,8 @@ export const TodoItem: FC<TodoItemProps> = ({
     };
 
     const hasSubtasks = todo.subtasks && todo.subtasks.length > 0;
-    const activeSubtasks = todo.subtasks?.filter(s => !s.isCompleted) || [];
-    const completedSubtasks = todo.subtasks?.filter(s => s.isCompleted) || [];
+    const activeSubtasks = todo.subtasks?.filter((s) => !s.isCompleted) || [];
+    const completedSubtasks = todo.subtasks?.filter((s) => s.isCompleted) || [];
     const isLocked = todo.isCompleted && todo.completedAt && !isToday(todo.completedAt);
 
     return (
@@ -101,13 +101,16 @@ export const TodoItem: FC<TodoItemProps> = ({
                             </Button>
                         </div>
                     )}
-                    <div className={cls.points}>+{todo.points}</div>
+                    <div className={cls.points}>
+                        +
+                        {todo.points}
+                    </div>
                 </div>
             </div>
-            
+
             {hasSubtasks && (
                 <div className={cls.subtasksList}>
-                    {activeSubtasks.map(subtask => (
+                    {activeSubtasks.map((subtask) => (
                         <div key={subtask.id} className={cls.subtaskItem}>
                             <Checkbox
                                 checked={subtask.isCompleted}
@@ -126,7 +129,7 @@ export const TodoItem: FC<TodoItemProps> = ({
                     {completedSubtasks.length > 0 && (
                         <>
                             {activeSubtasks.length > 0 && <div className={cls.subtasksSeparator} />}
-                            <div 
+                            <div
                                 className={cls.completedSubtasksHeader}
                                 onClick={() => onToggleCollapsed?.(todo.id)}
                             >
@@ -135,8 +138,8 @@ export const TodoItem: FC<TodoItemProps> = ({
                                 />
                                 <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
                             </div>
-                            
-                            {!todo.isCompletedCollapsed && completedSubtasks.map(subtask => (
+
+                            {!todo.isCompletedCollapsed && completedSubtasks.map((subtask) => (
                                 <div
                                     key={subtask.id}
                                     className={classNames(cls.subtaskItem, {

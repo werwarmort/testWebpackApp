@@ -5,7 +5,9 @@ import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { CustomInput } from '6_Shared/ui/Input/CustomInput';
 import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
-import { TodoPriority, TodoType, Todo, Subtask } from '5_Entities/Todo/model/types/todo';
+import {
+    TodoPriority, TodoType, Todo, Subtask,
+} from '5_Entities/Todo/model/types/todo';
 import cls from './AddTodoForm.module.scss';
 
 interface AddTodoFormProps {
@@ -24,14 +26,14 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     const [points, setPoints] = useState(initialData?.points.toString() || '');
     const [priority, setPriority] = useState<TodoPriority>(initialData?.priority || 'medium');
     const [type, setType] = useState<TodoType>(initialData?.type || 'task');
-    
-    // Используем Subtask[] вместо string[]
+
+    // используем Subtask[] вместо string[]
     const [subtasks, setSubtasks] = useState<Subtask[]>(initialData?.subtasks || []);
     const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(initialData?.isCompletedCollapsed || false);
     const [expandedDetails, setExpandedDetails] = useState<Record<number, boolean>>({});
 
-    const activeSubtasks = subtasks.filter(s => !s.isCompleted);
-    const completedSubtasks = subtasks.filter(s => s.isCompleted);
+    const activeSubtasks = subtasks.filter((s) => !s.isCompleted);
+    const completedSubtasks = subtasks.filter((s) => s.isCompleted);
 
     const onSave = async () => {
         const pointsNum = Number(points);
@@ -70,7 +72,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             setType('task');
             setSubtasks([]);
         }
-        
+
         onSuccess?.();
     };
 
@@ -79,7 +81,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             id: Date.now().toString() + Math.random(),
             description: '',
             details: '',
-            isCompleted: false
+            isCompleted: false,
         }]);
     };
 
@@ -94,11 +96,11 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     };
 
     const toggleDetails = (index: number) => {
-        setExpandedDetails(prev => ({ ...prev, [index]: !prev[index] }));
+        setExpandedDetails((prev) => ({ ...prev, [index]: !prev[index] }));
     };
 
     return (
-        <form 
+        <form
             className={classNames(cls.AddTodoForm, {}, [className])}
             onSubmit={(e) => {
                 e.preventDefault();
@@ -112,7 +114,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 placeholder={t('task_description')}
                 autoFocus={!initialData}
             />
-            
+
             <textarea
                 className={classNames(cls.textarea, { [cls.completed]: initialData?.isCompleted })}
                 value={details}
@@ -127,14 +129,14 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 placeholder={t('points')}
                 type="number"
             />
-            
+
             <div className={cls.subtasks}>
                 <div className={cls.subtasksHeader}>
                     <span>{t('subtasks')}</span>
-                    <Button 
-                        type="button" 
-                        onClick={handleAddSubtask} 
-                        theme={ThemeButton.CLEAR} 
+                    <Button
+                        type="button"
+                        onClick={handleAddSubtask}
+                        theme={ThemeButton.CLEAR}
                         className={cls.addSubtaskBtn}
                     >
                         +
@@ -143,7 +145,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 {subtasks.map((subtask, index) => {
                     // Рендерим только активные, а выполненные вынесем ниже
                     if (subtask.isCompleted) return null;
-                    
+
                     return (
                         <div key={subtask.id} className={cls.subtaskContainer}>
                             <div className={cls.subtaskRow}>
@@ -185,19 +187,19 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 {completedSubtasks.length > 0 && (
                     <>
                         <div className={cls.subtasksSeparator} />
-                        <div 
+                        <div
                             className={cls.completedSubtasksHeader}
-                            onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                            onClick={() => setIsCompletedCollapsed((prev) => !prev)}
                         >
                             <CollapseButton
                                 collapsed={isCompletedCollapsed}
                             />
                             <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
                         </div>
-                        
+
                         {!isCompletedCollapsed && subtasks.map((subtask, index) => {
                             if (!subtask.isCompleted) return null;
-                            
+
                             return (
                                 <div key={subtask.id} className={classNames(cls.subtaskContainer, { [cls.completed]: true })}>
                                     <div className={cls.subtaskRow}>

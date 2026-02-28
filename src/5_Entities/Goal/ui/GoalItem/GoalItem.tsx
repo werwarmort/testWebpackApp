@@ -28,15 +28,15 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
         onMarkAsSent,
         onEdit,
         onDelete,
-        onToggleCollapsed
+        onToggleCollapsed,
     } = props;
-    
+
     const { t } = useTranslation('goals');
-    const addTodo = useTodoStore(state => state.addTodo);
+    const addTodo = useTodoStore((state) => state.addTodo);
 
     const hasSubgoals = goal.subgoals && goal.subgoals.length > 0;
-    const activeSubgoals = goal.subgoals?.filter(s => !s.isCompleted) || [];
-    const completedSubgoals = goal.subgoals?.filter(s => s.isCompleted) || [];
+    const activeSubgoals = goal.subgoals?.filter((s) => !s.isCompleted) || [];
+    const completedSubgoals = goal.subgoals?.filter((s) => s.isCompleted) || [];
 
     const handleSendToTasks = (sub: Subgoal) => {
         addTodo({
@@ -45,7 +45,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
             priority: 'medium',
             type: 'task',
             subtasks: [],
-            subgoalId: String(sub.id)
+            subgoalId: String(sub.id),
         });
         onMarkAsSent(goal.id, sub.id);
     };
@@ -87,8 +87,8 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                             className={cls.subgoalItem}
                         >
                             <div className={cls.subgoalInfo}>
-                                <div 
-                                    className={cls.tooltipContainer} 
+                                <div
+                                    className={cls.tooltipContainer}
                                     data-tooltip={sub.isSentToTasks ? t('tooltip_sent_to_tasks') : undefined}
                                     style={{ '--tooltip-color': 'var(--primary-color)' } as React.CSSProperties}
                                 >
@@ -102,12 +102,16 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                 <div className={cls.subgoalContent}>
                                     <div>
                                         <span>{sub.description}</span>
-                                        <span className={cls.points}>({sub.points})</span>
+                                        <span className={cls.points}>
+                                            (
+                                            {sub.points}
+                                            )
+                                        </span>
                                     </div>
                                     {sub.details && <div className={cls.subgoalDetails}>{sub.details}</div>}
                                 </div>
                             </div>
-                            
+
                             {!sub.isSentToTasks && !sub.isCompleted && (
                                 <Button
                                     theme={ThemeButton.CLEAR}
@@ -119,7 +123,10 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                 </Button>
                             )}
                             {sub.isSentToTasks && (
-                                <span className={cls.sentBadge}>✓ {t('В задачах')}</span>
+                                <span className={cls.sentBadge}>
+                                    ✓
+                                    {t('В задачах')}
+                                </span>
                             )}
                         </div>
                     ))}
@@ -127,7 +134,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                     {completedSubgoals.length > 0 && (
                         <>
                             {activeSubgoals.length > 0 && <div className={cls.subgoalsSeparator} />}
-                            <div 
+                            <div
                                 className={cls.completedSubgoalsHeader}
                                 onClick={() => onToggleCollapsed?.(goal.id)}
                             >
@@ -151,7 +158,11 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                                         <div className={cls.subgoalContent}>
                                             <div>
                                                 <span>{sub.description}</span>
-                                                <span className={cls.points}>({sub.points})</span>
+                                                <span className={cls.points}>
+                                                    (
+                                                    {sub.points}
+                                                    )
+                                                </span>
                                             </div>
                                             {sub.details && <div className={cls.subgoalDetails}>{sub.details}</div>}
                                         </div>

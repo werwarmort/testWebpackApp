@@ -31,15 +31,15 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     const [todoToDelete, setTodoToDelete] = useState<string | null>(null);
 
     const handleToggle = async (id: string, isCompleted: boolean, points: number) => {
-        // Находим свежую версию задачи из текущего списка
+        // находим свежую версию задачи из текущего списка
         const todo = todos.find((t) => String(t.id) === String(id));
         if (!todo) return;
 
         if (isCompleted) {
-            // Если мы отмечаем как выполненное
+            // если мы отмечаем как выполненное
             const actionId = Date.now().toString();
-            
-            // Сначала добавляем запись в счет
+
+            // сначала добавляем запись в счет
             await addAction({
                 id: actionId,
                 text: `${t('task_completed_log')}: ${todo.description}`,
@@ -47,18 +47,18 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                 isPenalty: false,
                 todoId: String(id),
             });
-            
-            // Затем обновляем саму задачу с привязкой к этой записи
+
+            // затем обновляем саму задачу с привязкой к этой записи
             await toggleTodo(id, actionId);
         } else {
-            // Если мы снимаем отметку о выполнении
+            // если мы снимаем отметку о выполнении
             if (todo.completedActionId) {
                 await removeAction(todo.completedActionId);
             }
             await toggleTodo(id);
         }
-        
-        // Магический вызов SWR для обновления всех данных на странице
+
+        // магический вызов SWR для обновления всех данных на странице
         onUpdate?.();
     };
 
@@ -168,17 +168,17 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
 
             {completedTodos.length > 0 && (
                 <>
-                    <div 
-                        className={cls.completedHeader} 
-                        onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                    <div
+                        className={cls.completedHeader}
+                        onClick={() => setIsCompletedCollapsed((prev) => !prev)}
                     >
-                        <CollapseButton 
-                            className={cls.collapseBtn} 
-                            collapsed={isCompletedCollapsed} 
+                        <CollapseButton
+                            className={cls.collapseBtn}
+                            collapsed={isCompletedCollapsed}
                         />
                         <div className={cls.completedTitle}>{t('completed_section')}</div>
                     </div>
-                    
+
                     {!isCompletedCollapsed && (
                         <div className={cls.completedList}>
                             {completedTodos.map((todo) => (

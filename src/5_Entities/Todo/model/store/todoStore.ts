@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { mutate } from 'swr';
-import { TodoState, Todo } from '../types/todo';
 import { $api } from '6_Shared/api/api';
+import { TodoState, Todo } from '../types/todo';
 
 export const useTodoStore = create<TodoState>((set, get) => ({
     todos: [] as Todo[],
@@ -14,7 +14,7 @@ export const useTodoStore = create<TodoState>((set, get) => ({
             if (response.ok) {
                 const data = await response.json();
                 set({ todos: data });
-                // Синхронизируем с SWR если нужно
+                // синхронизируем с SWR если нужно
                 mutate('/tasks', data, false);
             }
         } catch (e) {
@@ -38,9 +38,9 @@ export const useTodoStore = create<TodoState>((set, get) => ({
 
     updateTodo: async (updatedTodo) => {
         try {
-            // Оптимистично обновляем SWR
+            // оптимистично обновляем SWR
             const currentTodos = get().todos;
-            const nextTodos = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
+            const nextTodos = currentTodos.map((t) => (t.id === updatedTodo.id ? updatedTodo : t));
             mutate('/tasks', nextTodos, false);
             set({ todos: nextTodos });
 
@@ -48,9 +48,9 @@ export const useTodoStore = create<TodoState>((set, get) => ({
                 method: 'PUT',
                 body: JSON.stringify(updatedTodo),
             });
-            
+
             if (response.ok) {
-                // После успеха можно обновить окончательно
+                // после успеха можно обновить окончательно
                 mutate('/tasks');
             }
         } catch (e) {
@@ -83,9 +83,9 @@ export const useTodoStore = create<TodoState>((set, get) => ({
                 if (String(sub.id) === String(subtaskId)) {
                     const isNowCompleted = !sub.isCompleted;
                     return {
-                         ...sub,
-                         isCompleted: isNowCompleted,
-                         completedActionId: isNowCompleted ? actionId : undefined,
+                        ...sub,
+                        isCompleted: isNowCompleted,
+                        completedActionId: isNowCompleted ? actionId : undefined,
                     };
                 }
                 return sub;

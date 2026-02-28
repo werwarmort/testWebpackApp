@@ -18,12 +18,12 @@
     opacity: 0.5;
     transition: 0.2s;
     border-bottom: 1px solid transparent;
-    
+
     &.active {
         opacity: 1;
         border-bottom: 1px solid var(--primary-color);
     }
-    
+
     &:hover {
         opacity: 1;
     }

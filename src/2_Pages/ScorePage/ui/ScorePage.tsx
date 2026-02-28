@@ -12,10 +12,10 @@ import styles from './ScorePage.module.scss';
 const ScorePage = () => {
     const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    // Загружаем список действий
+
+    // загружаем список действий
     const { data: actions, mutate } = useSWR('/actions', swrFetcher);
-    const setActions = useScoreStore(state => state.setActions);
+    const setActions = useScoreStore((state) => state.setActions);
 
     useEffect(() => {
         if (actions) {
@@ -24,8 +24,8 @@ const ScorePage = () => {
     }, [actions, setActions]);
 
     const onUpdate = () => {
-        mutate(); // Обновляем список действий
-        globalMutate('/actions/score'); // Обновляем счетчики в Navbar
+        mutate(); // обновляем список действий
+        globalMutate('/actions/score'); // обновляем счетчики в Navbar
     };
 
     const onShowModal = () => {
