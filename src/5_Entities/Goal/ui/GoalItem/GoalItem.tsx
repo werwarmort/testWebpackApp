@@ -133,6 +133,7 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                             >
                                 <CollapseButton
                                     collapsed={Boolean(goal.isCompletedCollapsed)}
+                                    onClick={() => onToggleCollapsed?.(goal.id)}
                                 />
                                 <span className={cls.completedSubgoalsTitle}>{t('completed_section') || 'Completed'}</span>
                             </div>

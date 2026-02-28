@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Button, ThemeButton } from '6_Shared/ui/Button/Button';
 import { CustomInput } from '6_Shared/ui/Input/CustomInput';
+import { CollapseButton } from '6_Shared/ui/CollapseButton/CollapseButton';
 import { useTodoStore } from '5_Entities/Todo/model/store/todoStore';
 import { TodoPriority, TodoType, Todo, Subtask } from '5_Entities/Todo/model/types/todo';
 import cls from './AddTodoForm.module.scss';
@@ -26,7 +27,11 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     
     // Используем Subtask[] вместо string[]
     const [subtasks, setSubtasks] = useState<Subtask[]>(initialData?.subtasks || []);
+    const [isCompletedCollapsed, setIsCompletedCollapsed] = useState(initialData?.isCompletedCollapsed || false);
     const [expandedDetails, setExpandedDetails] = useState<Record<number, boolean>>({});
+
+    const activeSubtasks = subtasks.filter(s => !s.isCompleted);
+    const completedSubtasks = subtasks.filter(s => s.isCompleted);
 
     const onSave = async () => {
         const pointsNum = Number(points);
@@ -43,6 +48,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 priority,
                 type,
                 subtasks: formattedSubtasks,
+                isCompletedCollapsed,
             });
         } else {
             await addTodo({
@@ -52,6 +58,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 priority,
                 type,
                 subtasks: formattedSubtasks,
+                isCompletedCollapsed,
             });
         }
 
@@ -133,42 +140,104 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                         +
                     </Button>
                 </div>
-                {subtasks.map((subtask, index) => (
-                    <div key={subtask.id} className={classNames(cls.subtaskContainer, { [cls.completed]: subtask.isCompleted })}>
-                        <div className={cls.subtaskRow}>
-                            <CustomInput
-                                className={cls.subtaskInput}
-                                value={subtask.description}
-                                onChange={(val) => handleSubtaskChange(index, 'description', val)}
-                                placeholder={t('subtask_description')}
-                            />
-                            <Button
-                                type="button"
-                                theme={ThemeButton.CLEAR}
-                                className={cls.detailsBtn}
-                                onClick={() => toggleDetails(index)}
-                            >
-                                📝
-                            </Button>
-                            <Button
-                                type="button"
-                                theme={ThemeButton.CLEAR}
-                                className={cls.deleteSubtaskBtn}
-                                onClick={() => handleDeleteSubtask(index)}
-                            >
-                                ✖
-                            </Button>
+                {subtasks.map((subtask, index) => {
+                    // Рендерим только активные, а выполненные вынесем ниже
+                    if (subtask.isCompleted) return null;
+                    
+                    return (
+                        <div key={subtask.id} className={cls.subtaskContainer}>
+                            <div className={cls.subtaskRow}>
+                                <CustomInput
+                                    className={cls.subtaskInput}
+                                    value={subtask.description}
+                                    onChange={(val) => handleSubtaskChange(index, 'description', val)}
+                                    placeholder={t('subtask_description')}
+                                />
+                                <Button
+                                    type="button"
+                                    theme={ThemeButton.CLEAR}
+                                    className={cls.detailsBtn}
+                                    onClick={() => toggleDetails(index)}
+                                >
+                                    📝
+                                </Button>
+                                <Button
+                                    type="button"
+                                    theme={ThemeButton.CLEAR}
+                                    className={cls.deleteSubtaskBtn}
+                                    onClick={() => handleDeleteSubtask(index)}
+                                >
+                                    ✖
+                                </Button>
+                            </div>
+                            {(expandedDetails[index] || subtask.details) && (
+                                <input
+                                    className={cls.detailsInput}
+                                    value={subtask.details || ''}
+                                    onChange={(e) => handleSubtaskChange(index, 'details', e.target.value)}
+                                    placeholder={t('subtask_details_placeholder') || 'Детали подзадачи'}
+                                />
+                            )}
                         </div>
-                        {(expandedDetails[index] || subtask.details) && (
-                            <input
-                                className={cls.detailsInput}
-                                value={subtask.details || ''}
-                                onChange={(e) => handleSubtaskChange(index, 'details', e.target.value)}
-                                placeholder={t('subtask_details_placeholder') || 'Детали подзадачи'}
+                    );
+                })}
+
+                {completedSubtasks.length > 0 && (
+                    <>
+                        <div className={cls.subtasksSeparator} />
+                        <div 
+                            className={cls.completedSubtasksHeader}
+                            onClick={() => setIsCompletedCollapsed(prev => !prev)}
+                        >
+                            <CollapseButton
+                                collapsed={isCompletedCollapsed}
+                                onClick={() => setIsCompletedCollapsed(prev => !prev)}
                             />
-                        )}
-                    </div>
-                ))}
+                            <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
+                        </div>
+                        
+                        {!isCompletedCollapsed && subtasks.map((subtask, index) => {
+                            if (!subtask.isCompleted) return null;
+                            
+                            return (
+                                <div key={subtask.id} className={classNames(cls.subtaskContainer, { [cls.completed]: true })}>
+                                    <div className={cls.subtaskRow}>
+                                        <CustomInput
+                                            className={cls.subtaskInput}
+                                            value={subtask.description}
+                                            onChange={(val) => handleSubtaskChange(index, 'description', val)}
+                                            placeholder={t('subtask_description')}
+                                        />
+                                        <Button
+                                            type="button"
+                                            theme={ThemeButton.CLEAR}
+                                            className={cls.detailsBtn}
+                                            onClick={() => toggleDetails(index)}
+                                        >
+                                            📝
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            theme={ThemeButton.CLEAR}
+                                            className={cls.deleteSubtaskBtn}
+                                            onClick={() => handleDeleteSubtask(index)}
+                                        >
+                                            ✖
+                                        </Button>
+                                    </div>
+                                    {(expandedDetails[index] || subtask.details) && (
+                                        <input
+                                            className={cls.detailsInput}
+                                            value={subtask.details || ''}
+                                            onChange={(e) => handleSubtaskChange(index, 'details', e.target.value)}
+                                            placeholder={t('subtask_details_placeholder') || 'Детали подзадачи'}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </>
+                )}
             </div>
 
             <select

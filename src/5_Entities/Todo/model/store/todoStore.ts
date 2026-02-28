@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { mutate } from 'swr';
 import { TodoState, Todo } from '../types/todo';
 import { $api } from '6_Shared/api/api';
 
@@ -13,6 +14,8 @@ export const useTodoStore = create<TodoState>((set, get) => ({
             if (response.ok) {
                 const data = await response.json();
                 set({ todos: data });
+                // Синхронизируем с SWR если нужно
+                mutate('/tasks', data, false);
             }
         } catch (e) {
             console.error('Failed to fetch tasks', e);
@@ -35,15 +38,24 @@ export const useTodoStore = create<TodoState>((set, get) => ({
 
     updateTodo: async (updatedTodo) => {
         try {
+            // Оптимистично обновляем SWR
+            const currentTodos = get().todos;
+            const nextTodos = currentTodos.map(t => t.id === updatedTodo.id ? updatedTodo : t);
+            mutate('/tasks', nextTodos, false);
+            set({ todos: nextTodos });
+
             const response = await $api(`/tasks/${updatedTodo.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updatedTodo),
             });
+            
             if (response.ok) {
-                await get().fetchTodos();
+                // После успеха можно обновить окончательно
+                mutate('/tasks');
             }
         } catch (e) {
             console.error('Failed to update task', e);
+            mutate('/tasks'); // Возвращаем стейт при ошибке
         }
     },
 
@@ -101,6 +113,7 @@ export const useTodoStore = create<TodoState>((set, get) => ({
                 method: 'DELETE',
             });
             if (response.ok) {
+                mutate('/tasks');
                 await get().fetchTodos();
             }
         } catch (e) {

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { mutate } from 'swr';
 import { GoalState, Goal } from '../types/goal';
 import { $api } from '6_Shared/api/api';
 
@@ -13,6 +14,8 @@ export const useGoalStore = create<GoalState>((set, get) => ({
                 method: 'POST',
                 body: JSON.stringify(goalParams),
             });
+            // После добавления вызываем рефетч SWR
+            mutate('/goals');
         } catch (e) {
             console.error('Failed to add goal', e);
         }
@@ -20,12 +23,20 @@ export const useGoalStore = create<GoalState>((set, get) => ({
 
     updateGoal: async (updatedGoal) => {
         try {
+            // Оптимистичное обновление
+            const currentGoals = get().goals;
+            const nextGoals = currentGoals.map(g => g.id === updatedGoal.id ? updatedGoal : g);
+            mutate('/goals', nextGoals, false);
+            set({ goals: nextGoals });
+
             await $api(`/goals/${updatedGoal.id}`, {
                 method: 'PUT',
                 body: JSON.stringify(updatedGoal),
             });
+            mutate('/goals');
         } catch (e) {
             console.error('Failed to update goal', e);
+            mutate('/goals');
         }
     },
 
@@ -34,6 +45,7 @@ export const useGoalStore = create<GoalState>((set, get) => ({
             await $api(`/goals/${id}`, {
                 method: 'DELETE',
             });
+            mutate('/goals');
         } catch (e) {
             console.error('Failed to delete goal', e);
         }
