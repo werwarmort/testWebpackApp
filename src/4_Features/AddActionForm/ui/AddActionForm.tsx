@@ -50,7 +50,13 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
     };
 
     return (
-        <div className={classNames(cls.AddActionForm, {}, [className])}>
+        <form 
+            className={classNames(cls.AddActionForm, {}, [className])}
+            onSubmit={(e) => {
+                e.preventDefault();
+                onSave();
+            }}
+        >
             <CustomInput
                 className={cls.input}
                 value={text}
@@ -74,10 +80,15 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
                         className={cls.checkbox}
                     />
                 </div>
-                <Button onClick={onSave} className={cls.saveBtn} theme={ThemeButton.DEFAULT}>
+                <Button 
+                    type="submit" 
+                    onClick={onSave} 
+                    className={cls.saveBtn} 
+                    theme={ThemeButton.DEFAULT}
+                >
                     {initialData ? t('save') : t('add')}
                 </Button>
             </div>
-        </div>
+        </form>
     );
 };

@@ -82,7 +82,13 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
     };
 
     return (
-        <div className={classNames(cls.AddGoalForm, {}, [className])}>
+        <form 
+            className={classNames(cls.AddGoalForm, {}, [className])}
+            onSubmit={(e) => {
+                e.preventDefault();
+                onSave();
+            }}
+        >
             <CustomInput
                 className={cls.input}
                 value={title}
@@ -101,7 +107,12 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
             <div className={cls.subgoals}>
                 <div className={cls.subgoalsHeader}>
                     <span>{t('Подцели')}</span>
-                    <Button onClick={handleAddSubgoal} theme={ThemeButton.CLEAR} className={cls.addSubgoalBtn}>
+                    <Button 
+                        type="button" 
+                        onClick={handleAddSubgoal} 
+                        theme={ThemeButton.CLEAR} 
+                        className={cls.addSubgoalBtn}
+                    >
                         +
                     </Button>
                 </div>
@@ -122,6 +133,7 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                                 type="number"
                             />
                             <Button
+                                type="button"
                                 theme={ThemeButton.CLEAR}
                                 className={cls.detailsBtn}
                                 onClick={() => toggleDetails(index)}
@@ -129,6 +141,7 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                                 📝
                             </Button>
                             <Button
+                                type="button"
                                 theme={ThemeButton.CLEAR}
                                 className={cls.deleteSubgoalBtn}
                                 onClick={() => handleDeleteSubgoal(index)}
@@ -149,12 +162,13 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
             </div>
 
             <Button
+                type="submit"
                 onClick={onSave}
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >
                 {initialData ? t('Сохранить') : t('Добавить')}
             </Button>
-        </div>
+        </form>
     );
 };

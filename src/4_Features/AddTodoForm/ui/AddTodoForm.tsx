@@ -91,7 +91,13 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     };
 
     return (
-        <div className={classNames(cls.AddTodoForm, {}, [className])}>
+        <form 
+            className={classNames(cls.AddTodoForm, {}, [className])}
+            onSubmit={(e) => {
+                e.preventDefault();
+                onSave();
+            }}
+        >
             <CustomInput
                 className={classNames(cls.input, { [cls.completed]: initialData?.isCompleted })}
                 value={desc}
@@ -118,7 +124,12 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             <div className={cls.subtasks}>
                 <div className={cls.subtasksHeader}>
                     <span>{t('subtasks')}</span>
-                    <Button onClick={handleAddSubtask} theme={ThemeButton.CLEAR} className={cls.addSubtaskBtn}>
+                    <Button 
+                        type="button" 
+                        onClick={handleAddSubtask} 
+                        theme={ThemeButton.CLEAR} 
+                        className={cls.addSubtaskBtn}
+                    >
                         +
                     </Button>
                 </div>
@@ -132,6 +143,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                                 placeholder={t('subtask_description')}
                             />
                             <Button
+                                type="button"
                                 theme={ThemeButton.CLEAR}
                                 className={cls.detailsBtn}
                                 onClick={() => toggleDetails(index)}
@@ -139,6 +151,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                                 📝
                             </Button>
                             <Button
+                                type="button"
                                 theme={ThemeButton.CLEAR}
                                 className={cls.deleteSubtaskBtn}
                                 onClick={() => handleDeleteSubtask(index)}
@@ -178,12 +191,13 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                 <option value="high">{t('priority_high')}</option>
             </select>
             <Button
+                type="submit"
                 onClick={onSave}
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >
                 {initialData ? t('save') : t('add')}
             </Button>
-        </div>
+        </form>
     );
 };
