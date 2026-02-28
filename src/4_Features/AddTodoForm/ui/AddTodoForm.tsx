@@ -93,7 +93,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
     return (
         <div className={classNames(cls.AddTodoForm, {}, [className])}>
             <CustomInput
-                className={cls.input}
+                className={classNames(cls.input, { [cls.completed]: initialData?.isCompleted })}
                 value={desc}
                 onChange={setDesc}
                 placeholder={t('task_description')}
@@ -101,7 +101,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             />
             
             <textarea
-                className={cls.textarea}
+                className={classNames(cls.textarea, { [cls.completed]: initialData?.isCompleted })}
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
                 placeholder={t('task_details_placeholder') || 'Подробное описание'}
@@ -123,7 +123,7 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                     </Button>
                 </div>
                 {subtasks.map((subtask, index) => (
-                    <div key={subtask.id} className={cls.subtaskContainer}>
+                    <div key={subtask.id} className={classNames(cls.subtaskContainer, { [cls.completed]: subtask.isCompleted })}>
                         <div className={cls.subtaskRow}>
                             <CustomInput
                                 className={cls.subtaskInput}

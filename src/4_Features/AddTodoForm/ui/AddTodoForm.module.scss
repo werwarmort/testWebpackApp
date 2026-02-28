@@ -106,3 +106,11 @@
 .saveBtn {
     align-self: flex-end;
 }
+
+.completed {
+    input,
+    textarea {
+        text-decoration: line-through;
+        opacity: 0.6;
+    }
+}
