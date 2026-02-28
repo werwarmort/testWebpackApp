@@ -82,7 +82,6 @@ export const AddActionForm: FC<AddActionFormProps> = ({ className, onSuccess, in
                 </div>
                 <Button 
                     type="submit" 
-                    onClick={onSave} 
                     className={cls.saveBtn} 
                     theme={ThemeButton.DEFAULT}
                 >

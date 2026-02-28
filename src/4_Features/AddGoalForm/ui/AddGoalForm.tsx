@@ -238,7 +238,6 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
 
             <Button
                 type="submit"
-                onClick={onSave}
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >

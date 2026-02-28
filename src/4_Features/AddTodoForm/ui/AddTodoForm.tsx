@@ -261,7 +261,6 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
             </select>
             <Button
                 type="submit"
-                onClick={onSave}
                 className={cls.saveBtn}
                 theme={ThemeButton.DEFAULT}
             >
