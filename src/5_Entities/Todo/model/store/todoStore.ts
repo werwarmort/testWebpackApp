@@ -83,6 +83,18 @@ export const useTodoStore = create<TodoState>((set, get) => ({
         await get().updateTodo(updatedTodo);
     },
 
+    toggleTodoCollapsed: async (id) => {
+        const todo = get().todos.find((t) => String(t.id) === String(id));
+        if (!todo) return;
+
+        const updatedTodo = {
+            ...todo,
+            isCompletedCollapsed: !todo.isCompletedCollapsed,
+        };
+
+        await get().updateTodo(updatedTodo);
+    },
+
     deleteTodo: async (id) => {
         try {
             const response = await $api(`/tasks/${id}`, {

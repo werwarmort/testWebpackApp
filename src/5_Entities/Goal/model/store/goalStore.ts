@@ -67,6 +67,16 @@ export const useGoalStore = create<GoalState>((set, get) => ({
         await get().updateGoal(updatedGoal);
     },
 
+    toggleGoalCollapsed: async (id) => {
+        const goal = get().goals.find((g) => String(g.id) === String(id));
+        if (!goal) return;
+
+        await get().updateGoal({
+            ...goal,
+            isCompletedCollapsed: !goal.isCompletedCollapsed,
+        });
+    },
+
     markSubgoalAsSent: async (goalId, subgoalId) => {
         const goal = get().goals.find((g) => String(g.id) === String(goalId));
         if (!goal) return;

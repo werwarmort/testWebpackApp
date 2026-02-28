@@ -74,6 +74,29 @@
     border-left: 2px solid rgb(255 255 255 / 10%);
 }
 
+.subgoalsSeparator {
+    height: 1px;
+    background: var(--primary-color);
+    opacity: 0.2;
+    margin: 8px 0;
+}
+
+.completedSubgoalsHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.completedSubgoalsTitle {
+    font-size: 12px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .subgoalItem {
     display: flex;
     align-items: flex-start;

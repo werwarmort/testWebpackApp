@@ -120,6 +120,29 @@
     flex-direction: column;
 }
 
+.subtasksSeparator {
+    height: 1px;
+    background: var(--primary-color);
+    opacity: 0.2;
+    margin: 8px 0;
+}
+
+.completedSubtasksHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    user-select: none;
+}
+
+.completedSubtasksTitle {
+    font-size: 12px;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 .subtaskItem {
     display: flex;
     align-items: flex-start;

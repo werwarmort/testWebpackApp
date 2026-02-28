@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { classNames } from '6_Shared/lib/classNames/classNames';
 import { Checkbox } from '6_Shared/ui/Checkbox/Checkbox';
@@ -16,6 +16,7 @@ interface GoalItemProps {
     onMarkAsSent: (goalId: string, subId: string) => void;
     onEdit: (goal: Goal) => void;
     onDelete: (id: string) => void;
+    onToggleCollapsed: (id: string) => void;
 }
 
 export const GoalItem: FC<GoalItemProps> = (props) => {
@@ -26,14 +27,16 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
         onSubgoalToggle,
         onMarkAsSent,
         onEdit,
-        onDelete
+        onDelete,
+        onToggleCollapsed
     } = props;
     
     const { t } = useTranslation('goals');
-    const [isCollapsed, setIsCollapsed] = useState(false);
     const addTodo = useTodoStore(state => state.addTodo);
 
     const hasSubgoals = goal.subgoals && goal.subgoals.length > 0;
+    const activeSubgoals = goal.subgoals?.filter(s => !s.isCompleted) || [];
+    const completedSubgoals = goal.subgoals?.filter(s => s.isCompleted) || [];
 
     const handleSendToTasks = (sub: Subgoal) => {
         addTodo({
@@ -52,12 +55,6 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
             <div className={cls.content}>
                 <div className={cls.leftSide}>
                     <div className={cls.info}>
-                        {hasSubgoals && (
-                            <CollapseButton
-                                collapsed={isCollapsed}
-                                onClick={() => setIsCollapsed((prev) => !prev)}
-                            />
-                        )}
                         <Checkbox
                             checked={goal.isCompleted}
                             onChange={() => onToggle(goal.id)}
@@ -82,12 +79,12 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                 </div>
             </div>
 
-            {hasSubgoals && !isCollapsed && (
+            {hasSubgoals && (
                 <div className={cls.subgoalsList}>
-                    {goal.subgoals.map((sub) => (
+                    {activeSubgoals.map((sub) => (
                         <div
                             key={sub.id}
-                            className={classNames(cls.subgoalItem, { [cls.subgoalCompleted]: sub.isCompleted })}
+                            className={cls.subgoalItem}
                         >
                             <div className={cls.subgoalInfo}>
                                 <div 
@@ -126,6 +123,43 @@ export const GoalItem: FC<GoalItemProps> = (props) => {
                             )}
                         </div>
                     ))}
+
+                    {completedSubgoals.length > 0 && (
+                        <>
+                            {activeSubgoals.length > 0 && <div className={cls.subgoalsSeparator} />}
+                            <div 
+                                className={cls.completedSubgoalsHeader}
+                                onClick={() => onToggleCollapsed?.(goal.id)}
+                            >
+                                <CollapseButton
+                                    collapsed={Boolean(goal.isCompletedCollapsed)}
+                                />
+                                <span className={cls.completedSubgoalsTitle}>{t('completed_section') || 'Completed'}</span>
+                            </div>
+
+                            {!goal.isCompletedCollapsed && completedSubgoals.map((sub) => (
+                                <div
+                                    key={sub.id}
+                                    className={classNames(cls.subgoalItem, { [cls.subgoalCompleted]: sub.isCompleted })}
+                                >
+                                    <div className={cls.subgoalInfo}>
+                                        <Checkbox
+                                            checked={sub.isCompleted}
+                                            onChange={() => onSubgoalToggle(goal.id, sub.id)}
+                                            theme="primary"
+                                        />
+                                        <div className={cls.subgoalContent}>
+                                            <div>
+                                                <span>{sub.description}</span>
+                                                <span className={cls.points}>({sub.points})</span>
+                                            </div>
+                                            {sub.details && <div className={cls.subgoalDetails}>{sub.details}</div>}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </div>
             )}
         </div>

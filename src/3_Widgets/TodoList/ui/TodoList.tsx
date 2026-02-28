@@ -21,6 +21,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
     const todos = useTodoStore((state) => state.todos);
     const toggleTodo = useTodoStore((state) => state.toggleTodo);
     const toggleSubtask = useTodoStore((state) => state.toggleSubtask);
+    const toggleTodoCollapsed = useTodoStore((state) => state.toggleTodoCollapsed);
     const deleteTodo = useTodoStore((state) => state.deleteTodo);
     const addAction = useScoreStore((state) => state.addAction);
     const removeAction = useScoreStore((state) => state.removeAction);
@@ -126,6 +127,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                             onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
+                            onToggleCollapsed={toggleTodoCollapsed}
                         />
                     ))}
                     {(dailyChallenges.length > 0 || normalTasks.length > 0) && <div className={cls.separator} />}
@@ -144,6 +146,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                             onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                             onEdit={handleEdit}
                             onDelete={handleDelete}
+                            onToggleCollapsed={toggleTodoCollapsed}
                         />
                     ))}
                     {normalTasks.length > 0 && <div className={cls.separator} />}
@@ -159,6 +162,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                     onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                     onEdit={handleEdit}
                     onDelete={handleDelete}
+                    onToggleCollapsed={toggleTodoCollapsed}
                 />
             ))}
 
@@ -186,6 +190,7 @@ export const TodoList: FC<TodoListProps> = ({ className, onUpdate }) => {
                                     onSubtaskToggle={(subId) => handleSubtaskToggle(subId, todo.id)}
                                     onEdit={handleEdit}
                                     onDelete={handleDelete}
+                                    onToggleCollapsed={toggleTodoCollapsed}
                                 />
                             ))}
                         </div>

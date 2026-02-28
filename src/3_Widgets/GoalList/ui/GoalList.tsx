@@ -21,6 +21,7 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
     const goals = useGoalStore((state) => state.goals);
     const toggleGoal = useGoalStore((state) => state.toggleGoal);
     const toggleSubgoal = useGoalStore((state) => state.toggleSubgoal);
+    const toggleGoalCollapsed = useGoalStore((state) => state.toggleGoalCollapsed);
     const markSubgoalAsSent = useGoalStore((state) => state.markSubgoalAsSent);
     const deleteGoal = useGoalStore((state) => state.deleteGoal);
     
@@ -96,6 +97,7 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
                     onMarkAsSent={handleMarkAsSent}
                     onEdit={setEditingGoal}
                     onDelete={handleDelete}
+                    onToggleCollapsed={toggleGoalCollapsed}
                 />
             ))}
 
@@ -124,6 +126,7 @@ export const GoalList: FC<GoalListProps> = ({ className, onUpdate }) => {
                                     onMarkAsSent={handleMarkAsSent}
                                     onEdit={setEditingGoal}
                                     onDelete={handleDelete}
+                                    onToggleCollapsed={toggleGoalCollapsed}
                                 />
                             ))}
                         </div>

@@ -16,6 +16,7 @@ export interface Todo {
     points: number;
     priority: TodoPriority;
     isCompleted: boolean;
+    isCompletedCollapsed?: boolean;
     createdAt: number;
     subtasks?: Subtask[];
     completedActionId?: string;
@@ -32,5 +33,6 @@ export interface TodoState {
     updateTodo: (todo: Todo) => Promise<void>;
     toggleTodo: (id: string, actionId?: string) => Promise<void>;
     toggleSubtask: (todoId: string, subtaskId: string, actionId?: string) => Promise<void>;
+    toggleTodoCollapsed: (id: string) => Promise<void>;
     deleteTodo: (id: string) => Promise<void>;
 }

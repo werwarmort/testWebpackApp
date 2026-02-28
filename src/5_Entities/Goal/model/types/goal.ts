@@ -13,6 +13,7 @@ export interface Goal {
     title: string;
     description?: string;
     isCompleted: boolean;
+    isCompletedCollapsed?: boolean;
     createdAt: number;
     subgoals: Subgoal[];
 }
@@ -25,5 +26,6 @@ export interface GoalState {
     deleteGoal: (id: string) => Promise<void>;
     toggleGoal: (id: string) => Promise<void>;
     toggleSubgoal: (goalId: string, subgoalId: string, actionId?: string) => Promise<void>;
+    toggleGoalCollapsed: (id: string) => Promise<void>;
     markSubgoalAsSent: (goalId: string, subgoalId: string) => Promise<void>;
 }

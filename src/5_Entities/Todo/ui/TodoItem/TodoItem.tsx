@@ -14,6 +14,7 @@ interface TodoItemProps {
     onSubtaskToggle?: (subtaskId: string) => void;
     onEdit?: (todo: Todo) => void;
     onDelete?: (id: string) => void;
+    onToggleCollapsed?: (id: string) => void;
 }
 
 const isToday = (timestamp?: number) => {
@@ -34,8 +35,8 @@ export const TodoItem: FC<TodoItemProps> = ({
     onSubtaskToggle,
     onEdit,
     onDelete,
+    onToggleCollapsed,
 }) => {
-    const [isCollapsed, setIsCollapsed] = useState(false);
     const { t } = useTranslation('todo');
 
     const onToggleHandler = (checked: boolean) => {
@@ -43,6 +44,8 @@ export const TodoItem: FC<TodoItemProps> = ({
     };
 
     const hasSubtasks = todo.subtasks && todo.subtasks.length > 0;
+    const activeSubtasks = todo.subtasks?.filter(s => !s.isCompleted) || [];
+    const completedSubtasks = todo.subtasks?.filter(s => s.isCompleted) || [];
     const isLocked = todo.isCompleted && todo.completedAt && !isToday(todo.completedAt);
 
     return (
@@ -56,12 +59,6 @@ export const TodoItem: FC<TodoItemProps> = ({
             <div className={cls.content}>
                 <div className={cls.leftSide}>
                     <div className={cls.info}>
-                        {hasSubtasks && (
-                            <CollapseButton
-                                collapsed={isCollapsed}
-                                onClick={() => setIsCollapsed(prev => !prev)}
-                            />
-                        )}
                         <Checkbox
                             checked={todo.isCompleted}
                             onChange={onToggleHandler}
@@ -107,21 +104,17 @@ export const TodoItem: FC<TodoItemProps> = ({
                     <div className={cls.points}>+{todo.points}</div>
                 </div>
             </div>
-            {hasSubtasks && !isCollapsed && (
+            
+            {hasSubtasks && (
                 <div className={cls.subtasksList}>
-                    {todo.subtasks?.map(subtask => (
-                        <div
-                            key={subtask.id}
-                            className={classNames(cls.subtaskItem, {
-                                [cls.subtaskCompleted]: subtask.isCompleted,
-                            })}
-                        >
+                    {activeSubtasks.map(subtask => (
+                        <div key={subtask.id} className={cls.subtaskItem}>
                             <Checkbox
                                 checked={subtask.isCompleted}
                                 onChange={() => onSubtaskToggle?.(subtask.id)}
                                 theme="primary"
                                 variant="round"
-                                disabled={todo.isCompleted} // Блокируем подзадачи если задача выполнена
+                                disabled={todo.isCompleted}
                             />
                             <div className={cls.subtaskContent}>
                                 <div>{subtask.description}</div>
@@ -129,6 +122,42 @@ export const TodoItem: FC<TodoItemProps> = ({
                             </div>
                         </div>
                     ))}
+
+                    {completedSubtasks.length > 0 && (
+                        <>
+                            {activeSubtasks.length > 0 && <div className={cls.subtasksSeparator} />}
+                            <div 
+                                className={cls.completedSubtasksHeader}
+                                onClick={() => onToggleCollapsed?.(todo.id)}
+                            >
+                                <CollapseButton
+                                    collapsed={Boolean(todo.isCompletedCollapsed)}
+                                />
+                                <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
+                            </div>
+                            
+                            {!todo.isCompletedCollapsed && completedSubtasks.map(subtask => (
+                                <div
+                                    key={subtask.id}
+                                    className={classNames(cls.subtaskItem, {
+                                        [cls.subtaskCompleted]: subtask.isCompleted,
+                                    })}
+                                >
+                                    <Checkbox
+                                        checked={subtask.isCompleted}
+                                        onChange={() => onSubtaskToggle?.(subtask.id)}
+                                        theme="primary"
+                                        variant="round"
+                                        disabled={todo.isCompleted}
+                                    />
+                                    <div className={cls.subtaskContent}>
+                                        <div>{subtask.description}</div>
+                                        {subtask.details && <div className={cls.subtaskDetails}>{subtask.details}</div>}
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </div>
             )}
         </div>
