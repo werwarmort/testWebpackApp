@@ -25,6 +25,8 @@ export function buildPlugins({ paths, isDev, apiUrl }: BuildOptions): webpack.We
             patterns: [
                 { from: paths.locales, to: paths.buildLocales },
                 { from: paths.html.replace('index.html', 'logo.png'), to: '' },
+                { from: paths.html.replace('index.html', 'day.svg'), to: '' },
+                { from: paths.html.replace('index.html', 'week.svg'), to: '' },
                 { from: paths.html.replace('index.html', 'manifest.json'), to: '' },
             ],
         }),
