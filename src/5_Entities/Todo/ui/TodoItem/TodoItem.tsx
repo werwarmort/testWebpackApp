@@ -132,7 +132,6 @@ export const TodoItem: FC<TodoItemProps> = ({
                             >
                                 <CollapseButton
                                     collapsed={Boolean(todo.isCompletedCollapsed)}
-                                    onClick={() => onToggleCollapsed?.(todo.id)}
                                 />
                                 <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
                             </div>

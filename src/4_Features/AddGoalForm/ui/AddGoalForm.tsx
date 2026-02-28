@@ -180,7 +180,6 @@ export const AddGoalForm: FC<AddGoalFormProps> = ({ className, onSuccess, initia
                         >
                             <CollapseButton
                                 collapsed={isCompletedCollapsed}
-                                onClick={() => setIsCompletedCollapsed(prev => !prev)}
                             />
                             <span className={cls.completedSubgoalsTitle}>{t('completed_section') || 'Completed'}</span>
                         </div>

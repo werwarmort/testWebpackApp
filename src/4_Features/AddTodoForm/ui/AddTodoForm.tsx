@@ -191,7 +191,6 @@ export const AddTodoForm: FC<AddTodoFormProps> = ({ className, onSuccess, initia
                         >
                             <CollapseButton
                                 collapsed={isCompletedCollapsed}
-                                onClick={() => setIsCompletedCollapsed(prev => !prev)}
                             />
                             <span className={cls.completedSubtasksTitle}>{t('completed_section')}</span>
                         </div>
